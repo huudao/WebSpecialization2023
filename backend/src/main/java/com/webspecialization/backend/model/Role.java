@@ -14,7 +14,7 @@ import java.util.List;
 public class Role {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer roleId;
     private String name;
 
     @ManyToMany(mappedBy = "roles")
