@@ -5,10 +5,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-@Component
+@Service
 public class JWTUtil {
 
     @Value("${jwt.secret}")
@@ -18,8 +19,7 @@ public class JWTUtil {
     private Long expiration;
 
     public String generateToken(String username) {
-        return Jwts.builder().setSubject(username).setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
+        return Jwts.builder().setSubject(username).setExpiration(new Date(System.currentTimeMillis() + expiration)).signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
 
     }
 

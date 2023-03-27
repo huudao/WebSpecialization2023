@@ -25,29 +25,19 @@ public class AuthenticationController{
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO request) {
-        // Creating UsernamePasswordAuthenticationToken object
-        // to send it to authentication manager.
-        // Attention! We used two parameters constructor.
-        // It sets authentication false by doing this.setAuthenticated(false);
-        System.out.println(request.getUsername());
-        System.out.println(request.getPassword());
-        System.out.println("Hello");
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
-        // we let the manager do its job.
-//        System.out.println("hellhelhlheleh");
-//        authenticationManager.authenticate(token);
-//        System.out.println("hellhelhlheleh");
-//        // if there is no exception thrown from authentication manager,
-//        // we can generate a JWT token and give it to user.
-//        String jwt = jwtUtil.generateToken(request.getUsername());
-//        return ResponseEntity.ok(jwt);
         try {
             authenticationManager.authenticate(token);
-//            String jwt = jwtUtil.generateToken(request.getUsername());
-            return ResponseEntity.ok("niceeeeee");
+            String jwt = jwtUtil.generateToken(request.getUsername());
+            return ResponseEntity.ok(jwt);
         } catch (AuthenticationException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("hellloooooooooo");
     }
 }
