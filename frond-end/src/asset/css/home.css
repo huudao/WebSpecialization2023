@@ -1,0 +1,119 @@
+:root{
+    --var--background:#302aaf;
+    --var--footer:#21165e;
+    --var--brands:#eff1ff;
+}
+
+.header{
+    background-color: var(--var--background);
+    height: 130px;
+    padding-top: 20px;
+}
+.search{
+    position: relative;
+}
+.form--search button{
+    position: absolute;
+    right: 0;
+    padding-top: 0px;
+
+}
+.cart__shopping .cart{
+    background-image: url(https://img.fragrancex.com/images/assets/ui/cart.svg) ;
+    background-repeat: no-repeat;
+    text-decoration: none;
+    margin-top: 20px;
+}
+.cart__shopping .count{
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: -15px;
+    margin-left: 10px;
+    background-color: #ffc800;
+    border-radius: 50%;
+}
+.header__second li{
+    margin-left: 10px;
+}
+.header .navbar{
+    margin-bottom: 0px !important;
+}
+.menu_show{
+    height: 200px;
+    width: auto;
+    background-color: #ffc800;
+    margin-top: 5px;
+    display: none;
+}
+.menu_show li{
+    width: 50px;
+    height: 30px;
+}
+
+#demo {
+    padding-left:  0px;
+    padding-right:0px
+
+}
+/* footer */
+.footer{
+    background-color: var(--var--footer);
+    padding-top: 80px;
+
+}
+.infomation  div > a{
+    text-decoration: none ;
+    color: #ffff;
+}
+.infomation div > a:hover{
+    text-decoration: underline ;
+}
+
+.icon__contact i{
+    width: 50px;
+    height: 50px;
+    font-size: 40px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.coupon form {
+    position: relative;
+}
+.coupon form input{
+    position: relative;
+}
+.coupon form button{
+    position: absolute !important;
+    background-color: #ffc800 !important;
+    right: 0;
+}
+.copyright{
+    background-color: var(--var--background);
+}
+
+
+/* brands */
+.brands{
+    background-color: var(--var--brands);
+}
+.brands__detail {
+
+
+}
+.brands__detail img{
+    width: 150px;
+    height: 150px;
+}
+.brands__detail .part{
+    background-color: #fff;
+    width: 350px;
+    height: 160px;
+
+}
+.brands__detail .brands__name {
+    margin: auto;
+    color: #fff;
+}
