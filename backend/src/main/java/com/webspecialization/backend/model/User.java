@@ -33,7 +33,7 @@ public class User implements UserDetails {
     private Date insertedAt;
     @Column(columnDefinition = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updated_at;
+    private Date updatedAt;
     private String resetPasswordToken;
 
 //    public User(String username, S)
