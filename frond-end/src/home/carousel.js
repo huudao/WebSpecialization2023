@@ -8,7 +8,7 @@ export function Carousel(){
                     <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
                 </div>
                 {/* <The slideshow/carousel */}
-                <div class="carousel-inner">
+                <div class="carousel-inner ">
                     <div class="carousel-item active">
                         <img src="https://img.fragrancex.com/images/l/25/d/0/homeimage_1_mq4.webp?v=CUX3HVSUB9FQ3GA" alt="Los Angeles" class="d-block w-100" />
                     </div>

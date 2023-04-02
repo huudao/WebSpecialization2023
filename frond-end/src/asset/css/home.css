@@ -117,3 +117,106 @@
     margin: auto;
     color: #fff;
 }
+.bestsaler{
+    z-index: 1;
+}
+
+.bestsaler__product{
+    width: 100%;
+}
+.button button{
+    font-size:  30px;
+    padding:10px 10px;
+    position: relative;
+    box-sizing: border-box;
+    border: none;
+    background-color: transparent;
+
+}
+.button button i{
+    width: 20px;
+
+
+}
+.button button:hover{
+    background-color: #cdcdcd54;
+    border-radius: 30px;
+
+
+}
+.button button:first-child{
+    position: absolute;
+    left: -5px;
+    width: 40px;
+    height: 100%;
+}
+.button button:last-child{
+    position: absolute;
+    right: -5px;
+    height: 100%;
+}
+
+
+@media only screen and (max-width: 1200px){
+
+    .bestsaler__product-detail img{
+        width: 200px;
+        height: 200px;
+    }
+}
+@media only screen and (max-width: 990px){
+    .bestsaler__product{
+        width: 100%;
+    }
+    .bestsaler__product-detail{
+        flex: 0 0 auto;
+        width:33.33333% !important;
+    }
+}
+@media only screen and (max-width: 770px){
+    .bestsaler__product{
+        width: 100%;
+    }
+    .bestsaler__product-detail{
+        flex: 0 0 auto;
+        width:100% !important;
+    }
+    .bestsaler__product-detail img{
+        width: 250px;
+        height: 250px;
+    }
+}
+
+
+.product__review{
+    float: left;
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-block-start: 0;
+    padding-block-end: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    width: 100%;
+}
+.product__star{
+    position: relative;
+    width: 75px;
+    background-image: url(https://img.fragrancex.com/images/stars-background.svg);
+    background-repeat: repeat-x;
+    background-position: left center;
+    /*margin: auto;*/
+}
+.star__total{
+    background-image: url(https://img.fragrancex.com/images/stars-value.svg);
+    background-repeat: repeat-x;
+    background-position: left center;
+    height: 20px;
+}
+.review__count{
+    margin-left: 5px;
+}
