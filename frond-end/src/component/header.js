@@ -5,7 +5,7 @@ function Header() {
         <>
             <div className="container-fluid header">
                 <div className='row'>
-                    <a className="logo col-sm-2">
+                    <a className="logo col-sm-2" href="">
                         <img src="https://img.fragrancex.com/images/assets/logo/fragrancex_logo.svg?v=3" title="Perfume" width="130" height="35" />
 
                     </a>
@@ -36,7 +36,7 @@ function Header() {
                     </div>
                     <div className='cart__shopping col-sm-1'>
                         <div className='pop d-flex '>
-                            <a className="cart d-flex" href='#' >
+                            <a className="cart d-flex" href='/cart' >
                                 <div className='count text-light'>1</div>
                                 <span className="text-light h4">Cart</span>
                             </a>
@@ -51,10 +51,10 @@ function Header() {
                     <div className="header__second">
                         <ul className="navbar-nav ">
                             <li className="nav-item">
-                                <a className="nav-link text-light" href="#">Women's Perfume</a>
+                                <a className="nav-link text-light" href="/product">Women's Perfume</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link text-light" href="#">Men's Cologne</a>
+                                <a className="nav-link text-light" href="/product">Men's Cologne</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link text-light" href="#">Brands</a>

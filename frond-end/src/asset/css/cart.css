@@ -1,0 +1,26 @@
+:root{
+    --var--background:#302aaf;
+    --var--footer:#21165e;
+    --var--brands:#eff1ff;
+    --var--colorpayment:#ffc438;
+}
+.continue__shopping :hover{
+    color: var(--var--background);
+}
+.cart__payment  {
+    background-color: var(--var--brands);
+}
+.cart__payment button{
+    height: 50px;
+    width: 100%;
+}
+.cart__payment button:first-child{
+    background-color: var(--var--footer);
+    color: #fff;
+}
+.cart__payment button:last-child{
+    background-color: var(--var--colorpayment);
+}
+.cart__sum p{
+    width: 50%;
+}
