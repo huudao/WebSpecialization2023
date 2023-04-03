@@ -1,5 +1,6 @@
 package com.webspecialization.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class Brand {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER)
     private List<Product> products = new ArrayList<>();
 }
