@@ -125,11 +125,4 @@ public class AuthController {
         // return success message
         return ResponseEntity.ok("Password reset successful");
     }
-
-    @GetMapping("/hello")
-    public ResponseEntity<String> hello() {
-        System.out.println("whwewheehw");
-
-        return ResponseEntity.ok("hellloooooooooo");
-    }
 }

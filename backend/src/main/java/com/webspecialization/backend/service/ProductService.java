@@ -1,14 +1,11 @@
 package com.webspecialization.backend.service;
 
-import com.webspecialization.backend.model.Brand;
-import com.webspecialization.backend.model.Product;
-import com.webspecialization.backend.model.ProductReview;
-import com.webspecialization.backend.model.User;
+import com.webspecialization.backend.model.*;
 import com.webspecialization.backend.model.dto.ProductReviewDTO;
-import com.webspecialization.backend.repository.BrandRepository;
-import com.webspecialization.backend.repository.ProductRepository;
-import com.webspecialization.backend.repository.ProductReviewRepository;
-import com.webspecialization.backend.repository.UserRepository;
+import com.webspecialization.backend.model.dto.product.ProductVariantDTO;
+import com.webspecialization.backend.model.dto.product.ProductVariantDetailsDTO;
+import com.webspecialization.backend.repository.*;
+import com.webspecialization.backend.service.converter.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -30,9 +28,17 @@ public class ProductService {
     private UserRepository userRepository;
     @Autowired
     private ProductReviewRepository productReviewRepository;
+    @Autowired
+    private ProductVariantRepository productVariantRepository;
+    @Autowired
+    private Converter converter;
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductVariantDTO> getAllProducts() {
+        List<ProductVariantDTO> products = productRepository.findAll()
+                .stream()
+                .map(converter::convertProductToProductVariantDTODefault)
+                .collect(Collectors.toList());
+        return products;
     }
 
     public Product getProductById(int id) {
@@ -40,8 +46,19 @@ public class ProductService {
         return product.orElse(null);
     }
 
-    public List<Product> searchProductsByKeyword(String keyword) {
-        List<Product> products = productRepository.findByNameContainingIgnoreCase(keyword);
+    public ProductVariantDetailsDTO getProductVariantById(int productId, int variantId) {
+        Product p = productRepository.findById(productId).orElse(null);
+        for (ProductVariant v : p.getVariants()) {
+            if (v.getVariantId() == variantId) return converter.convertProductDetailsToDTO(p, v);
+        }
+        return null;
+    }
+
+    public List<ProductVariantDTO> searchProductsByKeyword(String keyword) {
+        List<ProductVariantDTO> products = productRepository.findByNameContainingIgnoreCase(keyword)
+                .stream()
+                .map(converter::convertProductToProductVariantDTODefault)
+                .collect(Collectors.toList());
         return products;
     }
 
@@ -50,29 +67,40 @@ public class ProductService {
         return brands;
     }
 
-    public List<Product> getProductsByBrandId(int brandId) {
+    public List<ProductVariantDTO> getProductsByBrandId(int brandId) {
         Brand b = brandRepository.findByBrandId(brandId);
-        return productRepository.findByBrand(b);
+        return productRepository.findByBrand(b).stream()
+                .map(converter::convertProductToProductVariantDTODefault)
+                .collect(Collectors.toList());
     }
 
-    public List<Product> getLatestProducts() {
+    public List<ProductVariantDTO> getLatestProducts() {
         // Get the latest 10 products
         Pageable pageable = PageRequest.of(0, 10, Sort.by("insertedAt").descending());
-        return productRepository.findAll(pageable).getContent();
+        return productRepository.findAll(pageable).getContent().stream()
+                .map(converter::convertProductToProductVariantDTODefault)
+                .collect(Collectors.toList());
     }
 
-    public List<Product> getMostViewProducts() {
+    public List<ProductVariantDTO> getMostViewProducts() {
         Pageable pageable = PageRequest.of(0, 10);
-        List<Product> mostViewedProducts = productRepository.findMostViewedProducts(pageable);
+        List<ProductVariantDTO> mostViewedProducts = productRepository.findMostViewedProducts(pageable)
+                .stream()
+                .map(converter::convertProductToProductVariantDTODefault)
+                .collect(Collectors.toList());
+
 //        Pageable pageable = PageRequest.of(0, 10, Sort.by("productViews").descending());
 //        return productRepository.findAll(pageable).getContent();
         return mostViewedProducts;
     }
 
-    public List<Product> getRecommendedProducts(int productId) {
+    public List<ProductVariantDTO> getRecommendedProducts(int productId) {
         // Get list of products that have the same brand
         Brand b = productRepository.findById(productId).orElse(null).getBrand();
-        List<Product> products = productRepository.findByBrand(b);
+        List<ProductVariantDTO> products = productRepository.findByBrand(b)
+                .stream()
+                .map(converter::convertProductToProductVariantDTODefault)
+                .collect(Collectors.toList());
         return products;
     }
 
@@ -112,7 +140,6 @@ public class ProductService {
     public void deleteProduct(int id) {
         productRepository.deleteById(id);
     }
-
 
 
 }

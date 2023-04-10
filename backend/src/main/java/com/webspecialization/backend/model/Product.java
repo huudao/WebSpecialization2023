@@ -27,12 +27,16 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
     private String name;
-    private String gender;
+    private String genderType;
     private String description;
     private String imageUrl;
     private String shippingPolicy;
+//    @JsonIgnore
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ProductVariant> variants;
+//    @JsonIgnore
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ProductReview> reviews;
     @Column(columnDefinition = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date insertedAt;
@@ -40,4 +44,15 @@ public class Product {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
     private int productViews = 0;
+
+    public double averageRating() {
+        if(reviews == null || reviews.isEmpty()) return 0;
+        int count = 0;
+        double total = 0;
+        for(ProductReview pR : reviews) {
+            total += pR.getRating();
+            count++;
+        }
+        return total/count;
+    }
 }

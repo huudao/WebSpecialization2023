@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+    User getUserByUserId(String userId);
     User getUserByUsername(String username);
     User  getUserByResetPasswordToken(String username);
     User findUserByUsername(String username);
