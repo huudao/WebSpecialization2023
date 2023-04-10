@@ -28,10 +28,10 @@ public class ProductVariant {
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "quantity")
-    private Integer quantity;
+    @Column(name = "stock")
+    private Integer stock;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "discount_id")
-    private Discount discount;
+    private double discount;
+
+    private boolean variantDefault;
 }

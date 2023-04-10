@@ -5,6 +5,9 @@ import com.webspecialization.backend.model.Product;
 import com.webspecialization.backend.model.ProductReview;
 import com.webspecialization.backend.model.User;
 import com.webspecialization.backend.model.dto.ProductReviewDTO;
+import com.webspecialization.backend.model.dto.product.ProductDTO;
+import com.webspecialization.backend.model.dto.product.ProductVariantDTO;
+import com.webspecialization.backend.model.dto.product.ProductVariantDetailsDTO;
 import com.webspecialization.backend.service.ProductReviewService;
 import com.webspecialization.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +27,9 @@ public class ProductController {
     private ProductReviewService productReviewService;
 
     @GetMapping("")
-    public ResponseEntity<List<Product>> getAllProducts() {
+    public ResponseEntity<List<ProductVariantDTO>> getAllProducts() {
         try {
-            List<Product> products = productService.getAllProducts();
+            List<ProductVariantDTO> products = productService.getAllProducts();
             return ResponseEntity.ok(products);
         } catch (Exception e) {
             e.printStackTrace();
@@ -35,22 +38,22 @@ public class ProductController {
     }
 
     // Get detail of a product
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") int id) {
-        Product product = productService.getProductById(id);
-        if(product == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(product);
+    @GetMapping("/{productId}/{variantId}")
+    public ResponseEntity<ProductVariantDetailsDTO> getProductVariantById(@PathVariable("productId") int productId, @PathVariable("variantId") int variantId) {
+        ProductVariantDetailsDTO variantDTO = productService.getProductVariantById(productId,variantId);
+        if(variantDTO == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(variantDTO);
     }
 
     @GetMapping("/{id}/recommended")
-    public ResponseEntity<List<Product>> getRecommendedProducts(@PathVariable("id") int productId) {
-        List<Product> recommendedProducts = productService.getRecommendedProducts(productId);
+    public ResponseEntity<List<ProductVariantDTO>> getRecommendedProducts(@PathVariable("id") int productId) {
+        List<ProductVariantDTO> recommendedProducts = productService.getRecommendedProducts(productId);
         return ResponseEntity.ok(recommendedProducts);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> searchProductsByKeyword(@RequestParam String keyword) {
-        List<Product> products = productService.searchProductsByKeyword(keyword);
+    public ResponseEntity<List<ProductVariantDTO>> searchProductsByKeyword(@RequestParam String keyword) {
+        List<ProductVariantDTO> products = productService.searchProductsByKeyword(keyword);
         return ResponseEntity.ok(products);
     }
 
@@ -63,30 +66,27 @@ public class ProductController {
 
     // get products by brandId
     @GetMapping("/brands/{brandId}")
-    public ResponseEntity<List<Product>> getProductsByBrandId(@PathVariable("brandId") int brandId) {
-        List<Product> products = productService.getProductsByBrandId(brandId);
+    public ResponseEntity<List<ProductVariantDTO>> getProductsByBrandId(@PathVariable("brandId") int brandId) {
+        List<ProductVariantDTO> products = productService.getProductsByBrandId(brandId);
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/latest")
-    public ResponseEntity<List<Product>> getLatestProducts() {
-        List<Product> latestProducts = productService.getLatestProducts();
+    public ResponseEntity<List<ProductVariantDTO>> getLatestProducts() {
+        List<ProductVariantDTO> latestProducts = productService.getLatestProducts();
         return ResponseEntity.ok(latestProducts);
     }
 
     @GetMapping("/most-viewed")
-    public ResponseEntity<List<Product>> getMostViewedProducts() {
+    public ResponseEntity<List<ProductVariantDTO>> getMostViewedProducts() {
         // Get the 10 most viewed products
-        List<Product> mostViewedProducts = productService.getMostViewProducts();
+        List<ProductVariantDTO> mostViewedProducts = productService.getMostViewProducts();
         return ResponseEntity.ok(mostViewedProducts);
     }
 
     @GetMapping("/{productId}/reviews")
     public ResponseEntity<List<ProductReviewDTO>> getProductReviews(@PathVariable int productId) {
-        List<ProductReviewDTO> productReviews = productReviewService.findByProductId(productId)
-                .stream()
-                .map(this::EntityToDto)
-                .collect(Collectors.toList());
+        List<ProductReviewDTO> productReviews = productReviewService.getProductReviews(productId);
         return ResponseEntity.ok(productReviews);
     }
 
@@ -104,21 +104,7 @@ public class ProductController {
         return ResponseEntity.ok().body("Comment added successfully");
     }
 
-    public ProductReviewDTO EntityToDto(ProductReview productReview) {
-        ProductReviewDTO productReviewDto = new ProductReviewDTO();
-        productReviewDto.setReviewId(productReview.getReviewId());
-        productReviewDto.setUsername(productReview.getUser().getUsername());
-        productReviewDto.setProductId(productReview.getProduct().getProductId());
-        productReviewDto.setRating(productReview.getRating());
-        productReviewDto.setReviewTitle(productReview.getReviewTitle());
-        productReviewDto.setReview(productReview.getReview());
-        productReviewDto.setLikeNumber(productReview.getLikeNumber());
-        productReviewDto.setDislikeNumber(productReview.getDislikeNumber());
-        productReviewDto.setRecommend(productReview.isRecommend());
-        productReviewDto.setInsertedAt(productReview.getInsertedAt());
-        productReviewDto.setUpdatedAt(productReview.getUpdatedAt());
-        return productReviewDto;
-    }
+
 
     // Delete a product
 //    @DeleteMapping ("/{id}")
