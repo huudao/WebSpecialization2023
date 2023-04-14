@@ -2,6 +2,7 @@
     --var--background:#302aaf;
     --var--footer:#21165e;
     --var--brands:#eff1ff;
+    --var--decor:#eee;
 }
 
 .header{
@@ -14,8 +15,16 @@
 }
 .form--search button{
     position: absolute;
-    right: 0;
+    right: 10px;
     padding-top: 0px;
+
+}
+.form--search img{
+    position: absolute;
+    right: 2px;
+    top:0;
+    padding-top: 0px;
+
 
 }
 .cart__shopping .cart{
@@ -41,16 +50,36 @@
 .header .navbar{
     margin-bottom: 0px !important;
 }
+.header__second a:hover{
+    text-decoration: underline;
+}
 .menu_show{
-    height: 200px;
-    width: auto;
-    background-color: #ffc800;
+    position: relative;
+    z-index: 10;
+    /*height: 200px;*/
+    /*width: auto;*/
+    background-color: #fff;
+    border: var(--var--decor) solid 2px;
+    border-top: none;
+    border-radius: 5px;
     margin-top: 5px;
     display: none;
 }
-.menu_show li{
-    width: 50px;
-    height: 30px;
+.menu_show a{
+    /*width: 50px;*/
+    /*height: 30px;*/
+    margin: 5px;
+    font-size: 15px;
+
+}
+.menu_show a:hover{
+    background-color: var(--var--brands);
+    text-decoration: underline !important;
+    border-radius: 50%;
+}
+.btn__brands:hover{
+    cursor: pointer;
+    width: 200px;
 }
 
 #demo {
@@ -219,4 +248,71 @@
 }
 .review__count{
     margin-left: 5px;
+}
+
+
+
+
+/*show menu*/
+.btn__menu p{
+    width: 40px;
+    height: 2px;
+    margin: 10px;
+    background-color: white;
+    display: none;
+}
+.offcanvas{
+    background-color: var(--var--background);
+    color: #ffff;
+}
+
+/*responsive*/
+@media only screen and (max-width: 1115px) {
+    .header{
+        height: 170px;
+        position: relative;
+    }
+    .btn__menu p{
+        display: block;
+    }
+    .search{
+        width: 95%;
+        margin: auto;
+    }
+    .cart{
+        position: absolute;
+        top:10px;
+        right: 50px;
+    }
+    .header .logo img{
+        margin-top: 15px;
+    }
+    .express{
+        display: none;
+    }
+
+}
+@media only screen and (max-width: 1025px) {
+  .header__second li{
+      width: auto !important;
+  }
+
+}
+@media only screen and (max-width: 600px) {
+    .header__second ul{
+        display: flex !important;
+        flex-direction: row;
+        width: 100% !important;
+        position: relative;
+        box-sizing: border-box;
+    }
+    .header__second li{
+        width: 170px !important;
+        /*margin: 0;*/
+    }
+    .header__second li:last-child{
+        display: none;
+    }
+
+
 }
