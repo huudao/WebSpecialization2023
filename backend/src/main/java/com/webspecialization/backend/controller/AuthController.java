@@ -53,7 +53,7 @@ public class AuthController {
             Date now = new Date();
             user.setPassword(pd.encode(user.getPassword()));
             user.setInsertedAt(now);
-            user.setUpdated_at(now);
+            user.setUpdatedAt(now);
             List<Role> roles = new ArrayList<>();
             Role defaultRole = roleRepository.getRoleByName("ROLE_USER");
             roles.add(defaultRole);
@@ -124,12 +124,5 @@ public class AuthController {
 
         // return success message
         return ResponseEntity.ok("Password reset successful");
-    }
-
-    @GetMapping("/hello")
-    public ResponseEntity<String> hello() {
-        System.out.println("whwewheehw");
-
-        return ResponseEntity.ok("hellloooooooooo");
     }
 }
