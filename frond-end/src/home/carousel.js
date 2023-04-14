@@ -8,15 +8,13 @@ export function Carousel(){
                     <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
                 </div>
                 {/* <The slideshow/carousel */}
-                <div class="carousel-inner ">
-                    <div class="carousel-item active">
+                <div class="carousel-inner "  >
+                    <div class="carousel-item active "  >
                         <img src="https://img.fragrancex.com/images/l/25/d/0/homeimage_1_mq4.webp?v=CUX3HVSUB9FQ3GA" alt="Los Angeles" class="d-block w-100" />
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item"  >
                         <img src="https://img.fragrancex.com/images/l/25/d/0/homeimage_0_mq4.webp?v=2LTNCKRR3GQKU3D" alt="Chicago" class="d-block w-100" />
                     </div>
-
-
 
                 </div>
                 {/* Left and right controls/icons */}
