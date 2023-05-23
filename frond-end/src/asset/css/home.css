@@ -265,6 +265,19 @@
     background-color: var(--var--background);
     color: #ffff;
 }
+.offcanvas-body{
+    box-sizing: border-box;
+}
+.offcanvas-body li{
+    list-style-type: none;
+    width: 100%;
+    height: 30px;
+    box-sizing: border-box;
+    margin: 10px 0px;
+}
+.offcanvas-body li a{
+    font-size: 20px;
+}
 
 /*responsive*/
 @media only screen and (max-width: 1115px) {

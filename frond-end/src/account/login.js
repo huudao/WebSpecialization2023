@@ -1,22 +1,67 @@
 import '../asset/css/account.css'
+import {useState} from "react";
+
+import {use} from "react-router-dom"
+
+const account=[{name: "123",password: "123"},{name:"nhan",password:"nhan"}]
+
 
 export function Login() {
+    const [path,setPath]=useState("/");
+    const[errol,setErrol]=useState("");
+
+
+    function handler(event){
+        event.preventDefault();
+
+        const username= document.getElementById("username").value;
+        const password= document.getElementById("password").value;
+        account.map((acc)=>{
+            if(acc.name===username.trim() && acc.password===password.trim()){
+                console.log(acc.name +acc.password)
+                setPath("/")
+            }else{
+
+                setPath("/login")
+            }
+        })
+    }
+    function  handlerOnchange(data,id){
+
+        try{
+            if(data.trim()==="" ) throw "* Enter data";
+            if(data.trim()!=="" ) throw "";
+
+
+        }
+        catch (event){
+            document.getElementById(id).innerText=event;
+
+        }
+    }
+    function handlerOnSubmit(e){
+        e.preventDefault();
+
+    }
     return (
         <>
             <div className="form__detail d-flex justify-content-center align-items-center ">
                 <div className="content text-center">
                     <p className="h1 m-5 text-uppercase">Login</p>
-                    <form>
+                    <form onSubmit={handlerOnSubmit}>
                         {/*-- Email input --*/}
                         <div className="form-outline mb-4 position-relative">
-                            <input type="email" id="form2Example1" className="form-control"/>
+                            <input type="email" id="username" className="form-control" onChange={(e)=>{handlerOnchange(e.target.value,"anounceusername")}}/>
                             <label className="form-label" htmlFor="form2Example1">User name</label>
+                            <p className="errol" id="anounceusername"></p>
                         </div>
 
                         {/*-- Password input --*/}
                         <div className="form-outline mb-4 position-relative">
-                            <input type="password" id="form2Example2" className="form-control"/>
+                            <input type="password" id="password" className="form-control" onChange={(e)=>{handlerOnchange(e.target.value,"anouncepassword")}}/>
                             <label className="form-label" htmlFor="form2Example2">Password</label>
+                            <p className="errol" id="anouncepassword"></p>
+
                         </div>
 
                         {/*-- 2 column grid layout for inline styling --*/}
@@ -37,29 +82,14 @@ export function Login() {
                         </div>
 
                         {/*-- Submit button --*/}
-                        <a href="/">
-                            <button type="button" className="btn btn-primary btn-block mb-4">Sign in</button>
+                        <a href={path} id="signin">
+                            <button type="submit" className="btn btn-primary btn-block mb-4" onClick={handler}>Sign in</button>
                         </a>
 
                         {/*-- Register buttons --*/}
                         <div className="text-center">
                             <p>Not a member? <a href="/registry">Register</a></p>
-                            {/*<p>or sign up with:</p>*/}
-                            {/*<button type="button" className="btn btn-link btn-floating mx-1">*/}
-                            {/*    <i className="fab fa-facebook-f"></i>*/}
-                            {/*</button>*/}
 
-                            {/*<button type="button" className="btn btn-link btn-floating mx-1">*/}
-                            {/*    <i className="fab fa-google"></i>*/}
-                            {/*</button>*/}
-
-                            {/*<button type="button" className="btn btn-link btn-floating mx-1">*/}
-                            {/*    <i className="fab fa-twitter"></i>*/}
-                            {/*</button>*/}
-
-                            {/*<button type="button" className="btn btn-link btn-floating mx-1">*/}
-                            {/*    <i className="fab fa-github"></i>*/}
-                            {/*</button>*/}
                         </div>
                     </form>
 

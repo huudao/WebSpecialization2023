@@ -9,19 +9,19 @@ export function Menu() {
 
             </a>
 
-            <div className="offcanvas offcanvas-start w-25" tabIndex="-1" id="offcanvasExample"
+            <div className="offcanvas offcanvas-start "  style={{width:"250px"}} tabIndex="-1" id="offcanvasExample"
                  aria-labelledby="offcanvasExampleLabel">
                 <div className="offcanvas-header">
                     <h5 className="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
                     <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
                 </div>
-                <div className="offcanvas-body">
+                <div className="offcanvas-body ">
                     <hr></hr>
-                    <ul className="list-group">
-                        <li className="list-group-item "><a href="/">Perfume</a></li>
-                        <li className="list-group-item"><a href="/login">Sign in</a></li>
-                        <li className="list-group-item"><a href="/order">Order lookup</a></li>
+                    <ul className="ms-0 ps-1 text-light">
+                        <li className="text-light"><a className="text-decoration-none text-light " href="/">Perfume</a></li>
+                        <li className="text-light"><a className="text-decoration-none text-light" href="/login">Sign in</a></li>
+                        <li className="text-light"><a className="text-decoration-none text-light"  href="/order">Order lookup</a></li>
                     </ul>
                 </div>
             </div>
