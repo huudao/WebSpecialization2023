@@ -1,117 +1,188 @@
 package com.webspecialization.backend.service;
 
-import com.webspecialization.backend.model.*;
-import com.webspecialization.backend.model.dto.cart.AddToCartDTO;
-import com.webspecialization.backend.model.dto.cart.CartDTO;
-import com.webspecialization.backend.model.dto.cart.DecrementCartItemDTO;
-import com.webspecialization.backend.model.dto.cart.IncrementCartItemDTO;
-import com.webspecialization.backend.repository.*;
-import com.webspecialization.backend.security.JWTUtil;
-import com.webspecialization.backend.service.converter.Converter;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.webspecialization.backend.entity.Cart;
+import com.webspecialization.backend.entity.CartItem;
+import com.webspecialization.backend.entity.ProductVariant;
+import com.webspecialization.backend.entity.User;
+import com.webspecialization.backend.exception.InvalidArgumentException;
+import com.webspecialization.backend.exception.NotFoundException;
+import com.webspecialization.backend.model.request.AddToCartRequest;
+import com.webspecialization.backend.model.request.DecrementCartItemRequest;
+import com.webspecialization.backend.model.request.IncrementCartItemRequest;
+import com.webspecialization.backend.model.response.CartResponse;
+import com.webspecialization.backend.repo.CartItemRepository;
+import com.webspecialization.backend.repo.CartRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.util.Date;
+import java.util.Objects;
+
 @Service
+@AllArgsConstructor
 public class CartService {
-    @Autowired
-    private JWTUtil jwtService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private ProductVariantRepository variantRepository;
-    @Autowired
-    private CartItemRepository cartItemRepository;
-    @Autowired
+    private UserService userService;
     private Converter converter;
+    private ProductVariantService productVariantService;
+    private CartRepository cartRepository;
+    private CartItemRepository cartItemRepository;
 
-    public CartDTO getCartDTOByJwt(HttpServletRequest request) {
-        String token = jwtService.getToken(request);
-        String username = jwtService.getUsername(token);
-        User user = userRepository.getUserByUsername(username);
-
-        return converter.convertCartToDTO(cartRepository.findByUser(user));
+    public Cart getCart() {
+        Cart cart = userService.getUser().getCart();
+        return cart;
     }
-    public CartDTO addIntoCart(HttpServletRequest request, AddToCartDTO addToCartDTO) {
-        String token = jwtService.getToken(request);
-        String username = jwtService.getUsername(token);
-        User user = userRepository.getUserByUsername(username);
-        Cart cart = cartRepository.findByUser(user);
-        ProductVariant p = variantRepository.findById(addToCartDTO.getVariantId()).orElse(null);
+
+    public void saveCart(Cart cart) {
+        if (Objects.isNull(cart)) {
+            throw new InvalidArgumentException("Cart is null");
+        }
+        cartRepository.save(cart);
+    }
+
+    public CartResponse getCartResponse() {
+        User user = userService.getUser();
+        Cart cart = user.getCart();
+        if(cart == null) return null;
+        return converter.convertCartToCartResponse(cart);
+    }
+
+    public CartResponse addIntoCart(AddToCartRequest addToCartRequest) {
+        User user = userService.getUser();
+        Cart cart = user.getCart();
+        ProductVariant p = productVariantService.findById(addToCartRequest.getProductVariantId());
         if(cart == null) {
             cart = new Cart();
             cart.setUser(user);
+            Date now = new Date();
+            cart.setCreatedDate(now);
+            cart.setUpdatedDate(now);
         }
 
         // if a cart item that have already existed in the database so that just increase the amount.
         // If the number of that product in the cart item exceeds the product stock, an exception is returned
         for(CartItem item : cart.getCartItems()) {
-            if(item.getProductVariant().getVariantId() == p.getVariantId()){
-                int amount = item.getAmount() + addToCartDTO.getAmount();
-                if(amount > p.getStock()) throw new RuntimeException("Product does not have desired stock.");
+            if(item.getProductVariant() == p){
+                int amount = item.getAmount() + addToCartRequest.getAmount();
+                if(amount > p.getStock()) throw new InvalidArgumentException("Product does not have desired stock.");
                 item.setAmount(amount);
-                cart.getCartItems().add(item);
+                cart = calculatePrice(cart);
                 cartRepository.save(cart);
-                return converter.convertCartToDTO(cart);
+                return converter.convertCartToCartResponse(cart);
             }
         }
 
         // if a cart item that haven't had yet. Create a new cart item and save it
         // If the number of that product in the cart item exceeds the product stock, an exception is returned
-        if(addToCartDTO.getAmount() > p.getStock()) throw new RuntimeException("Product does not have desired stock.");
+        if(addToCartRequest.getAmount() > p.getStock()) throw new RuntimeException("Product does not have desired stock.");
         CartItem cartItem = new CartItem();
         cartItem.setCart(cart);
         cartItem.setProductVariant(p);
-        cartItem.setAmount(addToCartDTO.getAmount());
+        cartItem.setAmount(addToCartRequest.getAmount());
+        Date now = new Date();
+        cartItem.setCreatedDate(now);
+        cartItem.setUpdatedDate(now);
         for(CartItem item : cart.getCartItems()) {
-            if(item.getProductVariant().getVariantId() == p.getVariantId()){
+            if(item.getProductVariant().getId() == p.getId()){
                 item.getAmount();
             }
         }
         cart.getCartItems().add(cartItem);
+        cart = calculatePrice(cart);
         cartRepository.save(cart);
-        return converter.convertCartToDTO(cart);
+        return converter.convertCartToCartResponse(cart);
     }
 
-    public CartDTO incrementCartItem(HttpServletRequest request, IncrementCartItemDTO incrementCartItemDTO) {
-        String token = jwtService.getToken(request);
-        String username = jwtService.getUsername(token);
-        User user = userRepository.getUserByUsername(username);
-        Cart cart = cartRepository.findByUser(user);
+    public void emptyCart() {
+        Cart cart = userService.getUser().getCart();
+        cartRepository.delete(cart);
+    }
+
+    public CartResponse removeFromCart(long cartItemId) {
+        Cart cart = userService.getUser().getCart();
+
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+
+        if (Objects.isNull(cart) || Objects.isNull(cart.getCartItems()) || cart.getCartItems().isEmpty() || cartItem == null) {
+            throw new RuntimeException("Cart or CartItem not found");
+        }
+
+        cart.getCartItems().remove(cartItem);
+        cart = calculatePrice(cart);
+        cartRepository.save(cart);
+
+        if(cart.getCartItems().size() == 0) {
+            cartRepository.delete(cart);
+            return null;
+        }
+        return converter.convertCartToCartResponse(cart);
+    }
+
+    public CartResponse incrementCartItem(IncrementCartItemRequest incrementCartItemRequest) {
+        Cart cart = userService.getUser().getCart();
+
+        if (Objects.isNull(cart) || Objects.isNull(cart.getCartItems()) || cart.getCartItems().isEmpty()) {
+            throw new NotFoundException("Cart or CartItem not found");
+        }
+
         // get cart item in that cart have the same cartItemId
         CartItem cartItem = cart.getCartItems()
                 .stream()
-                .filter(ci -> ci.getProductVariant().getVariantId() == incrementCartItemDTO.getVariantId())
+                .filter(ci -> ci.getProductVariant().getId() == incrementCartItemRequest.getProductVariantId())
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("CartItem not found"));
+                .orElseThrow(() -> new NotFoundException("CartItem not found"));
 
-        int amount = cartItem.getAmount() + incrementCartItemDTO.getAmount();
-        if(amount > cartItem.getProductVariant().getStock()) throw new RuntimeException("Product does not have desired stock.");
-        cartItem.setAmount(cartItem.getAmount() + incrementCartItemDTO.getAmount());
+        int amount = cartItem.getAmount() + incrementCartItemRequest.getAmount();
+        if(amount > cartItem.getProductVariant().getStock()) throw new NotFoundException("Product does not have desired stock.");
+        cartItem.setAmount(cartItem.getAmount() + incrementCartItemRequest.getAmount());
+        cart = calculatePrice(cart);
         cart = cartRepository.save(cart);
-        return converter.convertCartToDTO(cart);
+        return converter.convertCartToCartResponse(cart);
     }
 
-    public CartDTO decrementCartItem(HttpServletRequest request, DecrementCartItemDTO decrementCartItemDTO) {
-        String token = jwtService.getToken(request);
-        String username = jwtService.getUsername(token);
-        User user = userRepository.getUserByUsername(username);
-        Cart cart = cartRepository.findByUser(user);
+    public CartResponse decrementCartItem(DecrementCartItemRequest decrementCartItemRequest) {
+        Cart cart = userService.getUser().getCart();
+
+        if (Objects.isNull(cart) || Objects.isNull(cart.getCartItems()) || cart.getCartItems().isEmpty()) {
+            throw new RuntimeException("Cart or CartItem not found");
+        }
         // get cart item in that cart have the same cartItemId
         CartItem cartItem = cart.getCartItems()
                 .stream()
-                .filter(ci -> ci.getProductVariant().getVariantId() == decrementCartItemDTO.getVariantId())
+                .filter(ci -> ci.getProductVariant().getId() == decrementCartItemRequest.getProductVariantId())
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("CartItem not found"));
 
-        int amount = cartItem.getAmount() - decrementCartItemDTO.getAmount();
+        int amount = cartItem.getAmount() - decrementCartItemRequest.getAmount();
         if(amount <= 0) throw new RuntimeException("amount have to greater than 0");
         cartItem.setAmount(amount);
+        cart = calculatePrice(cart);
         cart = cartRepository.save(cart);
-        return converter.convertCartToDTO(cart);
+        return converter.convertCartToCartResponse(cart);
     }
+
+    public Cart calculatePrice(Cart cart) {
+        cart.setTotalCartPrice(0F);
+        cart.setTotalPrice(0F);
+
+        cart.getCartItems().forEach(cartItem -> {
+            cart.setTotalCartPrice(cart.getTotalCartPrice() + (cartItem.getProductVariant().getPrice() * (100 - cartItem.getProductVariant().getDiscount())/100) * cartItem.getAmount());
+            cart.setTotalPrice(
+                    cart.getTotalPrice() + (cartItem.getProductVariant().getPrice() * (100 - cartItem.getProductVariant().getDiscount())/100)* cartItem.getAmount());
+        });
+
+        if (Objects.nonNull(cart.getDiscount())) {
+            cart.setTotalPrice(cart.getTotalPrice() - ((cart.getTotalPrice() * cart.getDiscount().getDiscountPercentage()) / 100));
+        }
+
+        cart.setTotalPrice(roundTwoDecimals(cart.getTotalPrice()));
+        return cart;
+    }
+
+    private float roundTwoDecimals(float d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Float.parseFloat(twoDForm.format(d));
+    }
+
+
 }

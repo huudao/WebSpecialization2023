@@ -1,7 +1,7 @@
 package com.webspecialization.backend.security.filter;
 
-import com.webspecialization.backend.model.User;
-import com.webspecialization.backend.repository.UserRepository;
+import com.webspecialization.backend.entity.User;
+import com.webspecialization.backend.repo.UserRepository;
 import com.webspecialization.backend.security.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -40,7 +40,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
 
         String username = jwtUtil.getUsername(token);
-        User uPass = userRepository.findUserByUsername(username);
+        User uPass = userRepository.findUserByUsername(username).orElse(null);
 
         UsernamePasswordAuthenticationToken upassToken = new UsernamePasswordAuthenticationToken(username, null, uPass.getAuthorities());
         upassToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

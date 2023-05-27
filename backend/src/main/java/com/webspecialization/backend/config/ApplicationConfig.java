@@ -1,6 +1,7 @@
 package com.webspecialization.backend.config;
 
-import com.webspecialization.backend.repository.UserRepository;
+import com.webspecialization.backend.exception.NotFoundException;
+import com.webspecialization.backend.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -23,7 +23,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> repository.findUserByUsername(username);
+        return username -> repository.findUserByUsername(username).orElseThrow(() -> new NotFoundException("Username or password not found"));
     }
 
     @Bean
