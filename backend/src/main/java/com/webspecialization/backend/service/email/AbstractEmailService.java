@@ -1,18 +1,14 @@
 package com.webspecialization.backend.service.email;
 
-import com.webspecialization.backend.model.User;
-import com.webspecialization.backend.repository.UserRepository;
+import com.webspecialization.backend.entity.User;
+import com.webspecialization.backend.repo.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;

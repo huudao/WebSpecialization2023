@@ -1,14 +1,23 @@
 package com.webspecialization.backend.model.response;
 
-import com.webspecialization.backend.model.dto.ProductReviewDTO;
-import com.webspecialization.backend.model.dto.product.ProductVariantDTO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class ProductVariantResponse {
-    private int id;
+    private Long productId;
+    private Long variantId;
+    private Long brandId;
+    private String brandName;
     private String name;
-    private String url;
-    private ProductVariantDTO productVariant;
-    private ProductReviewDTO productReviewDTO;
+    private String size;
+    private float price;
+    private float priceAfterDiscount;
+    private float discount;
+    private Integer stock;
+    private List<String> imageUrls;
+    private double averageRating;
 }

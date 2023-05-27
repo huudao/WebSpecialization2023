@@ -1,10 +1,17 @@
 package com.webspecialization.backend.service;
 
-import com.webspecialization.backend.model.ProductReview;
-import com.webspecialization.backend.model.dto.ProductReviewDTO;
-import com.webspecialization.backend.repository.ProductReviewRepository;
-import com.webspecialization.backend.service.converter.Converter;
+import com.webspecialization.backend.entity.Product;
+import com.webspecialization.backend.entity.ProductReview;
+import com.webspecialization.backend.entity.User;
+import com.webspecialization.backend.exception.NotFoundException;
+import com.webspecialization.backend.model.request.SaveProductReviewRequest;
+import com.webspecialization.backend.model.request.UpdateReviewRequest;
+import com.webspecialization.backend.model.response.ProductReviewResponse;
+import com.webspecialization.backend.repo.ProductReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -16,32 +23,52 @@ public class ProductReviewService {
     @Autowired
     private ProductReviewRepository productReviewRepository;
     @Autowired
+    private UserService userService;
+    @Autowired
     private Converter converter;
+    @Autowired
+    private ProductService productService;
 
-    public ProductReview addProductReview(ProductReview productReview) {
-        return productReviewRepository.save(productReview);
-    }
-
-    public List<ProductReview> findByProductId(int productId) {
-        return productReviewRepository.findByProductProductId(productId);
-    }
-
-    public List<ProductReviewDTO> getProductReviews(int productId) {
-        List<ProductReviewDTO> productReviews = productReviewRepository.findByProductProductId(productId)
+    public List<ProductReviewResponse> getProductReviews(int productId, int page, int size, String sortBy, String sortDirection) {
+        Pageable pageable = PageRequest.of(page, size);
+        if (sortBy != null && sortDirection != null) {
+            Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+            pageable = PageRequest.of(page, size, direction, sortBy);
+        }
+        List<ProductReviewResponse> productReviews = productReviewRepository.findByProductId(productId, pageable)
                 .stream()
-                .map(converter::convertProductReviewToDTO)
+                .map(converter::convertProductReviewToProductReviewResponse)
                 .collect(Collectors.toList());
         return productReviews;
     }
 
-    public void updateReview(ProductReviewDTO reviewDTO) {
-        ProductReview review = productReviewRepository.findByReviewId(reviewDTO.getReviewId());
-        review.setReviewTitle(reviewDTO.getReviewTitle());
-        review.setReview(reviewDTO.getReview());
-        review.setRating(review.getRating());
+    public void updateReview(UpdateReviewRequest updateReviewRequest) {
+        ProductReview review = productReviewRepository.findById(updateReviewRequest.getReviewId());
+        review.setReviewTitle(updateReviewRequest.getReviewTitle());
+        review.setReview(updateReviewRequest.getReview());
+        review.setRating(updateReviewRequest.getRating());
         review.setRecommend(review.isRecommend());
         Date now = new Date();
-        review.setUpdatedAt(now);
+        review.setUpdatedDate(now);
         productReviewRepository.save(review);
+    }
+
+    public void saveProductReview(SaveProductReviewRequest reviewRequest) {
+        User user = userService.getUser();
+        Product product = productService.getProductById(reviewRequest.getProductId());
+        if(product == null) throw new NotFoundException("product id is not exist");
+        Date now = new Date();
+        ProductReview p = new ProductReview();
+        p.setProduct(product);
+        p.setUser(user);
+        p.setRating(reviewRequest.getRating());
+        p.setReviewTitle(reviewRequest.getReviewTitle());
+        p.setReview(reviewRequest.getReview());
+        p.setLikeNumber(0);
+        p.setDislikeNumber(0);
+        p.setRecommend(reviewRequest.isRecommend());
+        p.setCreatedDate(now);
+        p.setUpdatedDate(now);
+        productReviewRepository.save(p);
     }
 }
