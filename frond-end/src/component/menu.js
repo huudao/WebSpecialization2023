@@ -1,3 +1,5 @@
+import {NavLink} from "react-router-dom";
+
 export function Menu() {
     return (
         <>
@@ -19,9 +21,9 @@ export function Menu() {
                 <div className="offcanvas-body ">
                     <hr></hr>
                     <ul className="ms-0 ps-1 text-light">
-                        <li className="text-light"><a className="text-decoration-none text-light " href="/">Perfume</a></li>
-                        <li className="text-light"><a className="text-decoration-none text-light" href="/login">Sign in</a></li>
-                        <li className="text-light"><a className="text-decoration-none text-light"  href="/order">Order lookup</a></li>
+                        <li className="text-light"><NavLink className="text-decoration-none text-light " to="/">Perfume</NavLink></li>
+                        <li className="text-light"><NavLink className="text-decoration-none text-light" to="/login">Sign in</NavLink></li>
+                        <li className="text-light"><NavLink className="text-decoration-none text-light"  to="/order">Order lookup</NavLink></li>
                     </ul>
                 </div>
             </div>

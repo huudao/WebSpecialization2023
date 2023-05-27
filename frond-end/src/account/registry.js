@@ -1,9 +1,11 @@
 import '../asset/css/account.css'
+import {NavLink} from "react-router-dom";
 
 const account=[{name: "123",password: "123",email:"dfd@gmail.com"},
    ]
 
 export function Registry(){
+    // process errol
     function  handlerErrol(data,id){
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -15,15 +17,10 @@ export function Registry(){
                     else throw "";
                 }
                 else if(id==="errrepass"){
-                    if(data !==document.getElementById("repassword"))throw "* Not equal password"
+                    if(data !==document.getElementById("repassword").value)throw "* Not equal password"
                     else throw ""
-
                 }
-
-
             } throw "";
-
-
 
         }
         catch (event){
@@ -31,35 +28,11 @@ export function Registry(){
 
         }
     }
-    function handlerClick(e){
-        // e.preventDefault();
-        // account.push("fdsds","sfdf","sdfd");
-        // account.map((e)=> console.log(e));
 
+    function handlerSubmit(e){
+        alert("hello")
+        e.preventDefault();
 
-        //test
-        let myFirstPromise = new Promise((resolve, reject) => {
-            // lấy dữ liệu trên mạng từ url
-            const URL = 'https://ninja-it.com/data/sample.json';
-            fetch(URL).then(response => {
-                // thành công
-                resolve(response); // hàm then sẽ nhận tham số response
-            }).catch(error => {
-                // thất bại
-                reject(error); // hàm catch sẽ nhận tham số error
-            });
-        });
-
-        myFirstPromise.then((response) => {
-            console.log(response.statusText); // OK
-            return response.text().then(function(text) {
-                // hiển thị nội dung
-                console.log(text);
-            });
-        }).catch(error => {
-            // in ra lỗi
-            console.error(error.toString());
-        });
     }
 
 
@@ -70,7 +43,7 @@ export function Registry(){
             <div className="form__detail  d-flex justify-content-center">
                 <div className="content text-center">
                     <p className="h1 m-5 text-uppercase">Register</p>
-                    <form>
+                    <form onSubmit={handlerSubmit}>
                         {/*-- Email input --*/}
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="username" className="form-control" onChange={(e)=>{handlerErrol(e.target.value,"erruser")}}/>
@@ -114,11 +87,11 @@ export function Registry(){
                         </div>
 
                         {/*-- Submit button --*/}
-                        <button type="button" className="btn btn-primary btn-block mb-4" onClick={handlerClick}>Registry</button>
+                        <button type="submit" className="btn btn-primary btn-block mb-4" >Registry</button>
 
                         {/*-- Register buttons --*/}
                         <div className="text-center">
-                            <p>You are a member? <a href="/login">Login</a></p>
+                            <p>You are a member? <NavLink to="/login">Login</NavLink></p>
 
                         </div>
                     </form>
