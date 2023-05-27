@@ -1,8 +1,18 @@
 import '../asset/css/product.css'
 import '../asset/css/home.css'
 import BarFilter from "../component/filter";
-
+import CartProduct from "../component/cartProduct";
+import {useContext,memo} from "react";
+import {ProductContext} from "../context/productContext";
 function ShowProduct() {
+
+    const {listData,setUrlNew}=useContext(ProductContext);
+    console.log("real",listData)
+    // function  handler(id){
+    //     setUrlNew(id);
+    //     console.log( + "url is cart test")
+    //
+    // }
     return (
         <>
             <div className="container-fluid">
@@ -16,7 +26,7 @@ function ShowProduct() {
                 </div>
                 <h1>Discount Perfume for Women</h1>
                 <div className="d-flex">
-                    <p className="product__search">1-60 of 4114 Results</p>
+                    <p className="product__search">1-60 of {listData.length} Results</p>
                     <div className="product__search d-flex  justify-content-end">
                         <label htmlFor="inputState">Order by:</label>
                         <form>
@@ -35,123 +45,14 @@ function ShowProduct() {
                         <BarFilter></BarFilter>
                     </div >
                     <div className="show col-sm-10 row  overflow-hidden position-relative flex-wrap">
-                        <a href="/detail" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
-                            <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
-                            <div className="product__name h5">Bright Crystal</div>
-                            <div className="product__brand">By Versace</div>
-                            <div className="product__review  d-flex justify-content-center" >
-                                <div className="product__star  ">
-                                    <div className="star__total" style={{width: "90%"}}></div>
-                                </div>
-                                <div className="review__count">(4544)</div>
-                            </div>
+                        {
+                            listData.map(data=> <CartProduct key={data.id} data={data}  />)
 
-                            <div className="product__name">đ 237,940.70</div>
-
-                        </a>
-                        <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
-                            <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
-                            <div className="product__name h5">Bright Crystal</div>
-                            <div className="product__brand">By Versace</div>
-                            <div className="product__review  d-flex justify-content-center" >
-                                <div className="product__star  ">
-                                    <div className="star__total" style={{width: "90%"}}></div>
-                                </div>
-                                <div className="review__count">(4544)</div>
-                            </div>
-
-                            <div className="product__name">đ 237,940.70</div>
-
-                        </a>
-                        <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
-                            <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
-                            <div className="product__name h5">Bright Crystal</div>
-                            <div className="product__brand">By Versace</div>
-                            <div className="product__review  d-flex justify-content-center" >
-                                <div className="product__star  ">
-                                    <div className="star__total" style={{width: "90%"}}></div>
-                                </div>
-                                <div className="review__count">(4544)</div>
-                            </div>
-
-                            <div className="product__name">đ 237,940.70</div>
-
-                        </a>
-                        <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
-                            <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
-                            <div className="product__name h5">Bright Crystal</div>
-                            <div className="product__brand">By Versace</div>
-                            <div className="product__review  d-flex justify-content-center" >
-                                <div className="product__star  ">
-                                    <div className="star__total" style={{width: "90%"}}></div>
-                                </div>
-                                <div className="review__count">(4544)</div>
-                            </div>
-
-                            <div className="product__name">đ 237,940.70</div>
-
-                        </a>
-                        <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
-                            <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
-                            <div className="product__name h5">Bright Crystal</div>
-                            <div className="product__brand">By Versace</div>
-                            <div className="product__review  d-flex justify-content-center" >
-                                <div className="product__star  ">
-                                    <div className="star__total" style={{width: "90%"}}></div>
-                                </div>
-                                <div className="review__count">(4544)</div>
-                            </div>
-
-                            <div className="product__name">đ 237,940.70</div>
-
-                        </a>
-                        <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
-                            <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
-                            <div className="product__name h5">Bright Crystal</div>
-                            <div className="product__brand">By Versace</div>
-                            <div className="product__review  d-flex justify-content-center" >
-                                <div className="product__star  ">
-                                    <div className="star__total" style={{width: "90%"}}></div>
-                                </div>
-                                <div className="review__count">(4544)</div>
-                            </div>
-
-                            <div className="product__name">đ 237,940.70</div>
-
-                        </a>
-                        <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
-                            <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
-                            <div className="product__name h5">Bright Crystal</div>
-                            <div className="product__brand">By Versace</div>
-                            <div className="product__review  d-flex justify-content-center" >
-                                <div className="product__star  ">
-                                    <div className="star__total" style={{width: "90%"}}></div>
-                                </div>
-                                <div className="review__count">(4544)</div>
-                            </div>
-
-                            <div className="product__name">đ 237,940.70</div>
-
-                        </a>
-                        <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
-                            <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
-                            <div className="product__name h5">Bright Crystal</div>
-                            <div className="product__brand">By Versace</div>
-                            <div className="product__review  d-flex justify-content-center" >
-                                <div className="product__star  ">
-                                    <div className="star__total" style={{width: "90%"}}></div>
-                                </div>
-                                <div className="review__count">(4544)</div>
-                            </div>
-
-                            <div className="product__name">đ 237,940.70</div>
-
-                        </a>
-
+                        }
 
                         <nav aria-label="Page navigation example ">
                             <ul className="pagination justify-content-center" >
-                                <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                                <li className="page-item"><a className="page-link" href="#" >Previous</a></li>
                                 <li className="page-item"><a className="page-link" href="#">1</a></li>
                                 <li className="page-item"><a className="page-link" href="#">2</a></li>
                                 <li className="page-item"><a className="page-link" href="#">3</a></li>
@@ -169,4 +70,4 @@ function ShowProduct() {
     )
 }
 
-export default ShowProduct;
+export default memo(ShowProduct);

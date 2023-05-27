@@ -1,7 +1,9 @@
 import Header from "../component/header";
 import Footer from "../component/footer";
 import ShowProduct from "../product/showProduct";
+import {memo} from "react";
 function ProductPage() {
+
     return (
         <>
             <Header></Header>
@@ -11,4 +13,4 @@ function ProductPage() {
     )
 };
 
-export default ProductPage;
+export default  memo(ProductPage);
