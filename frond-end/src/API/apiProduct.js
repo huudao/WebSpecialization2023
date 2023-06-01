@@ -63,6 +63,25 @@ export const listData = [
         star: "90",
         review: 1225,
         price: 45345
+    },
+    {
+        id: 8,
+        name: "Red Door",
+        brand: "Elizabeth Arden",
+        img: "https://img.fragrancex.com/images/products/sku/small/1099w.webp",
+        star: "90",
+        review: 1225,
+        price: 45345
+    }
+    ,
+    {
+        id: 9,
+        name: "Red Door",
+        brand: "Elizabeth Arden",
+        img: "https://img.fragrancex.com/images/products/sku/small/1099w.webp",
+        star: "90",
+        review: 1225,
+        price: 45345
     }
 
 ]

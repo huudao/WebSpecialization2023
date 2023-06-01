@@ -2,17 +2,63 @@ import '../asset/css/product.css'
 import '../asset/css/home.css'
 import BarFilter from "../component/filter";
 import CartProduct from "../component/cartProduct";
-import {useContext,memo} from "react";
+import {useContext, memo, useState, useEffect} from "react";
 import {ProductContext} from "../context/productContext";
-function ShowProduct() {
+import Pagination from "../component/pagination";
 
-    const {listData,setUrlNew}=useContext(ProductContext);
-    console.log("real",listData)
-    // function  handler(id){
-    //     setUrlNew(id);
-    //     console.log( + "url is cart test")
-    //
-    // }
+function ShowProduct() {
+    const {listData, setUrlNew} = useContext(ProductContext);
+    const [postList, setPostList] = useState([]);
+    const [begin, setBegin] = useState(0);
+    const [end, setEnd] = useState(4)
+    const [distance, setDistance] = useState(end - begin);
+
+    useEffect(() => {
+        let listPa = [];
+        for (let i = begin; i < end; i++) {
+            listPa.push(listData[i])
+
+        }
+        setPostList(listPa);
+        console.log(postList)
+    }, [begin, end])
+
+    function handlePageChange(newPage) {
+        console.log("new page")
+        // if (end - begin < distance) {
+        //     console.log("aaadfsjdlfkjsdlfkjsflkjsflksjlksdj" + distance)
+        // }
+        if (newPage === "next") {
+            if (end <= listData.length) {
+                if (end + (end - begin) > listData.length) {
+                    console.log("dinh")
+                    setBegin(begin + (end - begin));
+                    setEnd(end + (listData.length - end))
+                } else {
+                    setBegin(begin + (end - begin));
+                    setEnd(end + (end - begin))
+                }
+            } else {
+
+            }
+        } else if (newPage === "pre") {
+            console.log(distance+"distance")
+            console.log(end-begin+"begin")
+
+            if (begin >= 0) {
+                if (end - begin < distance) {
+
+                    setBegin(begin- distance );
+                    setEnd(end-(distance-(end-begin)) )
+                } else if(end - begin == distance){
+                    setBegin(begin - distance);
+                    setEnd(end - distance)
+                }
+            }
+        }
+        console.log(begin, end)
+    }
+    console.log("real", listData)
     return (
         <>
             <div className="container-fluid">
@@ -41,24 +87,17 @@ function ShowProduct() {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="filter col-sm-2" >
+                    <div className="filter col-sm-2">
                         <BarFilter></BarFilter>
-                    </div >
+                    </div>
                     <div className="show col-sm-10 row  overflow-hidden position-relative flex-wrap">
                         {
-                            listData.map(data=> <CartProduct key={data.id} data={data}  />)
+                            postList.map(data => <CartProduct key={data.id} data={data}/>)
 
                         }
 
-                        <nav aria-label="Page navigation example ">
-                            <ul className="pagination justify-content-center" >
-                                <li className="page-item"><a className="page-link" href="#" >Previous</a></li>
-                                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>
+                        <Pagination begin={begin} end={end} totalRow={listData.length} onPageChange={handlePageChange}
+                        />
                     </div>
 
                 </div>
