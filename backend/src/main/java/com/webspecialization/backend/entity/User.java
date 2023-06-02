@@ -35,6 +35,9 @@ public class User extends BaseEntity implements UserDetails{
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ProductReview> productReviewList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Order> orderList = new ArrayList<>();
+
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private Cart cart;
 

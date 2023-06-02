@@ -3,6 +3,8 @@ package com.webspecialization.backend.service;
 import com.webspecialization.backend.entity.*;
 import com.webspecialization.backend.model.dto.CartItemDTO;
 import com.webspecialization.backend.model.dto.DiscountDTO;
+import com.webspecialization.backend.model.dto.OrderDetailDTO;
+import com.webspecialization.backend.model.dto.UserAddressDTO;
 import com.webspecialization.backend.model.response.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -85,5 +87,40 @@ public class Converter {
         c.setTotalPrice(cartItem.getAmount() * priceAfterDiscount);
         c.setStock(cartItem.getProductVariant().getStock());
         return c;
+    }
+
+    public OrderResponse convertOrderToOrderResponse(Order order) {
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setId(order.getId());
+        orderResponse.setDiscountPercentage(order.getDiscount().getDiscountPercentage());
+        orderResponse.setTotalPrice(order.getTotalPrice());
+        orderResponse.setStatus(order.getStatus());
+        orderResponse.setShipped(order.isShipped());
+        orderResponse.setTrackingNumber(order.getTrackingNumber());
+        orderResponse.setDate(order.getCreatedDate());
+        UserAddressDTO userAddressDTO = new UserAddressDTO();
+        userAddressDTO.setUsername(order.getUserAddress().getUsername());
+        userAddressDTO.setPhone(order.getUserAddress().getPhone());
+        userAddressDTO.setCity(order.getUserAddress().getCity());
+        userAddressDTO.setDistrict(order.getUserAddress().getDistrict());
+        userAddressDTO.setWard(order.getUserAddress().getWard());
+        orderResponse.setUserAddress(userAddressDTO);
+        List<OrderDetailDTO> orderDetailDTOList = order.getOrderDetailList().stream().map(this::convertOrderDetailToOrderDetailDTO).collect(Collectors.toList());
+        orderResponse.setOrderDetailList(orderDetailDTOList);
+
+        return orderResponse;
+    }
+
+    public OrderDetailDTO convertOrderDetailToOrderDetailDTO(OrderDetail orderDetail){
+        OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+        orderDetailDTO.setId(orderDetail.getId());
+        List<Image> imageList = orderDetail.getProductVariant().getImages();
+        if(imageList != null && !imageList.isEmpty()){
+            orderDetailDTO.setImageUrl(imageList.get(0).getUrl());}
+        orderDetailDTO.setSize(orderDetail.getProductVariant().getSize());
+        orderDetailDTO.setPrice(orderDetail.getProductVariant().getPrice());
+        orderDetailDTO.setPriceAfterDiscount(orderDetail.getProductVariant().getPrice() * (100 - orderDetail.getProductVariant().getDiscount()) / 100);
+        orderDetailDTO.setAmount(orderDetail.getAmount());
+        return orderDetailDTO;
     }
 }
