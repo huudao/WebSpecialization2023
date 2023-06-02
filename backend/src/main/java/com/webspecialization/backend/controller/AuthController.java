@@ -52,6 +52,7 @@ public class AuthController {
         try {
             Date now = new Date();
             user.setPassword(pd.encode(user.getPassword()));
+            System.out.println(user);
             user.setInsertedAt(now);
             user.setUpdatedAt(now);
             List<Role> roles = new ArrayList<>();
@@ -78,7 +79,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO request) {
+        System.out.println(request);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
+            System.out.println(token);
         try {
             authenticationManager.authenticate(token);
             String jwt = jwtUtil.generateToken(request.getUsername());

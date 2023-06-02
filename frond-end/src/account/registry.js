@@ -1,10 +1,13 @@
 import '../asset/css/account.css'
 import {NavLink} from "react-router-dom";
+import {loginUser, registerUser} from "../feature/user";
+import {useDispatch} from "react-redux";
 
 const account=[{name: "123",password: "123",email:"dfd@gmail.com"},
    ]
 
 export function Registry(){
+    const dispatch= useDispatch();
     // process errol
     function  handlerErrol(data,id){
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -29,9 +32,15 @@ export function Registry(){
         }
     }
 
-    function handlerSubmit(e){
-        alert("hello")
+    async  function handlerSubmit(e){
         e.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const email = document.getElementById("email").value;
+
+        const action = await  registerUser({username, password,email});
+        console.log(action)
+        dispatch(action);
 
     }
 

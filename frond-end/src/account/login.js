@@ -1,15 +1,15 @@
 import '../asset/css/account.css'
-import {useState} from "react";
-import  {useSelector,useDispatch} from "react-redux";
+import {useEffect, useState} from "react";
+import {useSelector, useDispatch} from "react-redux";
 import {loginUser} from "../feature/user";
 
-import {NavLink,useNavigate} from "react-router-dom"
+import {NavLink, useNavigate} from "react-router-dom"
+import {unwrapResult} from "@reduxjs/toolkit";
 
-const account = [{name: "123", password: "123"}, {name: "nhan", password: "nhan"}]
 
 export function Login() {
-    const user= useSelector((state)=>state.user);
-    const dispatch =useDispatch();
+    const {user} = useSelector((state) => state);
+    const dispatch = useDispatch();
     let navigate = useNavigate();
     const [path, setPath] = useState("");
     const [errol, setErrol] = useState("");
@@ -32,23 +32,25 @@ export function Login() {
         }
     }
 
+    useEffect(() => {
+        console.log(user.token, user)
+        if (user.token) navigate("/")
+    }, [user])
+
     function handlerOnSubmit(e) {
-        // alert("111")
+        e.preventDefault();
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        dispatch(loginUser({username,password}));
+        dispatch(loginUser({username, password}))
 
-        // account.map((acc) => {
-        //     if (acc.name === username.trim() && acc.password === password.trim()) {
-        //         console.log(acc.name + acc.password)
-        //         navigate("/")
-        //     } else {
-        //         navigate("/login")
-        //         // setPath("/login")
+        // .then(unwrapResult)
+        // .then(res => {
+        //     if (res.status === 200) {
+        //          navigate("/");
         //     }
-        // })
-        // console.log(path+"path")
-        e.preventDefault();
+        //
+        // });
+
 
     }
 

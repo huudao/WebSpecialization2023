@@ -1,4 +1,6 @@
-export const listData = [
+import axios from "axios";
+
+export let listData = [
     {
         id: 1,
         name: "Light Blue",
@@ -83,5 +85,10 @@ export const listData = [
         review: 1225,
         price: 45345
     }
-
 ]
+// axios.get(`localhost:8080/products`).then(res => {
+//     const person = res.data;
+//     this.setState({person});
+//     // listData.push(person);
+//     console.log("adfsfsdf")
+// }).catch(error => console.log(error))

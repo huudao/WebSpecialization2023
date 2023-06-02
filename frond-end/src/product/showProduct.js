@@ -5,15 +5,39 @@ import CartProduct from "../component/cartProduct";
 import {useContext, memo, useState, useEffect} from "react";
 import {ProductContext} from "../context/productContext";
 import Pagination from "../component/pagination";
+import axios from "axios";
+import {getListProduct} from "../asset/service/productService";
+import httpRequest from "../API/axios";
 
 function ShowProduct() {
     const {listData, setUrlNew} = useContext(ProductContext);
+    const [listProduct, setListProduct] = useState({product: []});
     const [postList, setPostList] = useState([]);
     const [begin, setBegin] = useState(0);
-    const [end, setEnd] = useState(4)
+    const [end, setEnd] = useState(8)
     const [distance, setDistance] = useState(end - begin);
 
     useEffect(() => {
+        // getListProduct().then(r =>r.product.data);
+        // console.log(listProduct)
+
+        // httpRequest
+        axios
+            .get("http://localhost:8080/products", {
+                headers:{
+                    'Access-Control-Allow-Credentials':true
+
+                }
+
+            })
+            .then((response) => {
+                setListProduct(response.data);
+            })
+            .catch((error) => console.log(error));
+        console.log(listProduct)
+
+
+
         let listPa = [];
         for (let i = begin; i < end; i++) {
             listPa.push(listData[i])
@@ -25,9 +49,7 @@ function ShowProduct() {
 
     function handlePageChange(newPage) {
         console.log("new page")
-        // if (end - begin < distance) {
-        //     console.log("aaadfsjdlfkjsdlfkjsflkjsflksjlksdj" + distance)
-        // }
+
         if (newPage === "next") {
             if (end <= listData.length) {
                 if (end + (end - begin) > listData.length) {
@@ -42,15 +64,11 @@ function ShowProduct() {
 
             }
         } else if (newPage === "pre") {
-            console.log(distance+"distance")
-            console.log(end-begin+"begin")
-
             if (begin >= 0) {
                 if (end - begin < distance) {
-
-                    setBegin(begin- distance );
-                    setEnd(end-(distance-(end-begin)) )
-                } else if(end - begin == distance){
+                    setBegin(begin - distance);
+                    setEnd(end - (end - begin))
+                } else if (end - begin == distance) {
                     setBegin(begin - distance);
                     setEnd(end - distance)
                 }
@@ -58,6 +76,7 @@ function ShowProduct() {
         }
         console.log(begin, end)
     }
+
     console.log("real", listData)
     return (
         <>
