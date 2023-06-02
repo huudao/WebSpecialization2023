@@ -1,19 +1,25 @@
 package com.webspecialization.backend.controller;
 
-import com.webspecialization.backend.model.dto.cart.AddToCartDTO;
-import com.webspecialization.backend.model.dto.cart.CartDTO;
-import com.webspecialization.backend.model.dto.cart.DecrementCartItemDTO;
-import com.webspecialization.backend.model.dto.cart.IncrementCartItemDTO;
+import com.webspecialization.backend.model.request.AddToCartRequest;
+import com.webspecialization.backend.model.request.ApplyDiscountRequest;
+import com.webspecialization.backend.model.request.DecrementCartItemRequest;
+import com.webspecialization.backend.model.request.IncrementCartItemRequest;
+import com.webspecialization.backend.model.response.CartResponse;
 import com.webspecialization.backend.service.CartService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.webspecialization.backend.service.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 public class CartController {
     @Autowired
     private CartService cartService;
+    @Autowired
+    private DiscountService discountService;
+
 
     @GetMapping("/hello")
     public ResponseEntity<String> hello() {
@@ -22,43 +28,59 @@ public class CartController {
         return ResponseEntity.ok("hellloooooooooo");
     }
 
+    // get cart of logined user
     @GetMapping("/cart")
-    public ResponseEntity<CartDTO> listMyCard(HttpServletRequest request) {
-        System.out.println("asdf");
-        try {
-            CartDTO cart = cartService.getCartDTOByJwt(request);
-            if(cart == null) return ResponseEntity.notFound().build();
-            return ResponseEntity.ok(cart);
-//            return new ResponseEntity<>(cart, HttpStatus.FOUND);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<CartResponse> listMyCard() {
+        CartResponse cart = cartService.getCartResponse();
+        if(cart == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(cart);
     }
 
-    @PostMapping ("/cart")
-    public ResponseEntity<CartDTO> addIntoCart(HttpServletRequest request, @RequestBody AddToCartDTO addToCartDTO) {
-            CartDTO cart = cartService.addIntoCart(request,addToCartDTO);
-            return ResponseEntity.ok(cart);
+    // add cart item into user's cart
+    @PostMapping("/cart")
+    public ResponseEntity<CartResponse> addIntoCart(@RequestBody AddToCartRequest addToCartRequest) {
+        CartResponse cart = cartService.addIntoCart(addToCartRequest);
+        return ResponseEntity.ok(cart);
 
     }
 
+    //     delete all cart item
+    @DeleteMapping(value = "/cart")
+    public ResponseEntity<?> emptyCart() {
+        cartService.emptyCart();
+        return ResponseEntity.ok().build();
+    }
+
+    // delete a cartItem
+    @DeleteMapping("/cart/remove/{cartItemId}")
+    public ResponseEntity<CartResponse> deleteFromCartByCartItemId(@PathVariable int cartItemId) {
+        CartResponse cart = cartService.removeFromCart(cartItemId);
+        return ResponseEntity.ok(cart);
+    }
+
+    // increase number of cartItem
     @PostMapping ("/cart/increment")
-    public ResponseEntity<CartDTO> increaseCartItem(HttpServletRequest request, @RequestBody IncrementCartItemDTO incrementCartItemDTO) {
-            CartDTO cart = cartService.incrementCartItem(request,incrementCartItemDTO);
-            return ResponseEntity.ok(cart);
+    public ResponseEntity<CartResponse> increaseCartItem(@RequestBody IncrementCartItemRequest incrementCartItemRequest) {
+        CartResponse cart = cartService.incrementCartItem(incrementCartItemRequest);
+        return ResponseEntity.ok(cart);
     }
 
+    // decrease number of cartItem
     @PostMapping ("/cart/decrement")
-    public ResponseEntity<?> decreaseCartItem(HttpServletRequest request, @RequestBody DecrementCartItemDTO decrementCartItemDTO) {
+    public ResponseEntity<CartResponse> decreaseCartItem(@RequestBody DecrementCartItemRequest decrementCartItemDTO) {
         try {
-            CartDTO cart = cartService.decrementCartItem(request,decrementCartItemDTO);
+            CartResponse cart = cartService.decrementCartItem(decrementCartItemDTO);
             return ResponseEntity.ok(cart);
         }catch (Exception e) {
             e.printStackTrace();
         }
 
         return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping(value = "/cart/discount")
+    public ResponseEntity<CartResponse> applyDiscount(@RequestBody @Valid ApplyDiscountRequest applyDiscountRequest) {
+        CartResponse cartResponse = discountService.applyDiscount(applyDiscountRequest.getDiscountCode());
+        return ResponseEntity.ok(cartResponse);
     }
 }
