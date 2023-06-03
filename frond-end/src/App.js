@@ -11,8 +11,8 @@ import DetailPage from "./pages/detailPage";
 import LoginPage from "./pages/loginPage";
 import RegisterPage from "./pages/registerPage";
 import OrderLookupPage from "./pages/orderLookupPage";
-import {listData} from "./API/apiProduct";
 import {ProductProvider} from "./context/productContext"
+import ForgotPassPage from "./pages/forgotPassPage";
 
 function App() {
     const getDataDetail = () => {
@@ -39,6 +39,8 @@ function App() {
                 <Route path="/login" element={<LoginPage/>} exact/>
                 <Route path="/register" element={<RegisterPage/>} exact/>
                 <Route path="/order" element={<OrderLookupPage/>} exact/>
+                <Route path="/forgot_pass" element={<ForgotPassPage/>} exact/>
+
             </Routes>
         </ProductProvider>
     );

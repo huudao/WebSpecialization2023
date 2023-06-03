@@ -2,30 +2,18 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 import {publicRequest} from "../API/axios";
 
 let initialState = {
-    user: "",
+    product: "",
     token: "",
     loading: false
 };
-export const loginUser = createAsyncThunk('user/login', async (body) => {
-    const res = await publicRequest().post("/api/auth/login", body);
+export const getFormen = createAsyncThunk('product/for-men', async (body) => {
+    const res = await publicRequest().post("/products/for-men", body);
     return res.data;
 })
-export const registerUser = createAsyncThunk('user/register', async (body) => {
-    const res = await publicRequest().post("/api/auth/register", body)
-    return res;
 
-})
-export const forgotPass = createAsyncThunk('user/forgot', async (body) => {
-    const res = await publicRequest().post("/api/auth/forgot-password", body)
-    return res;
 
-})
-export const logout = () => {
-    localStorage.removeItem("token");
-};
-
-const userSlice = createSlice({
-    name: "user",
+const productSlice = createSlice({
+    name: "product",
     initialState,
     reducers: {
         addToken: (state, action) => {

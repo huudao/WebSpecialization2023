@@ -1,7 +1,7 @@
 import '../asset/css/account.css'
 import {useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {loginUser} from "../feature/user";
+import {forgotPass, loginUser} from "../feature/user";
 
 import {NavLink, useNavigate} from "react-router-dom"
 import {unwrapResult} from "@reduxjs/toolkit";
@@ -42,14 +42,16 @@ export function Login() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
         dispatch(loginUser({username, password}))
+        .then(unwrapResult)
+        .then(res => {
+            if (res.status === 200) {
+                 navigate("/");
+            }
 
-        // .then(unwrapResult)
-        // .then(res => {
-        //     if (res.status === 200) {
-        //          navigate("/");
-        //     }
-        //
-        // });
+        });
+        function handlerForgotPass(e){
+            dispatch(forgotPass())
+        }
 
 
     }
@@ -92,7 +94,7 @@ export function Login() {
 
                             <div className="col">
                                 {/*-- Simple link --*/}
-                                <a href="#">Forgot password?</a>
+                                <a href="/forgot_pass">Forgot password?</a>
                             </div>
                         </div>
 

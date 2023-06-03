@@ -7,7 +7,8 @@ export const store = configureStore({
             serializableCheck: false,
         }),
     reducer: {
-        user: userSlice
+        user: userSlice,
+        // product: productSlice,
 
 
     }

@@ -3,6 +3,8 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {loginUser, registerUser} from "../feature/user";
 import {useDispatch} from "react-redux";
 import {unwrapResult} from "@reduxjs/toolkit";
+import {ToastContainer, toast, Slide} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const account = [{name: "123", password: "123", email: "dfd@gmail.com"},
 ]
@@ -14,6 +16,7 @@ export function Register() {
     // process errol
     function handlerErrol(data, id) {
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        var phoneformat = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
 
         try {
             if (data.trim() === "") throw "* Enter data";
@@ -22,8 +25,12 @@ export function Register() {
                     if (!data.match(mailformat)) throw "* Not invalid"
                     else throw "";
                 } else if (id === "errrepass") {
-                    if (data !== document.getElementById("repassword").value) throw "* Not equal password"
-                    else throw ""
+                    console.log(data)
+                    if (data !== document.getElementById("password").value) throw "* Not equal password"
+
+                } else if (id === "errphone") {
+                    if (!data.match(phoneformat)) throw "* Not invalid"
+                    else throw "";
                 }
             }
             throw "";
@@ -34,6 +41,8 @@ export function Register() {
         }
     }
 
+    const notify = (result) => toast(`${result}!`);
+
     async function handlerSubmit(e) {
         e.preventDefault();
         const username = document.getElementById("username").value;
@@ -42,19 +51,38 @@ export function Register() {
         const lastName = document.getElementById("lastname").value;
         const firstName = document.getElementById("firstname").value;
         const phone = document.getElementById("phone").value;
-        console.log(username, password, email, lastName, firstName, phone)
         dispatch(registerUser({username, password, email, firstName, lastName, telephone: phone}))
             .then(unwrapResult)
             .then(res => {
                 if (res.status === 200) {
-                    console.log("success")
-                    navigate("/login")
+                    toast.success('🦄 Success!', {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
                 }
-                else {
-                    res.message();
-                }
-
+            })
+            .then(() => {
+                setTimeout( ()=>{navigate("/login")},2000)
+            })
+            .catch(err => {
+                toast.error('🦄 Fail!', {
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                })
             });
+
 
     }
 
@@ -91,10 +119,10 @@ export function Register() {
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="phone" className="form-control" onChange={(e) => {
-                                handlerErrol(e.target.value, "erruser")
+                                handlerErrol(e.target.value, "errphone")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">Phone</label>
-                            <p className="errol" id="erruser"></p>
+                            <p className="errol" id="errphone"></p>
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="email" className="form-control" onChange={(e) => {
@@ -136,17 +164,32 @@ export function Register() {
                                 </div>
                             </div>
 
+                            <ToastContainer/>
 
                         </div>
 
                         {/*-- Submit button --*/}
-                        <button type="submit" className="btn btn-primary btn-block mb-4">Registry</button>
+                        <div>
+                            <button type="submit" className="btn btn-primary btn-block mb-4" onSubmit={notify}>Registry
+                            </button>
+                            <ToastContainer position="top-right"
+                                            autoClose={2000}
+                                            hideProgressBar={false}
+                                            newestOnTop={false}
+                                            closeOnClick
+                                            rtl={false}
+                                            draggable
+                                            pauseOnHover
+                                            transition={Slide}
+                                            theme="light"/>
+                        </div>
 
                         {/*-- Register buttons --*/}
                         <div className="text-center">
                             <p>You are a member? <NavLink to="/login">Login</NavLink></p>
 
                         </div>
+
                     </form>
 
                 </div>

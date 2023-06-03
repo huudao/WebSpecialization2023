@@ -8,6 +8,8 @@ import Pagination from "../component/pagination";
 import axios from "axios";
 import {getListProduct} from "../asset/service/productService";
 import httpRequest from "../API/axios";
+import {useDispatch} from "react-redux";
+import {getFormen} from "../feature/product";
 
 function ShowProduct() {
     const {listData, setUrlNew} = useContext(ProductContext);
@@ -16,31 +18,27 @@ function ShowProduct() {
     const [begin, setBegin] = useState(0);
     const [end, setEnd] = useState(8)
     const [distance, setDistance] = useState(end - begin);
-
+    const dispatch = useDispatch();
     useEffect(() => {
-        // getListProduct().then(r =>r.product.data);
-        // console.log(listProduct)
 
         // httpRequest
-        axios
-            .get("http://localhost:8080/products", {
-                headers:{
-                    'Access-Control-Allow-Credentials':true
-
-                }
-
-            })
-            .then((response) => {
-                setListProduct(response.data);
-            })
-            .catch((error) => console.log(error));
-        console.log(listProduct)
+        // axios
+        //     .get("http://localhost:8080/products", {
+        //
+        //
+        //     })
+        //     .then((response) => {
+        //         setListProduct(response.data);
+        //     })
+        //     .catch((error) => console.log(error));
+        // console.log(listProduct)
+        setListProduct(dispatch(getFormen))
 
 
 
         let listPa = [];
         for (let i = begin; i < end; i++) {
-            listPa.push(listData[i])
+            listPa.push(listProduct[i])
 
         }
         setPostList(listPa);
