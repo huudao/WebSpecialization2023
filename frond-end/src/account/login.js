@@ -102,7 +102,7 @@ export function Login() {
 
                         {/*-- Register buttons --*/}
                         <div className="text-center">
-                            <p>Not a member? <NavLink to="/registry">Register</NavLink></p>
+                            <p>Not a member? <NavLink to="/register">Register</NavLink></p>
 
                         </div>
                     </form>

@@ -9,7 +9,7 @@ import CartPage from "./pages/cartPages";
 import ProductPage from "./pages/productPage";
 import DetailPage from "./pages/detailPage";
 import LoginPage from "./pages/loginPage";
-import RegistryPage from "./pages/registryPage";
+import RegisterPage from "./pages/registerPage";
 import OrderLookupPage from "./pages/orderLookupPage";
 import {listData} from "./API/apiProduct";
 import {ProductProvider} from "./context/productContext"
@@ -37,7 +37,7 @@ function App() {
                 <Route path="/detail/:id" element={<DetailPage/>} exact/>
                 {/*<Route path="/detail" element={<DetailPage/>} exact/>*/}
                 <Route path="/login" element={<LoginPage/>} exact/>
-                <Route path="/registry" element={<RegistryPage/>} exact/>
+                <Route path="/register" element={<RegisterPage/>} exact/>
                 <Route path="/order" element={<OrderLookupPage/>} exact/>
             </Routes>
         </ProductProvider>

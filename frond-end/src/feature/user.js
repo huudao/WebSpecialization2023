@@ -6,23 +6,24 @@ let initialState = {
     token: "",
     loading: false
 };
-export const loginUser = createAsyncThunk('user', async (body) => {
+export const loginUser = createAsyncThunk('user/login', async (body) => {
     const res = await publicRequest().post("/api/auth/login", body);
     return res.data;
+})
+export const registerUser = createAsyncThunk('user/register', async (body) => {
+    // try {
+        const res = await publicRequest().post("/api/auth/register", body);
+        console.log(res.statusText, "sdfsdfsd");
+        return res.data;
+    // }catch (error){
+    //     return error.res.data.message();
+    //
+    // }
+})
+export  const logout = () => {
+    localStorage.removeItem("token");
+};
 
-    // let res = await fetch("http://localhost:8080/api/auth/login", {
-    //     method: "post",
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     }, body: JSON.stringify(body)
-    // })
-    // return await res.json();
-})
-export const registerUser = createAsyncThunk('user', async (body) => {
-    const res = await publicRequest().post("/api/auth/register", body);
-    console.log(res);
-    return res;
-})
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -39,18 +40,7 @@ const userSlice = createSlice({
             state.token=action.payload;
             localStorage.setItem("token",action.payload);
         })
-        // [loginUser.pending]: (state, action) => {
-        //     console.log(state, "33")
-        //     state.loading = true
-        // },
-        // [loginUser.fulfilled]: (state, action) => {
-        //     state.loading = false
-        //     console.log(action)
-        // }
-        // ,
-        // [loginUser.rejected]: (state, action) => {
-        //     state.loading = true
-        // }
+
 
 
     }
