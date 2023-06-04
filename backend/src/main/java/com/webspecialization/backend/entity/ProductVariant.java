@@ -26,6 +26,8 @@ public class ProductVariant extends BaseEntity{
     @Column(name = "stock")
     private Integer stock;
 
+    private int sellCount;
+
     private float discount;
 
     private boolean variantDefault;
