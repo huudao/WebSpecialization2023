@@ -87,7 +87,7 @@ function Header() {
                                 <NavLink className="nav-link text-light" to="/product">Women's Perfume</NavLink>
                             </li>
                             <li className="nav-item col-sm-2">
-                                <NavLink className="nav-link text-light" to="/product">Men's Cologne</NavLink>
+                                <NavLink className="nav-link text-light" to="/product/sex/men">Men's Cologne</NavLink>
                             </li>
                             <li className="nav-item ms-xl-2 col-sm-7">
                                 <p className="nav-link text-light my-0 btn__brands" onClick={swap}>Brands</p>

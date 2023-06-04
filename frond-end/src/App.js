@@ -3,7 +3,6 @@ import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './asset/css/root.css';
-// import './asset/js/scroll';
 import HomePage from "./pages/homePage";
 import CartPage from "./pages/cartPages";
 import ProductPage from "./pages/productPage";
@@ -34,13 +33,13 @@ function App() {
                 <Route index element={<HomePage/>} exact/>
                 <Route path="/cart" element={<CartPage/>} exact/>
                 <Route path="/product" element={<ProductPage/>} exact/>
+                <Route path="/product/sex/men" element={<ProductPage/>} exact/>
+                <Route path="/product/sex/women" element={<ProductPage/>} exact/>
                 <Route path="/detail/:id" element={<DetailPage/>} exact/>
-                {/*<Route path="/detail" element={<DetailPage/>} exact/>*/}
                 <Route path="/login" element={<LoginPage/>} exact/>
                 <Route path="/register" element={<RegisterPage/>} exact/>
                 <Route path="/order" element={<OrderLookupPage/>} exact/>
                 <Route path="/forgot_pass" element={<ForgotPassPage/>} exact/>
-
             </Routes>
         </ProductProvider>
     );

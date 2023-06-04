@@ -35,7 +35,6 @@ function ShowProduct() {
         setListProduct(dispatch(getFormen))
 
 
-
         let listPa = [];
         for (let i = begin; i < end; i++) {
             listPa.push(listProduct[i])
@@ -59,7 +58,6 @@ function ShowProduct() {
                     setEnd(end + (end - begin))
                 }
             } else {
-
             }
         } else if (newPage === "pre") {
             if (begin >= 0) {
