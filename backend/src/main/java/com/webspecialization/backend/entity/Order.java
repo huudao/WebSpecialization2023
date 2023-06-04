@@ -10,10 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Data
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderId;
+public class Order extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -33,12 +30,11 @@ public class Order {
     @Column(name = "total_price")
     private Float totalPrice;
 
-    @Column(columnDefinition = "TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
-
     @Column(name = "shipped")
     private boolean shipped;
+
+    @Column(name = "status")
+    private String status;
 
     @Column(name = "tracking_number")
     private String trackingNumber;
