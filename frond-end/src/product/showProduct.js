@@ -9,50 +9,48 @@ import axios from "axios";
 import {getListProduct} from "../asset/service/productService";
 import httpRequest from "../API/axios";
 import {useDispatch} from "react-redux";
-import {getFormen} from "../feature/product";
+import product, {for_men} from "../feature/product";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {getForMen} from "../service/productService";
 
-function ShowProduct() {
-    const {listData, setUrlNew} = useContext(ProductContext);
-    const [listProduct, setListProduct] = useState({product: []});
+function ShowProduct(props) {
+    const dispatch = useDispatch();
+    const { setUrlNew} = useContext(ProductContext);
+    const [listProduct, setListProduct] = useState([]);
     const [postList, setPostList] = useState([]);
     const [begin, setBegin] = useState(0);
-    const [end, setEnd] = useState(8)
+    const [end, setEnd] = useState(2)
     const [distance, setDistance] = useState(end - begin);
-    const dispatch = useDispatch();
+
     useEffect(() => {
-
-        // httpRequest
-        // axios
-        //     .get("http://localhost:8080/products", {
-        //
-        //
-        //     })
-        //     .then((response) => {
-        //         setListProduct(response.data);
-        //     })
-        //     .catch((error) => console.log(error));
-        // console.log(listProduct)
-        setListProduct(dispatch(getFormen))
-
+        getForMen()
+            .then(items => {
+                // console.log(items, "bbbb");
+                setListProduct([...items])
+            })
+    }, [listProduct])
+    useEffect(() => {
 
         let listPa = [];
         for (let i = begin; i < end; i++) {
             listPa.push(listProduct[i])
-
         }
-        setPostList(listPa);
-        console.log(postList)
-    }, [begin, end])
+        // console.log(listPa,"qqqq")
+        setPostList([...listPa])
+        console.log(postList,"yyyy");
+
+
+    }, [begin,end,listProduct,postList])
 
     function handlePageChange(newPage) {
         console.log("new page")
 
         if (newPage === "next") {
-            if (end <= listData.length) {
-                if (end + (end - begin) > listData.length) {
+            if (end <= listProduct.length) {
+                if (end + (end - begin) > listProduct.length) {
                     console.log("dinh")
                     setBegin(begin + (end - begin));
-                    setEnd(end + (listData.length - end))
+                    setEnd(end + (listProduct.length - end))
                 } else {
                     setBegin(begin + (end - begin));
                     setEnd(end + (end - begin))
@@ -73,7 +71,8 @@ function ShowProduct() {
         console.log(begin, end)
     }
 
-    console.log("real", listData)
+
+
     return (
         <>
             <div className="container-fluid">
@@ -87,7 +86,7 @@ function ShowProduct() {
                 </div>
                 <h1>Discount Perfume for Women</h1>
                 <div className="d-flex">
-                    <p className="product__search">1-60 of {listData.length} Results</p>
+                    <p className="product__search">1-60 of {listProduct.length} Results</p>
                     <div className="product__search d-flex  justify-content-end">
                         <label htmlFor="inputState">Order by:</label>
                         <form>
@@ -107,11 +106,11 @@ function ShowProduct() {
                     </div>
                     <div className="show col-sm-10 row  overflow-hidden position-relative flex-wrap">
                         {
-                            postList.map(data => <CartProduct key={data.id} data={data}/>)
+                            postList.map(data => <CartProduct data={data}/>)
 
                         }
 
-                        <Pagination begin={begin} end={end} totalRow={listData.length} onPageChange={handlePageChange}
+                        <Pagination begin={begin} end={end} totalRow={listProduct.length} onPageChange={handlePageChange}
                         />
                     </div>
 

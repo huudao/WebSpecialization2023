@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './asset/css/root.css';
+import './asset/css/detail.css';
 import HomePage from "./pages/homePage";
 import CartPage from "./pages/cartPages";
 import ProductPage from "./pages/productPage";

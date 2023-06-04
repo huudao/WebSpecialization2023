@@ -6,23 +6,23 @@ let initialState = {
     token: "",
     loading: false
 };
-export const getFormen = createAsyncThunk('product/for-men', async (body) => {
-    const res = await publicRequest().get("/products/for-men", body);
-    console.log("truy cập ok")
+export const for_men =async () => {
+    const res = await publicRequest().get("/products/for-men");
+    console.log(res.data,"aaaa")
     return res.data;
-})
+}
 
 
 const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
-        addToken: (state, action) => {
-            state.token = localStorage.getItem("token")
-        },
-        addUser: (state, action) => {
-            state.user = localStorage.getItem("user")
-        },
+        // addToken: (state, action) => {
+        //     state.token = localStorage.getItem("token")
+        // },
+        // addUser: (state, action) => {
+        //     state.user = localStorage.getItem("user")
+        // },
     },
     extraReducers: (b) => {
         // b.addCase(loginUser.fulfilled, (state, action) => {
