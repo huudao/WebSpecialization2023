@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Table(name="user_role")
 @Getter
@@ -22,4 +24,18 @@ public class UserRole {
     @ManyToOne
     @MapsId("roleId")
     private Role role;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserRole)) return false;
+        UserRole userRole = (UserRole) o;
+        return Objects.equals(getUser(), userRole.getUser()) &&
+                Objects.equals(getRole(), userRole.getRole());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUser(), getRole());
+    }
 }

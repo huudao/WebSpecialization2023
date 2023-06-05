@@ -11,7 +11,9 @@ import com.webspecialization.backend.model.response.ProductDetailsResponse;
 import com.webspecialization.backend.model.response.ProductResponse;
 import com.webspecialization.backend.model.response.ProductVariantResponse;
 import com.webspecialization.backend.repo.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +34,10 @@ public class ProductService {
     private BrandService brandService;
 
 
-
+    public List<ProductVariantResponse> getAllProductVariants() {
+        List<ProductVariantResponse> products = productVariantService.findAllProductVariants();
+        return products;
+    }
     public List<ProductVariantResponse> getAllProducts(int page, int size, String sortBy, String sortDirection) {
         List<ProductVariantResponse> products = productVariantService.findProductVariantsByVariantDefaultTrue(page,size, sortBy, sortDirection);
         return products;
@@ -86,6 +91,7 @@ public class ProductService {
         newProduct.setDescription(request.getDescription());
         newProduct.setShippingPolicy(request.getShippingPolicy());
         newProduct.setCreatedDate(new Date());
+        newProduct.setUpdatedDate(new Date());
 
         List<ProductVariant> productVariantList = request.getProductVariantList().stream()
                 .map(converter::convertProductVariantDTOToProductVariant).collect(Collectors.toList());
@@ -114,19 +120,42 @@ public class ProductService {
         return productResponse;
     }
 
-////    public Product updateProduct(int id, Product updatedProduct) {
-////        Product product = getProductById(id);
-////        if (product == null) {
-////            return null;
-////        }
-////        product.setName(updatedProduct.getName());
-////        product.setDescription(updatedProduct.getDescription());
-////        return repository.save(product);
-////    }
-//
-    public List<ProductVariantResponse> deleteProduct(long id) {
-        productRepository.deleteById(id);
-        return getAllProducts(0,10, null,null);
+    public ProductResponse updateProduct(AddProductRequest request) {
+        Product updatedProduct = productRepository.findById(request.getProductId()).orElse(null);
+        Date createdDate = updatedProduct.getCreatedDate();
+        productRepository.delete(updatedProduct);
+
+
+        Product newProduct = new Product();
+        Brand brand = brandService.findById(request.getBrandId());
+        if (brand == null) throw new NotFoundException("Brand id not found");
+        newProduct.setBrand(brand);
+        newProduct.setName(request.getName());
+        newProduct.setGenderType(request.getGenderType());
+        newProduct.setDescription(request.getDescription());
+        newProduct.setShippingPolicy(request.getShippingPolicy());
+        newProduct.setCreatedDate(createdDate);
+        newProduct.setUpdatedDate(new Date());
+
+        List<ProductVariant> productVariantList = request.getProductVariantList().stream()
+                .map(converter::convertProductVariantDTOToProductVariant).collect(Collectors.toList());
+        newProduct.setVariants(productVariantList);
+
+        for(ProductVariant productVariant : productVariantList){
+            productVariant.setProduct(newProduct);
+            productVariant.setCreatedDate(createdDate);
+            productVariant.setUpdatedDate(new Date());
+        }
+        productRepository.save(newProduct);
+        return converter.convertProductToProductResponse(newProduct);
+    }
+    public List<ProductVariantResponse> deleteProductVariant(long id) {
+        ProductVariant variant = productVariantService.findById(id);
+        if(variant.getProduct().getVariants().size() == 1) {
+            productRepository.delete(variant.getProduct());
+        } else{
+        productVariantService.deleteById(id);}
+        return getAllProductVariants();
     }
 
 

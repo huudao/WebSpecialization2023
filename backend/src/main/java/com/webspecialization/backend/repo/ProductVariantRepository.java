@@ -1,6 +1,7 @@
 package com.webspecialization.backend.repo;
 
 import com.webspecialization.backend.entity.ProductVariant;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductVariantRepository extends JpaRepository<ProductVariant, Long> {
-    @Query("SELECT pv FROM ProductVariant pv")
-    List<ProductVariant> findAllProductVariants(Pageable pageable);
     List<ProductVariant> findProductVariantsByVariantDefaultIsTrue(Pageable pageable);
     @Query("SELECT pv FROM ProductVariant pv JOIN pv.product p WHERE pv.variantDefault = true AND p.genderType = :gender")
     List<ProductVariant> findProductVariantsByGender(String gender, Pageable pageable);
@@ -23,6 +22,4 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariant, 
     @Query("SELECT pv FROM ProductVariant pv JOIN pv.product p WHERE pv.variantDefault = true ORDER BY p.productViews DESC")
     List<ProductVariant> findProductVariantsHaveMostViews(Pageable pageable);
     ProductVariant findProductVariantsById(Long id);
-
-
 }

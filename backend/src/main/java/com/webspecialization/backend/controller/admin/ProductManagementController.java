@@ -6,6 +6,7 @@ import com.webspecialization.backend.model.response.ProductResponse;
 import com.webspecialization.backend.model.response.ProductVariantResponse;
 import com.webspecialization.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,43 +19,27 @@ public class ProductManagementController {
     @Autowired
     ProductService productService;
 
-    @GetMapping("/products")
-    public ResponseEntity<List<ProductVariantResponse>> getAllProducts(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                       @RequestParam(value = "size", defaultValue = "50") Integer pageSize,
-                                                                       @RequestParam(value = "sortBy", required = false) String sortBy,
-                                                                       @RequestParam(value = "sortDirection", required = false) String sortDirection) {
-        if (Objects.isNull(page) || page < 0) {
-            throw new InvalidArgumentException("Invalid page");
-        }
-        if (Objects.isNull(pageSize) || pageSize < 0) {
-            throw new InvalidArgumentException("Invalid pageSize");
-        }
-
-        List<ProductVariantResponse> products = productService.getAllProducts(page,pageSize, sortBy, sortDirection);
+    @GetMapping("/product")
+    public ResponseEntity<?> getAllProducts() {
+        List<ProductVariantResponse> products = productService.getAllProductVariants();
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/products/{id}")
+    // su dung url nay khi nguoi dung click vào
+    @GetMapping("/product/{id}")
     public ResponseEntity<ProductResponse> getProductDetail(@PathVariable Long id) {
         ProductResponse product = productService.getProductResponseById(id);
         return ResponseEntity.ok(product);
     }
 
-    @PostMapping("/products")
+    @PostMapping("/product")
     public ResponseEntity<List<ProductVariantResponse>> addProduct(@RequestBody AddProductRequest request) {
         List<ProductVariantResponse> products = productService.addProduct(request);
         return ResponseEntity.ok(products);
     }
-
-    @PutMapping("/products")
-    public ResponseEntity<List<ProductVariantResponse>> updateProduct(@RequestBody AddProductRequest request) {
-        List<ProductVariantResponse> products = productService.addProduct(request);
-        return ResponseEntity.ok(products);
-    }
-
-    @DeleteMapping ("/products/{id}")
-    public ResponseEntity<List<ProductVariantResponse>> deleteProduct(@PathVariable Long id) {
-        List<ProductVariantResponse> products = productService.deleteProduct(id);
+    @DeleteMapping ("/product/variant/{idVariant}")
+    public ResponseEntity<?> deleteProductVariant(@PathVariable Long idVariant) {
+        List<ProductVariantResponse> products = productService.deleteProductVariant(idVariant);
         return ResponseEntity.ok(products);
     }
 }

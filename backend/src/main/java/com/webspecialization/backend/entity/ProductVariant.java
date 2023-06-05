@@ -32,7 +32,7 @@ public class ProductVariant extends BaseEntity{
 
     private boolean variantDefault;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
 

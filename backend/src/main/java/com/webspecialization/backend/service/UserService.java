@@ -1,11 +1,18 @@
 package com.webspecialization.backend.service;
 
+import com.webspecialization.backend.entity.Role;
 import com.webspecialization.backend.entity.User;
 import com.webspecialization.backend.entity.UserAddress;
+import com.webspecialization.backend.entity.UserRole;
+import com.webspecialization.backend.entity.composite_key.UserRoleId;
 import com.webspecialization.backend.exception.NotFoundException;
+import com.webspecialization.backend.model.response.GetUserResponse;
 import com.webspecialization.backend.model.response.UserAddressResponse;
 import com.webspecialization.backend.model.response.UserInformationResponse;
+import com.webspecialization.backend.repo.RoleRepository;
 import com.webspecialization.backend.repo.UserRepository;
+import com.webspecialization.backend.repo.UserRoleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,6 +29,11 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private Converter converter;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+
 
     public User getUser() {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -102,5 +114,45 @@ public class UserService {
         userRepository.save(user);
         return user.getAddressList().stream()
                 .map(converter::convertUserAddressToUserAddressResponse).collect(Collectors.toList());
+    }
+
+    public List<GetUserResponse> getAllUser(){
+        List<User> userList = userRepository.findAll();
+        return userList.stream().map(converter::convertUserToGetUserResponse).collect(Collectors.toList());
+    }
+
+    public GetUserResponse setActiveStatus(Long idUser) {
+        User user = userRepository.findById(idUser).orElseThrow(() -> new NotFoundException("User id not found"));
+        user.setActive(!user.isActive());
+        User updatedUser = userRepository.save(user);
+        return converter.convertUserToGetUserResponse(user);
+    }
+
+//    public void setRoleUser(Long id, String roleName) {
+//        User user = userRepository.findById(id)
+//                .orElseThrow(() -> new NotFoundException("User id not found"));
+//
+//        Role role = roleRepository.findRoleByRoleName(roleName);
+//
+//        // Create a new UserRole with the updated role
+//        UserRole newUserRole = new UserRole();
+//        UserRoleId newUserRoleId = new UserRoleId();
+//        newUserRoleId.setUserId(user.getId());
+//        newUserRoleId.setRoleId(role.getId());
+//        newUserRole.setId(newUserRoleId);
+//        newUserRole.setUser(user);
+//        newUserRole.setRole(role);
+//
+//        // Update the user's list of user roles
+//        user.getUserRoles().clear();
+//        user.getUserRoles().add(newUserRole);
+//
+//        userRepository.save(user);
+//    }
+
+    public List<GetUserResponse> deleteUser(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User id not found"));
+        userRepository.delete(user);
+        return getAllUser();
     }
 }
