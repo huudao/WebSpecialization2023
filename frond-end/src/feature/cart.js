@@ -2,29 +2,17 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 import {publicRequest} from "../API/axios";
 
 let initialState = {
-    product: "",
+    cart: "",
     token: "",
     loading: false
 };
-export const for_men =async () => {
-    const res = await publicRequest().get("/products/for-men");
-    // console.log(res.data,"aaaa")
-    return res.data;
-}
-export const for_women =async () => {
-    const res = await publicRequest().get("/products/for-women");
-    // console.log(res.data,"aaaa")
-    return res.data;
-}
-export const detailProduct =async (productId,variantId) => {
-    const res = await publicRequest().get(`/products/${productId}/${variantId}`);
-    console.log(res.data,"detail")
+export const addCart =async () => {
+    const res = await publicRequest().get("/cart");
     return res.data;
 }
 
-
-const productSlice = createSlice({
-    name: "product",
+const cartSlice = createSlice({
+    name: "cart",
     initialState,
     reducers: {
         // addToken: (state, action) => {
@@ -43,5 +31,5 @@ const productSlice = createSlice({
 
     }
 })
-export const {addToken, addUser} = productSlice.actions;
-export default productSlice.reducer;
+export const {addToken, addUser} = cartSlice.actions;
+export default cartSlice.reducer;

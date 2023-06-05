@@ -9,38 +9,46 @@ function Header() {
     const dispatch = useDispatch();
     let navigate = useNavigate();
     const {user} = useSelector((state) => state);
-    const [login,setLogin]=useState("Login")
+    const [login, setLogin] = useState("Login")
     const [show, setShow] = useState(true);
-    const listBrand = ["Calvin", "Givenchy", "Burberry", "Burberry", "Burberry", "Burberry", "Burberry", "Burberry"];
     const swap = () => {
         const a = document.getElementById("menu_show");
         return show ? (a.style.display = "block", setShow(false)) : (a.style.display = "none", setShow(true))
 
     }
     useEffect(() => {
-        console.log(user.token, user)
+        const token = localStorage.getItem("token");
+        console.log(token, "user");
+        if (token !== null) {
+            setLogin("Logout")
+        } else {
+            setLogin("Login")
+        }
+    }, [login])
 
-        if (user.token!=""|| localStorage.getItem("token"!="")) setLogin("Logout")
-        console.log(user.token,"token",localStorage.getItem("token"!=""))
-    }, [user])
-    function handleLogout(){
-        var accessTokenObj = JSON.parse(localStorage.getItem("user:"));
-        console.log(accessTokenObj);
-        console.log("test")
-        if(login==="logout"){
-            dispatch(logout);
-
-        }else {
+    function handleLogout() {
+        console.log("test log out")
+        console.log(login, "login")
+        const log = document.getElementById("log").value
+        const token = localStorage.getItem("token");
+        if (login === "Logout") {
+            localStorage.removeItem("token");
+            setLogin("Login")
+            window.location.reload()
+        }
+        if (login === "Login") {
+            setLogin("Logout")
             navigate("/login")
 
         }
     }
+
     return (
         <>
             <div className="container-fluid header">
                 <div className='row'>
                     <div className="col-sm-2 d-flex">
-                        <Menu></Menu>
+                        <Menu login={login} handleLogout={handleLogout}></Menu>
                         <NavLink className="logo " to="/">
                             <img src="https://img.fragrancex.com/images/assets/logo/fragrancex_logo.svg?v=3"
                                  title="Perfume"
@@ -63,7 +71,7 @@ function Header() {
 
                     </div>
                     <div className="express col-sm-3 text-center">
-                        <p  className="btn btn-lg text-light h1" onClick={handleLogout}>{login}</p>
+                        <p className="btn btn-lg text-light h1" id="log" onClick={handleLogout}>{login}</p>
                         <NavLink to="/order" className="btn btn-lg text-light h6">Order Lookup</NavLink>
 
 
@@ -84,10 +92,11 @@ function Header() {
                     <div className="header__second w-100">
                         <ul className="navbar-nav row">
                             <li className="nav-item col-sm-2">
-                                <NavLink className="nav-link text-light" to="/product">Women's Perfume</NavLink>
+                                <NavLink className="nav-link text-light" to="/product/sex?women">Women's
+                                    Perfume</NavLink>
                             </li>
                             <li className="nav-item col-sm-2">
-                                <NavLink className="nav-link text-light" to="/product/sex/men">Men's Cologne</NavLink>
+                                <NavLink className="nav-link text-light" to="/product/sex?men">Men's Cologne</NavLink>
                             </li>
                             <li className="nav-item ms-xl-2 col-sm-7">
                                 <p className="nav-link text-light my-0 btn__brands" onClick={swap}>Brands</p>
@@ -95,36 +104,36 @@ function Header() {
                                     <p className="h4 pt-2 ps-3">Most popular perfume brands</p>
                                     <div className="d-flex flex-wrap w-100  row ms-0">
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce
                                             & Gabbana</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce
                                             & Gabbana</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce
                                             & Gabbana</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
                                             Saint Laurent</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
                                             Saint Laurent</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
                                             Saint Laurent</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
                                             Saint Laurent</NavLink>
                                         <NavLink to="#"
-                                           className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
+                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
                                             Saint Laurent</NavLink>
 
 

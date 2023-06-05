@@ -5,29 +5,31 @@ import {NavLink} from "react-router-dom";
 
 function CartProduct(props) {
     // const navigate= useNavigate();
-    const {setUrl,setResult,setUrlNew} = useContext(ProductContext);
-    const {productId, name, brandName, imageUrls, averageRating,stock, price} = props.data;
+    const {setProductId, setVariantId, setResult} = useContext(ProductContext);
+    const {productId, variantId, name, brandName, imageUrls, averageRating, stock, price} = props.data;
     const styleStar = {
         width: `${averageRating}%`
     }
 
-     function handler(id) {
-        setUrl(id)
+    function handler(productId, variantId) {
+        setProductId(productId)
+        setVariantId(variantId)
         setResult(props.data);
-        // setUrlNew(id);
-        //  navigate(urls)
+
 
     }
 
-    const urls = `/detail/:${productId}`;
+    const urls = `/detail/:${productId}/:${variantId}`;
     return (
         //{urls}
         <NavLink to={urls} className="bestsaler__product-detail text-center col-sm-3 text-decoration-none "
-           onClick={() => {handler(productId)}}>
-            <img class="img-thumbnail"  src={imageUrls} style={{width:"250px",height:"300px"}}></img>
+                 onClick={() => {
+                     handler(productId, variantId)
+                 }}>
+            <img class="img-thumbnail" src={imageUrls} style={{width: "250px", height: "300px"}}></img>
             <div className="product__name h5">{name}</div>
             <div className="product__brand">By <a href="#">{brandName}</a></div>
-            <div className="product__sex">MEN</div>
+            <div className="product__sex">{props.sex}</div>
 
             <div className="product__review  d-flex justify-content-center">
                 <div className="product__star  ">
