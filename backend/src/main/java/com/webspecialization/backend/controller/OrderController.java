@@ -18,7 +18,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @GetMapping("/account/order")
+    @GetMapping("/user/order")
     public ResponseEntity<List<OrderResponse>> getOrderHistory(){
         List<OrderResponse> responseList = orderService.getOrderHistory();
         return ResponseEntity.ok(responseList);
