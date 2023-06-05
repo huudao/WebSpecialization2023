@@ -1,83 +1,36 @@
 import {AddAddress} from "./addAddress";
 import {useState} from "react";
+import {ShowAddress} from "./showAddress";
 
-export function ListAddress() {
+export function ListAddress(props) {
+    const {username, specificAddress, phone, city} = props.data;
     const [isShow, setIsShow] = useState(true)
+
+    function handlerAdd() {
+        setIsShow(false);
+    }
+
     return (
         <>
-            {isShow === true ?
-                <div className="container-fluid bg-info w-50 h-75  m-auto navbar-nav-scroll">
-                    <div className="d-flex w-100  bd-highlight pt-2">
-                        <h3 className="w-75">List address</h3>
-                        <button className="btn btn-light w-25">ADD ADDRESS</button>
+            {
+                isShow === true
+                    ? <>
+                        <div className="container-fluid bg-info w-50 h-75  m-auto navbar-nav-scroll">
+                            <div className="d-flex w-100  bd-highlight pt-2">
+                                <h3 className="w-75">List address</h3>
+                                <button className="btn btn-light w-25" onClick={handlerAdd}>ADD ADDRESS</button>
 
+                            </div>
+                            <hr/>
+                            {props.data.map((data=>  <ShowAddress data={props.data}/>))}
+
+                        </div>
+                    </>
+                    :
+                    <div className="w-100 h-100 ">
+                        <AddAddress/>
                     </div>
-                    <hr/>
-                    <div className="d-flex">
-                        <div className=" w-75">
-                            <p>Huynh Quoc Nhan | <small>98098080989</small></p>
-                            <p>126/17 đường 17,khu phố 5 126/17 đường 17,khu phố 5126/17 đường 17,khu phố 5126/17 đường
-                                17,khu phố 5</p>
-                        </div>
-                        <div className=" w-25 text-center m-auto">
-                            <button className="btn btn-warning">Chọn</button>
-                        </div>
-                    </div>
-                    <div className="d-flex">
-                        <div className=" w-75">
-                            <p>Huynh Quoc Nhan | <small>98098080989</small></p>
-                            <p>126/17 đường 17,khu phố 5 126/17 đường 17,khu phố 5126/17 đường 17,khu phố 5126/17 đường
-                                17,khu phố 5</p>
-                        </div>
-                        <div className=" w-25 text-center m-auto">
-                            <button className="btn btn-warning">Chọn</button>
-                        </div>
-                    </div>
-                    <div className="d-flex">
-                        <div className=" w-75">
-                            <p>Huynh Quoc Nhan | <small>98098080989</small></p>
-                            <p>126/17 đường 17,khu phố 5 126/17 đường 17,khu phố 5126/17 đường 17,khu phố 5126/17 đường
-                                17,khu phố 5</p>
-                        </div>
-                        <div className=" w-25 text-center m-auto">
-                            <button className="btn btn-warning">Chọn</button>
-                        </div>
-                    </div>
-                    <div className="d-flex">
-                        <div className=" w-75">
-                            <p>Huynh Quoc Nhan | <small>98098080989</small></p>
-                            <p>126/17 đường 17,khu phố 5 126/17 đường 17,khu phố 5126/17 đường 17,khu phố 5126/17 đường
-                                17,khu phố 5</p>
-                        </div>
-                        <div className=" w-25 text-center m-auto">
-                            <button className="btn btn-warning">Chọn</button>
-                        </div>
-                    </div>
-                    <div className="d-flex">
-                        <div className=" w-75">
-                            <p>Huynh Quoc Nhan | <small>98098080989</small></p>
-                            <p>126/17 đường 17,khu phố 5 126/17 đường 17,khu phố 5126/17 đường 17,khu phố 5126/17 đường
-                                17,khu phố 5</p>
-                        </div>
-                        <div className=" w-25 text-center m-auto">
-                            <button className="btn btn-warning">Chọn</button>
-                        </div>
-                    </div>
-                    <div className="d-flex">
-                        <div className=" w-75">
-                            <p>Huynh Quoc Nhan | <small>98098080989</small></p>
-                            <p>126/17 đường 17,khu phố 5 126/17 đường 17,khu phố 5126/17 đường 17,khu phố 5126/17 đường
-                                17,khu phố 5</p>
-                        </div>
-                        <div className=" w-25 text-center m-auto">
-                            <button className="btn btn-warning">Chọn</button>
-                        </div>
-                    </div>
-                </div>
-                :
-                <div className="w-100 h-100 " >
-                    <AddAddress/>
-                </div>}
+            }
         </>
     )
 }
