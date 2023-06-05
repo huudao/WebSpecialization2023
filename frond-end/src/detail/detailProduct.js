@@ -3,7 +3,6 @@ import '../asset/css/detail.css'
 import {ProductContext} from "../context/productContext"
 import {useContext, useState} from "react";
 function DetailProduct(props) {
-    // const {id, name, brand, sex, img, star, review, price} = props.data;
     const {getDetail} = useContext(ProductContext);
     const result =getDetail();
     console.log(result.star)
@@ -23,11 +22,11 @@ function DetailProduct(props) {
                             <li className="breadcrumb-item active" aria-current="page">Detail Product</li>
                         </ol>
                     </nav>
-                    <div className="detail d-flex">
+                    <div className="detail d-flex w-100">
                         <div className="watch text-center" style={{width:"30%"}}>
-                            <img src={result.img} style={{width:"300px", height:"300px"}}/><br/>
+                            <img src={result.imageUrls} style={{width:"300px", height:"300px"}}/><br/>
                             <a className="play_review" href="#">
-                                <img src={result.img} style={{width:"30px", height:"30px"}}/>
+                                <img src={result.imageUrls} style={{width:"30px", height:"30px"}}/>
                                 <span>Watch Our Review</span>
 
                             </a>
@@ -47,7 +46,7 @@ function DetailProduct(props) {
                             <div className="choose">
                                 <div className="choose__info row">
                                     <img className="col-sm-2"
-                                         src={result.img} style={{width:"100px", height:"100px"}}/>
+                                         src={result.imageUrls} style={{width:"100px", height:"100px"}}/>
                                     <div className="pop__content col-sm-5">
                                         <p className="fw-bold m-1">100 ml Eau De Parfum Spray</p>
                                         <small>Item #538279</small>

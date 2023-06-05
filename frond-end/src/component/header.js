@@ -1,15 +1,39 @@
 import '../asset/css/home.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Menu} from "./menu";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../feature/user";
 
 function Header() {
+    const dispatch = useDispatch();
+    let navigate = useNavigate();
+    const {user} = useSelector((state) => state);
+    const [login,setLogin]=useState("Login")
     const [show, setShow] = useState(true);
     const listBrand = ["Calvin", "Givenchy", "Burberry", "Burberry", "Burberry", "Burberry", "Burberry", "Burberry"];
     const swap = () => {
         const a = document.getElementById("menu_show");
         return show ? (a.style.display = "block", setShow(false)) : (a.style.display = "none", setShow(true))
 
+    }
+    useEffect(() => {
+        console.log(user.token, user)
+
+        if (user.token!=""|| localStorage.getItem("token"!="")) setLogin("Logout")
+        console.log(user.token,"token",localStorage.getItem("token"!=""))
+    }, [user])
+    function handleLogout(){
+        var accessTokenObj = JSON.parse(localStorage.getItem("user:"));
+        console.log(accessTokenObj);
+        console.log("test")
+        if(login==="logout"){
+            dispatch(logout);
+
+        }else {
+            navigate("/login")
+
+        }
     }
     return (
         <>
@@ -39,16 +63,9 @@ function Header() {
 
                     </div>
                     <div className="express col-sm-3 text-center">
-                        <NavLink to="/login" className="btn btn-lg text-light h1">Sign In</NavLink>
+                        <p  className="btn btn-lg text-light h1" onClick={handleLogout}>{login}</p>
                         <NavLink to="/order" className="btn btn-lg text-light h6">Order Lookup</NavLink>
-                        {/*<select name="unit" id="current_unit" className="form-select-sm">*/}
-                        {/*    <option value="VND" >VND</option>*/}
-                        {/*    <option value="USA">USA</option>*/}
-                        {/*    <option value="RUB">RUB</option>*/}
-                        {/*    <option value="MYR">MYR</option>*/}
-                        {/*    <option value="JPY">JPY</option>*/}
-                        {/*    <option value="TTD">TTD</option>*/}
-                        {/*</select>*/}
+
 
                     </div>
                     <div className='cart__shopping col-sm-1'>
@@ -70,7 +87,7 @@ function Header() {
                                 <NavLink className="nav-link text-light" to="/product">Women's Perfume</NavLink>
                             </li>
                             <li className="nav-item col-sm-2">
-                                <NavLink className="nav-link text-light" to="/product">Men's Cologne</NavLink>
+                                <NavLink className="nav-link text-light" to="/product/sex/men">Men's Cologne</NavLink>
                             </li>
                             <li className="nav-item ms-xl-2 col-sm-7">
                                 <p className="nav-link text-light my-0 btn__brands" onClick={swap}>Brands</p>

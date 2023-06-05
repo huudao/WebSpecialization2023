@@ -1,18 +1,21 @@
 import '../asset/css/account.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {forgotPass, loginUser} from "../feature/user";
 
-import {NavLink,useNavigate} from "react-router-dom"
+import {NavLink, useNavigate} from "react-router-dom"
+import {unwrapResult} from "@reduxjs/toolkit";
 
-const account = [{name: "123", password: "123"}, {name: "nhan", password: "nhan"}]
 
 export function Login() {
+    const {user} = useSelector((state) => state);
+    const dispatch = useDispatch();
     let navigate = useNavigate();
     const [path, setPath] = useState("");
     const [errol, setErrol] = useState("");
 
 
     function handler(event) {
-        // event.preventDefault();
 
     }
 
@@ -29,21 +32,27 @@ export function Login() {
         }
     }
 
+    useEffect(() => {
+        console.log(user.token, user)
+        if (user.token) navigate("/")
+    }, [user])
+
     function handlerOnSubmit(e) {
-        // alert("111")
+        e.preventDefault();
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        account.map((acc) => {
-            if (acc.name === username.trim() && acc.password === password.trim()) {
-                console.log(acc.name + acc.password)
-                navigate("/")
-            } else {
-                navigate("/login")
-                // setPath("/login")
+        dispatch(loginUser({username, password}))
+        .then(unwrapResult)
+        .then(res => {
+            if (res.status === 200) {
+                 navigate("/");
             }
-        })
-        console.log(path+"path")
-        // e.preventDefault();
+
+        });
+        function handlerForgotPass(e){
+            dispatch(forgotPass())
+        }
+
 
     }
 
@@ -85,7 +94,7 @@ export function Login() {
 
                             <div className="col">
                                 {/*-- Simple link --*/}
-                                <a href="#">Forgot password?</a>
+                                <a href="/forgot_pass">Forgot password?</a>
                             </div>
                         </div>
 
@@ -95,7 +104,7 @@ export function Login() {
 
                         {/*-- Register buttons --*/}
                         <div className="text-center">
-                            <p>Not a member? <NavLink to="/registry">Register</NavLink></p>
+                            <p>Not a member? <NavLink to="/register">Register</NavLink></p>
 
                         </div>
                     </form>

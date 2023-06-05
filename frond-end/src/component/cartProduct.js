@@ -6,9 +6,9 @@ import {NavLink} from "react-router-dom";
 function CartProduct(props) {
     // const navigate= useNavigate();
     const {setUrl,setResult,setUrlNew} = useContext(ProductContext);
-    const {id, name, brand, sex, img, star, review, price} = props.data;
+    const {productId, name, brandName, imageUrls, averageRating,stock, price} = props.data;
     const styleStar = {
-        width: `${star}%`
+        width: `${averageRating}%`
     }
 
      function handler(id) {
@@ -19,21 +19,21 @@ function CartProduct(props) {
 
     }
 
-    const urls = `/detail/:${id}`;
+    const urls = `/detail/:${productId}`;
     return (
         //{urls}
         <NavLink to={urls} className="bestsaler__product-detail text-center col-sm-3 text-decoration-none "
-           onClick={() => {handler(id)}}>
-            <img src={img}></img>
+           onClick={() => {handler(productId)}}>
+            <img class="img-thumbnail"  src={imageUrls} style={{width:"250px",height:"300px"}}></img>
             <div className="product__name h5">{name}</div>
-            <div className="product__brand">By <a href="#">{brand}</a></div>
-            <div className="product__sex">{sex}</div>
+            <div className="product__brand">By <a href="#">{brandName}</a></div>
+            <div className="product__sex">MEN</div>
 
             <div className="product__review  d-flex justify-content-center">
                 <div className="product__star  ">
                     <div className="star__total" style={styleStar}></div>
                 </div>
-                <div className="review__count">({review})</div>
+                <div className="review__count">({})</div>
             </div>
 
             <div className="product__price">đ {price}</div>
