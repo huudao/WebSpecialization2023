@@ -17,11 +17,9 @@ function  Pagination(props){
         <>
             <nav aria-label="Page navigation example ">
                 <ul className="pagination justify-content-center" >
-                    <button className="page-item" disabled={begin==0} onClick={()=>handlePageChange("pre")}>Previous</button>
-                    {/*<li className="page-item"><a className="page-link" href="#">1</a></li>*/}
-                    {/*<li className="page-item"><a className="page-link" href="#">2</a></li>*/}
-                    {/*<li className="page-item"><a className="page-link" href="#">3</a></li>*/}
-                    <button className="page-item" disabled={end==totalRow} onClick={()=>handlePageChange("next")}>Next</button>
+                    <button className="page-item btn btn-outline-danger" disabled={begin==0} onClick={()=>handlePageChange("pre")}>Previous</button>
+
+                    <button className="page-item btn btn-outline-danger" disabled={end==totalRow} onClick={()=>handlePageChange("next")}>Next</button>
                 </ul>
             </nav>
         </>

@@ -5,11 +5,15 @@ import {InfoProduct} from "./infoProduct";
 import {NavLink} from "react-router-dom";
 import {ProductContext} from "../context/productContext";
 import {ListAddress} from "../cart/listAddress";
+import {getAddress} from "../feature/address";
 
 function Cart() {
     const [data, setData] = useState({});
     const [listProduct, setListProduct] = useState([])
     const {setCount} = useContext(ProductContext);
+    const [isShow, setIsShow] = useState(false)
+    const [listAddress, setListAddress] = useState([])
+
 
     useEffect(() => {
         getCart()
@@ -17,20 +21,20 @@ function Cart() {
                 setData(res)
                 setListProduct(res.cartItems)
             }).catch(err => console.err)
-        // if (localStorage.getItem("token") != null) {
-        //     setCount(listProduct.length + 1)
-        // } else {
-        //     setCount(0)
-        //     setData(null)
-        //
-        // }
-        // ;
-
 
     }, [data, listProduct])
-    function  handlerCheckout(){
 
+    function handlerCheckout() {
+        getAddress()
+            .then(res => {
+                console.log(res,"rest")
+                setListAddress(res)
+            })
+            .then(()=> setIsShow(true)
+            ).catch(err=> console.log(err))
+        console.log(listAddress)
     }
+
     return (
         <>
             <div className="container-fluid cart row">
@@ -39,7 +43,7 @@ function Cart() {
 
                     <div className="cart__info fs-2 font-monospace">
                         Total (
-                        {listProduct.length!==0 ? listProduct.length : "0"} items):
+                        {listProduct.length !== 0 ? listProduct.length : "0"} items):
                         đ {data.length !== 0 && data.totalPrice}
                     </div>
                     <div className="continue__shopping ">
@@ -70,7 +74,8 @@ function Cart() {
                     </small>
                 </div>
                 <div className="cart__payment   col-sm-4">
-                    <button className="btn btn-block my-3 " height={"50px"} onClick={handlerCheckout}>Process to Checkout</button>
+                    <button className="btn btn-block my-3 " height={"50px"} onClick={handlerCheckout}>Process to Checkout
+                    </button>
                     <button className="btn btn-block text-bg-info">Check out with <img
                         src='https://img.fragrancex.com/images/paypal.svg'></img></button>
                     <div className="cart__sum">
@@ -86,9 +91,13 @@ function Cart() {
 
                     </div>
                 </div>
-                <div className="w-100 h-100 position-absolute  bg-opacity-75 " >
-                    <ListAddress/>
+                {isShow === true &&
+                <div className="w-100 h-100 position-absolute  bg-opacity-75 ">
+                    {listAddress.map(data => <ListAddress data={data}/>)}
+
                 </div>
+                }
+
 
             </div>
         </>

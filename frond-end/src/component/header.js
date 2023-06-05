@@ -6,8 +6,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../feature/user";
 import {useContext} from "react";
 import {ProductContext} from "../context/productContext";
+import {search} from "../feature/product";
+
 function Header() {
-    const {count} = useContext(ProductContext);
+    const {count,setKey} = useContext(ProductContext);
     const dispatch = useDispatch();
     let navigate = useNavigate();
     const {user} = useSelector((state) => state);
@@ -45,6 +47,17 @@ function Header() {
         }
     }
 
+    function handlerSearch(e) {
+        e.preventDefault()
+        const key = document.getElementById("search").value;
+        setKey(key);
+        navigate("/product")
+
+
+        // search(key).then(res => console.log(res))
+
+    }
+
     return (
         <>
             <div className="container-fluid header">
@@ -59,14 +72,13 @@ function Header() {
                         </NavLink>
                     </div>
                     <div className="search col-sm-6">
-                        <form className='d-flex form--search '>
+                        <form className='d-flex form--search ' onSubmit={handlerSearch}>
                             <input type="text"
-                                   className="form-control" name="" id="" aria-describedby="helpId"
-                                   placeholder="Enter your code"/>
-                            <button type="submit" className="btn" style={{width: "39px", height: "39px"}}>
+                                   className="form-control" name="" id="search" aria-describedby="helpId"
+                                   placeholder="Enter word"/>
+                            <button  className="btn" style={{width: "39px", height: "39px"}}>
                                 <img src="https://img.fragrancex.com/images/assets/ui/search-square-icon.svg"
                                      title="search"/>
-
                             </button>
 
                         </form>
@@ -100,49 +112,49 @@ function Header() {
                             <li className="nav-item col-sm-2">
                                 <NavLink className="nav-link text-light" to="/product/sex?men">Men's Cologne</NavLink>
                             </li>
-                            <li className="nav-item ms-xl-2 col-sm-7">
-                                <p className="nav-link text-light my-0 btn__brands" onClick={swap}>Brands</p>
-                                <div className="menu_show w-75 position-relative " id="menu_show">
-                                    <p className="h4 pt-2 ps-3">Most popular perfume brands</p>
-                                    <div className="d-flex flex-wrap w-100  row ms-0">
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce
-                                            & Gabbana</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce
-                                            & Gabbana</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce
-                                            & Gabbana</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
-                                            Saint Laurent</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
-                                            Saint Laurent</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
-                                            Saint Laurent</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
-                                            Saint Laurent</NavLink>
-                                        <NavLink to="#"
-                                                 className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves
-                                            Saint Laurent</NavLink>
+                            {/*<li className="nav-item ms-xl-2 col-sm-7">*/}
+                            {/*    <p className="nav-link text-light my-0 btn__brands" onClick={swap}>Brands</p>*/}
+                            {/*    <div className="menu_show w-75 position-relative " id="menu_show">*/}
+                            {/*        <p className="h4 pt-2 ps-3">Most popular perfume brands</p>*/}
+                            {/*        <div className="d-flex flex-wrap w-100  row ms-0">*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce*/}
+                            {/*                & Gabbana</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce*/}
+                            {/*                & Gabbana</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce*/}
+                            {/*                & Gabbana</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
+                            {/*                Saint Laurent</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
+                            {/*                Saint Laurent</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
+                            {/*                Saint Laurent</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
+                            {/*                Saint Laurent</NavLink>*/}
+                            {/*            <NavLink to="#"*/}
+                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
+                            {/*                Saint Laurent</NavLink>*/}
 
 
-                                    </div>
-                                </div>
+                            {/*        </div>*/}
+                            {/*    </div>*/}
 
-                            </li>
+                            {/*</li>*/}
 
                         </ul>
 

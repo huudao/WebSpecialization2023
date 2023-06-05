@@ -3,16 +3,16 @@ import '../asset/css/home.css'
 import BarFilter from "../component/filter";
 import CartProduct from "../component/cartProduct";
 import {useContext, memo, useState, useEffect} from "react";
-import {ProductContext} from "../context/productContext";
+import {ProductContext, ProductProvider} from "../context/productContext";
 import Pagination from "../component/pagination";
 
 import {useDispatch} from "react-redux";
-import product, {for_men} from "../feature/product";
+import product, {for_men, search} from "../feature/product";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {getForMen,getForWomen} from "../service/productService";
 
 function ShowProduct(props) {
-    const dispatch = useDispatch();
+    const {key}=useContext(ProductContext)
     const [listProduct, setListProduct] = useState([]);
     const [postList, setPostList] = useState([]);
     const [begin, setBegin] = useState(0);
@@ -33,13 +33,22 @@ function ShowProduct(props) {
 
                 })
         }
-        if(sexUrl==="women"){
+       else  if(sexUrl==="women"){
             getForWomen()
                 .then(items => {
                     setListProduct([...items])
                     setSex("Women")
 
                 })
+        }else{
+           search(key).then(items => {
+               console.log(items)
+               setListProduct([...items])
+               setSex("")
+
+
+           })
+
         }
 
     }, [listProduct])
@@ -92,7 +101,7 @@ function ShowProduct(props) {
                         </ol>
                     </nav>
                 </div>
-                <h1>Discount Perfume for Women</h1>
+                <h1>Discount Perfume for {sex}</h1>
                 <div className="d-flex">
                     <p className="product__search">{begin}- {end} of {listProduct.length} Results</p>
                     <div className="product__search d-flex  justify-content-end">

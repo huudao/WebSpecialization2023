@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
-import {publicRequest} from "../API/axios";
+import {protectedRequest, publicRequest} from "../API/axios";
 
 let initialState = {
     user: "",
@@ -28,7 +28,11 @@ export const resetPass = createAsyncThunk('user/reset', async (body) => {
 export const logout =async () => {
     return localStorage.removeItem("token");
 };
+export const getAddressList = createAsyncThunk('user/address', async (body) => {
+    const res = await protectedRequest().get("/user/address",body)
+    return res.data;
 
+})
 const userSlice = createSlice({
     name: "user",
     initialState,

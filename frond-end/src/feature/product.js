@@ -16,4 +16,8 @@ export const detailProduct =async (productId,variantId) => {
     const res = await publicRequest().get(`/products/${productId}/${variantId}`);
     return res.data;
 }
+export const search =async (key) => {
+    const res = await publicRequest().get(`/products/search?keyword=${key}`);
+    return res.data;
+}
 

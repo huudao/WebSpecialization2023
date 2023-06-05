@@ -36,7 +36,6 @@ function App() {
                 <Route path="/cart" element={<CartPage/>} exact/>
                 <Route path="/product" element={<ProductPage/>} exact/>
                 <Route path="/product/:sex" element={<ProductPage/>} exact/>
-                {/*<Route path="/product/sex=" element={<ProductPage/>} exact/>*/}
                 <Route path="/detail/:id/:varianId" element={<DetailPage/>} exact/>
                 <Route path="/login" element={<LoginPage/>} exact/>
                 <Route path="/register" element={<RegisterPage/>} exact/>
