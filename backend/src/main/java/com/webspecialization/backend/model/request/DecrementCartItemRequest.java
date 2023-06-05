@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 public class DecrementCartItemRequest {
     @NotNull
     @Min(1)
-    private int productVariantId;
+    private Long cartItemId;
 
     @NotNull
     @Min(1)

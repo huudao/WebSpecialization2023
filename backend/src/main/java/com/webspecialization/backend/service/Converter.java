@@ -92,7 +92,9 @@ public class Converter {
     public OrderResponse convertOrderToOrderResponse(Order order) {
         OrderResponse orderResponse = new OrderResponse();
         orderResponse.setId(order.getId());
-        orderResponse.setDiscountPercentage(order.getDiscount().getDiscountPercentage());
+        if(order.getDiscount() != null) {
+            orderResponse.setDiscountPercentage(order.getDiscount().getDiscountPercentage());
+        }
         orderResponse.setTotalPrice(order.getTotalPrice());
         orderResponse.setStatus(order.getStatus());
         orderResponse.setShipped(order.isShipped());
@@ -122,5 +124,13 @@ public class Converter {
         orderDetailDTO.setPriceAfterDiscount(orderDetail.getProductVariant().getPrice() * (100 - orderDetail.getProductVariant().getDiscount()) / 100);
         orderDetailDTO.setAmount(orderDetail.getAmount());
         return orderDetailDTO;
+    }
+
+    public UserInformationResponse convertUserToUserInformationResponse(User user) {
+        return mapper.map(user, UserInformationResponse.class);
+    }
+
+    public UserAddressResponse convertUserAddressToUserAddressResponse(UserAddress userAddress) {
+        return mapper.map(userAddress, UserAddressResponse.class);
     }
 }

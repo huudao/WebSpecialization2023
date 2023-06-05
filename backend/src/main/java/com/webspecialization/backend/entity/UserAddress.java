@@ -13,7 +13,6 @@ public class UserAddress extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
     private String username;
     private String phone;
     private String city;

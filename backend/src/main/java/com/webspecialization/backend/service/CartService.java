@@ -128,7 +128,7 @@ public class CartService {
         // get cart item in that cart have the same cartItemId
         CartItem cartItem = cart.getCartItems()
                 .stream()
-                .filter(ci -> ci.getProductVariant().getId() == incrementCartItemRequest.getProductVariantId())
+                .filter(ci -> ci.getId() == incrementCartItemRequest.getCartItemId())
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("CartItem not found"));
 
@@ -149,7 +149,7 @@ public class CartService {
         // get cart item in that cart have the same cartItemId
         CartItem cartItem = cart.getCartItems()
                 .stream()
-                .filter(ci -> ci.getProductVariant().getId() == decrementCartItemRequest.getProductVariantId())
+                .filter(ci -> ci.getId() == decrementCartItemRequest.getCartItemId())
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("CartItem not found"));
 

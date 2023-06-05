@@ -58,12 +58,10 @@ public class ProductService {
         return productVariantService.findProductsHaveMostViews();
     }
 
-//
-//
-//    public Product addProduct(Product product) {
-//        return productRepository.save(product);
-//    }
-//
+    public Product addProduct(Product product) {
+        return productRepository.save(product);
+    }
+
 ////    public Product updateProduct(int id, Product updatedProduct) {
 ////        Product product = getProductById(id);
 ////        if (product == null) {
