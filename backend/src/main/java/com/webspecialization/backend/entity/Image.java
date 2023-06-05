@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Table(name="images")
 @Getter
@@ -20,4 +22,10 @@ public class Image extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "product_variant_id")
     private ProductVariant productVariant;
+    public Image(String url) {
+        Date now = new Date();
+        this.url = url;
+        this.setCreatedDate(now);
+        this.setUpdatedDate(now);
+    }
 }

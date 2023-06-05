@@ -14,6 +14,7 @@ public class ProductVariantResponse {
     private String brandName;
     private String name;
     private String size;
+    private int sellCount;
     private float price;
     private float priceAfterDiscount;
     private float discount;
