@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class AddProductRequest {
+    long productId;
     long brandId;
     String name;
     String genderType;
