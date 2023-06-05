@@ -7,11 +7,10 @@ import com.webspecialization.backend.model.request.IncrementCartItemRequest;
 import com.webspecialization.backend.model.response.CartResponse;
 import com.webspecialization.backend.service.CartService;
 import com.webspecialization.backend.service.DiscountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 public class CartController {
@@ -38,7 +37,7 @@ public class CartController {
 
     // add cart item into user's cart
     @PostMapping("/cart")
-    public ResponseEntity<CartResponse> addIntoCart(@RequestBody AddToCartRequest addToCartRequest) {
+    public ResponseEntity<CartResponse> addIntoCart(@Valid @RequestBody AddToCartRequest addToCartRequest) {
         CartResponse cart = cartService.addIntoCart(addToCartRequest);
         return ResponseEntity.ok(cart);
 
@@ -60,7 +59,7 @@ public class CartController {
 
     // increase number of cartItem
     @PostMapping ("/cart/increment")
-    public ResponseEntity<CartResponse> increaseCartItem(@RequestBody IncrementCartItemRequest incrementCartItemRequest) {
+    public ResponseEntity<CartResponse> increaseCartItem(@Valid @RequestBody IncrementCartItemRequest incrementCartItemRequest) {
         CartResponse cart = cartService.incrementCartItem(incrementCartItemRequest);
         return ResponseEntity.ok(cart);
     }
@@ -79,7 +78,7 @@ public class CartController {
     }
 
     @PostMapping(value = "/cart/discount")
-    public ResponseEntity<CartResponse> applyDiscount(@RequestBody @Valid ApplyDiscountRequest applyDiscountRequest) {
+    public ResponseEntity<CartResponse> applyDiscount(@Valid @RequestBody ApplyDiscountRequest applyDiscountRequest) {
         CartResponse cartResponse = discountService.applyDiscount(applyDiscountRequest.getDiscountCode());
         return ResponseEntity.ok(cartResponse);
     }
