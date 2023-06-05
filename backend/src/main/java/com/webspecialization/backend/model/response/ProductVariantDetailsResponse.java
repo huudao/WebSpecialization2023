@@ -2,6 +2,8 @@ package com.webspecialization.backend.model.response;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ProductVariantDetailsResponse {
     private Long productId;
@@ -11,4 +13,5 @@ public class ProductVariantDetailsResponse {
     private float priceAfterDiscount;
     private float discount;
     private Integer stock;
+    private List<String> imageList;
 }

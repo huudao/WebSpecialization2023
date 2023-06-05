@@ -1,15 +1,13 @@
 package com.webspecialization.backend.service;
 
 import com.webspecialization.backend.entity.*;
-import com.webspecialization.backend.model.dto.CartItemDTO;
-import com.webspecialization.backend.model.dto.DiscountDTO;
-import com.webspecialization.backend.model.dto.OrderDetailDTO;
-import com.webspecialization.backend.model.dto.UserAddressDTO;
+import com.webspecialization.backend.model.dto.*;
 import com.webspecialization.backend.model.response.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +21,7 @@ public class Converter {
         variantResponse.setBrandName(productVariant.getProduct().getBrand().getName());
         variantResponse.setPriceAfterDiscount(productVariant.getPrice() * (100 - productVariant.getDiscount()) / 100);
         variantResponse.setAverageRating(productVariant.getProduct().averageRating());
+        variantResponse.setSellCount(productVariant.getSellCount());
         List<String> imageUrls = new ArrayList<>();
         for(Image urls : productVariant.getImages()){
             imageUrls.add(urls.getUrl());
@@ -49,6 +48,11 @@ public class Converter {
         for(ProductVariant variant : productVariant.getProduct().getVariants()) {
             ProductVariantDetailsResponse variantDetailsResponse = mapper.map(variant, ProductVariantDetailsResponse.class);
             variantDetailsResponse.setPriceAfterDiscount(variant.getPrice() * (100 - variant.getDiscount()) / 100);
+            List<String> imageVariantList = new ArrayList<>();
+            for(Image urls : variant.getImages()){
+                imageVariantList.add(urls.getUrl());
+            }
+            variantDetailsResponse.setImageList(imageVariantList);
             variantDetailsResponseList.add(variantDetailsResponse);
         }
         detailsResponse.setVariants(variantDetailsResponseList);
@@ -132,5 +136,39 @@ public class Converter {
 
     public UserAddressResponse convertUserAddressToUserAddressResponse(UserAddress userAddress) {
         return mapper.map(userAddress, UserAddressResponse.class);
+    }
+
+    public ProductVariant convertProductVariantDTOToProductVariant(ProductVariantDTO productVariantDTO) {
+        ProductVariant productVariant = mapper.map(productVariantDTO, ProductVariant.class);
+        List<Image> imageList = new ArrayList<>();
+        for(String imageURL : productVariantDTO.getImageList()) {
+            Image newImage = new Image(imageURL);
+            newImage.setProductVariant(productVariant);
+            newImage.setCreatedDate(new Date());
+            imageList.add(newImage);
+        }
+        productVariant.setImages(imageList);
+        return productVariant;
+    }
+
+    public ProductResponse convertProductToProductResponse(Product product) {
+        ProductResponse productResponse = mapper.map(product, ProductResponse.class);
+        productResponse.setBrandName(product.getBrand().getName());
+        productResponse.setAverageRating(product.averageRating());
+
+        List<ProductVariantDetailsResponse> variantDetailsResponseList = new ArrayList<>();
+        for(ProductVariant variant : product.getVariants()) {
+            ProductVariantDetailsResponse variantDetailsResponse = mapper.map(variant, ProductVariantDetailsResponse.class);
+            variantDetailsResponse.setPriceAfterDiscount(variant.getPrice() * (100 - variant.getDiscount()) / 100);
+            List<String> imageVariantList = new ArrayList<>();
+            for(Image urls : variant.getImages()){
+                imageVariantList.add(urls.getUrl());
+            }
+            variantDetailsResponse.setImageList(imageVariantList);
+            variantDetailsResponseList.add(variantDetailsResponse);
+        }
+        productResponse.setVariants(variantDetailsResponseList);
+
+        return productResponse;
     }
 }
