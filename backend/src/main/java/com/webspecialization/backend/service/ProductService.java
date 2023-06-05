@@ -1,14 +1,24 @@
 package com.webspecialization.backend.service;
 
+import com.webspecialization.backend.entity.Brand;
 import com.webspecialization.backend.entity.Product;
+import com.webspecialization.backend.entity.ProductVariant;
+import com.webspecialization.backend.exception.InvalidArgumentException;
+import com.webspecialization.backend.exception.NotFoundException;
+import com.webspecialization.backend.model.dto.ProductVariantDTO;
+import com.webspecialization.backend.model.request.AddProductRequest;
 import com.webspecialization.backend.model.response.ProductDetailsResponse;
+import com.webspecialization.backend.model.response.ProductResponse;
 import com.webspecialization.backend.model.response.ProductVariantResponse;
 import com.webspecialization.backend.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -18,6 +28,10 @@ public class ProductService {
     private ProductVariantService productVariantService;
     @Autowired
     private Converter converter;
+    @Autowired
+    private BrandService brandService;
+
+
 
     public List<ProductVariantResponse> getAllProducts(int page, int size, String sortBy, String sortDirection) {
         List<ProductVariantResponse> products = productVariantService.findProductVariantsByVariantDefaultTrue(page,size, sortBy, sortDirection);
@@ -58,8 +72,46 @@ public class ProductService {
         return productVariantService.findProductsHaveMostViews();
     }
 
-    public Product addProduct(Product product) {
-        return productRepository.save(product);
+//    For admin
+    public List<ProductVariantResponse> addProduct(AddProductRequest request) {
+        if(checkExists(request.getName(), request.getBrandId())){
+            throw new InvalidArgumentException("Product have already existed");
+        }
+        Product newProduct = new Product();
+        Brand brand = brandService.findById(request.getBrandId());
+        if (brand == null) throw new NotFoundException("Brand id not found");
+        newProduct.setBrand(brand);
+        newProduct.setName(request.getName());
+        newProduct.setGenderType(request.getGenderType());
+        newProduct.setDescription(request.getDescription());
+        newProduct.setShippingPolicy(request.getShippingPolicy());
+        newProduct.setCreatedDate(new Date());
+
+        List<ProductVariant> productVariantList = request.getProductVariantList().stream()
+                .map(converter::convertProductVariantDTOToProductVariant).collect(Collectors.toList());
+        newProduct.setVariants(productVariantList);
+
+        for(ProductVariant productVariant : productVariantList){
+            productVariant.setProduct(newProduct);
+            productVariant.setCreatedDate(new Date());
+        }
+        productRepository.save(newProduct);
+
+        return getAllProducts(0,10, null,null);
+    }
+
+    private boolean checkExists(String name, long brandId) {
+        if(productRepository.findProductByNameAndBrand_Id(name, brandId) != null){
+            return true;
+        }
+        return false;
+    }
+
+    public ProductResponse getProductResponseById(Long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        if(product == null) throw new NotFoundException("Product not found");
+        ProductResponse productResponse = converter.convertProductToProductResponse(product);
+        return productResponse;
     }
 
 ////    public Product updateProduct(int id, Product updatedProduct) {
@@ -72,9 +124,10 @@ public class ProductService {
 ////        return repository.save(product);
 ////    }
 //
-//    public void deleteProduct(int id) {
-//        productRepository.deleteById(id);
-//    }
-//
+    public List<ProductVariantResponse> deleteProduct(long id) {
+        productRepository.deleteById(id);
+        return getAllProducts(0,10, null,null);
+    }
+
 
 }

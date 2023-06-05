@@ -1,6 +1,7 @@
 package com.webspecialization.backend.service;
 
 import com.webspecialization.backend.entity.Brand;
+import com.webspecialization.backend.exception.NotFoundException;
 import com.webspecialization.backend.model.response.BrandResponse;
 import com.webspecialization.backend.model.response.ProductVariantResponse;
 import com.webspecialization.backend.repo.BrandRepository;
@@ -27,6 +28,10 @@ public class BrandService {
             brandResponses.add(mapper.map(brand,BrandResponse.class));
         }
         return brandResponses;
+    }
+
+    public Brand findById(Long id) {
+        return brandRepository.findById(id).orElse(null);
     }
 
     public List<ProductVariantResponse> findProductsByBrandId(long brandId) {

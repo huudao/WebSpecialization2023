@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductVariantRepository extends JpaRepository<ProductVariant, Long> {
+    @Query("SELECT pv FROM ProductVariant pv")
+    List<ProductVariant> findAllProductVariants(Pageable pageable);
     List<ProductVariant> findProductVariantsByVariantDefaultIsTrue(Pageable pageable);
     @Query("SELECT pv FROM ProductVariant pv JOIN pv.product p WHERE pv.variantDefault = true AND p.genderType = :gender")
     List<ProductVariant> findProductVariantsByGender(String gender, Pageable pageable);
