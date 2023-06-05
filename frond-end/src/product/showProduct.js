@@ -3,31 +3,54 @@ import '../asset/css/home.css'
 import BarFilter from "../component/filter";
 import CartProduct from "../component/cartProduct";
 import {useContext, memo, useState, useEffect} from "react";
-import {ProductContext} from "../context/productContext";
+import {ProductContext, ProductProvider} from "../context/productContext";
 import Pagination from "../component/pagination";
-import axios from "axios";
-import {getListProduct} from "../asset/service/productService";
-import httpRequest from "../API/axios";
+
 import {useDispatch} from "react-redux";
-import product, {for_men} from "../feature/product";
+import product, {for_men, search} from "../feature/product";
 import {unwrapResult} from "@reduxjs/toolkit";
-import {getForMen} from "../service/productService";
+import {getForMen,getForWomen} from "../service/productService";
 
 function ShowProduct(props) {
-    const dispatch = useDispatch();
-    const { setUrlNew} = useContext(ProductContext);
+    const {key}=useContext(ProductContext)
     const [listProduct, setListProduct] = useState([]);
     const [postList, setPostList] = useState([]);
     const [begin, setBegin] = useState(0);
     const [end, setEnd] = useState(2)
     const [distance, setDistance] = useState(end - begin);
-
+    const url = window.location.href;
+    const [sex,setSex]=useState("")
+    const sexUrl = url.slice(34,)
     useEffect(() => {
-        getForMen()
-            .then(items => {
-                // console.log(items, "bbbb");
-                setListProduct([...items])
-            })
+
+        console.log(sexUrl, "sex")
+        if (sexUrl === "men") {
+            getForMen()
+                .then(items => {
+                    // console.log(items, "bbbb");
+                    setListProduct([...items])
+                    setSex("Men");
+
+                })
+        }
+       else  if(sexUrl==="women"){
+            getForWomen()
+                .then(items => {
+                    setListProduct([...items])
+                    setSex("Women")
+
+                })
+        }else{
+           search(key).then(items => {
+               console.log(items)
+               setListProduct([...items])
+               setSex("")
+
+
+           })
+
+        }
+
     }, [listProduct])
     useEffect(() => {
 
@@ -35,20 +58,15 @@ function ShowProduct(props) {
         for (let i = begin; i < end; i++) {
             listPa.push(listProduct[i])
         }
-        // console.log(listPa,"qqqq")
         setPostList([...listPa])
-        console.log(postList,"yyyy");
 
 
-    }, [begin,end,listProduct,postList])
+    }, [begin, end, listProduct])
 
     function handlePageChange(newPage) {
-        console.log("new page")
-
         if (newPage === "next") {
             if (end <= listProduct.length) {
                 if (end + (end - begin) > listProduct.length) {
-                    console.log("dinh")
                     setBegin(begin + (end - begin));
                     setEnd(end + (listProduct.length - end))
                 } else {
@@ -72,7 +90,6 @@ function ShowProduct(props) {
     }
 
 
-
     return (
         <>
             <div className="container-fluid">
@@ -84,9 +101,9 @@ function ShowProduct(props) {
                         </ol>
                     </nav>
                 </div>
-                <h1>Discount Perfume for Women</h1>
+                <h1>Discount Perfume for {sex}</h1>
                 <div className="d-flex">
-                    <p className="product__search">1-60 of {listProduct.length} Results</p>
+                    <p className="product__search">{begin}- {end} of {listProduct.length} Results</p>
                     <div className="product__search d-flex  justify-content-end">
                         <label htmlFor="inputState">Order by:</label>
                         <form>
@@ -106,11 +123,12 @@ function ShowProduct(props) {
                     </div>
                     <div className="show col-sm-10 row  overflow-hidden position-relative flex-wrap">
                         {
-                            postList.map(data => <CartProduct data={data}/>)
+                            postList.map(data => data !== undefined && <CartProduct data={data} sex={sex}/>)
 
                         }
 
-                        <Pagination begin={begin} end={end} totalRow={listProduct.length} onPageChange={handlePageChange}
+                        <Pagination begin={begin} end={end} totalRow={listProduct.length}
+                                    onPageChange={handlePageChange}
                         />
                     </div>
 

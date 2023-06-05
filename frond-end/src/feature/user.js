@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
-import {publicRequest} from "../API/axios";
+import {protectedRequest, publicRequest} from "../API/axios";
 
 let initialState = {
     user: "",
@@ -20,10 +20,19 @@ export const forgotPass = createAsyncThunk('user/forgot', async (body) => {
     return res;
 
 })
-export const logout = () => {
-    localStorage.removeItem("token");
-};
+export const resetPass = createAsyncThunk('user/reset', async (body) => {
+    const res = await publicRequest().post("/api/auth/reset-password", body)
+    return res;
 
+})
+export const logout =async () => {
+    return localStorage.removeItem("token");
+};
+export const getAddressList = createAsyncThunk('user/address', async (body) => {
+    const res = await protectedRequest().get("/user/address",body)
+    return res.data;
+
+})
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -34,14 +43,15 @@ const userSlice = createSlice({
         addUser: (state, action) => {
             state.user = localStorage.getItem("user")
         },
+        // removeToken:(state,action)=>{
+        //     state.token=localStorage.removeItem("token")
+        // }
     },
     extraReducers: (b) => {
         b.addCase(loginUser.fulfilled, (state, action) => {
             state.token = action.payload;
             localStorage.setItem("token", action.payload);
         })
-
-
     }
 })
 export const {addToken, addUser} = userSlice.actions;

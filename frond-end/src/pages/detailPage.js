@@ -4,12 +4,10 @@ import DetailProduct from "../detail/detailProduct";
 import {memo, useContext, useState} from "react";
 import {ProductContext} from "../context/productContext";
 function DetailPage() {
-    const {result} = useContext(ProductContext);
-    // console.log(result+"sdfsdfds")
     return (
         <>
             <Header/>
-            <DetailProduct data={result}/>
+            <DetailProduct />
             <Footer/>
         </>
     )

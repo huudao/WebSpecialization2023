@@ -1,37 +1,23 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
+import { createSlice} from "@reduxjs/toolkit"
 import {publicRequest} from "../API/axios";
 
-let initialState = {
-    product: "",
-    token: "",
-    loading: false
-};
+
 export const for_men =async () => {
     const res = await publicRequest().get("/products/for-men");
-    console.log(res.data,"aaaa")
+    // console.log(res.data,"aaaa")
+    return res.data;
+}
+export const for_women =async () => {
+    const res = await publicRequest().get("/products/for-women");
+    // console.log(res.data,"aaaa")
+    return res.data;
+}
+export const detailProduct =async (productId,variantId) => {
+    const res = await publicRequest().get(`/products/${productId}/${variantId}`);
+    return res.data;
+}
+export const search =async (key) => {
+    const res = await publicRequest().get(`/products/search?keyword=${key}`);
     return res.data;
 }
 
-
-const productSlice = createSlice({
-    name: "product",
-    initialState,
-    reducers: {
-        // addToken: (state, action) => {
-        //     state.token = localStorage.getItem("token")
-        // },
-        // addUser: (state, action) => {
-        //     state.user = localStorage.getItem("user")
-        // },
-    },
-    extraReducers: (b) => {
-        // b.addCase(loginUser.fulfilled, (state, action) => {
-        //     state.token = action.payload;
-        //     localStorage.setItem("token", action.payload);
-        // })
-
-
-    }
-})
-export const {addToken, addUser} = productSlice.actions;
-export default productSlice.reducer;
