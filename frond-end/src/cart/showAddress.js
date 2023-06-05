@@ -1,14 +1,23 @@
-export function ShowAddress() {
+import {isDisabled} from "@testing-library/user-event/dist/utils";
+import {useEffect, useState} from "react";
+
+export function ShowAddress(props) {
+    const{username,specificAddress,phone,city,ward,district,isDefault} =props.data;
+    const [isDisable,setIsDisable]= useState(true)
+    useEffect(()=>{
+        if(isDefault===1) setIsDisable(true)
+
+    })
+
     return (
         <>
             <div className="d-flex">
                 <div className=" w-75">
-                    <p>Huynh Quoc Nhan | <small>98098080989</small></p>
-                    <p>126/17 đường 17,khu phố 5 126/17 đường 17,khu phố 5126/17 đường 17,khu phố 5126/17 đường
-                        17,khu phố 5</p>
+                    <p>{username} | <small>{phone}</small></p>
+                    <p>{specificAddress} phường {ward}, quận {district}, thành phố {city}</p>
                 </div>
                 <div className=" w-25 text-center m-auto">
-                    <button className="btn btn-warning">Chọn</button>
+                    <button className="btn btn-warning" disabled={isDisable}>Mặc định</button>
                 </div>
             </div>
         </>
