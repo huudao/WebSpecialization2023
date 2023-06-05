@@ -12,6 +12,7 @@ public class ProductVariantDetailsResponse {
     private float price;
     private float priceAfterDiscount;
     private float discount;
+    private int sellCount;
     private Integer stock;
     private List<String> imageList;
 }

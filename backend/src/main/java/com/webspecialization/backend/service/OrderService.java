@@ -1,6 +1,7 @@
 package com.webspecialization.backend.service;
 
 import com.webspecialization.backend.entity.*;
+import com.webspecialization.backend.exception.NotFoundException;
 import com.webspecialization.backend.model.request.PostOrderRequest;
 import com.webspecialization.backend.model.response.OrderResponse;
 import com.webspecialization.backend.repo.OrderRepository;
@@ -43,6 +44,13 @@ public class OrderService {
         return response;
     }
 
+    public List<OrderResponse> getAllOrder(){
+        List<Order> orderList = orderRepository.findAll();
+        List<OrderResponse> orderResponses = orderList.stream().map(converter::convertOrderToOrderResponse)
+                .collect(Collectors.toList());
+        return orderResponses;
+    }
+
     public OrderResponse postOrder(PostOrderRequest postOrderRequest) {
         User user = userService.getUser();
         Cart cart = user.getCart();
@@ -76,5 +84,20 @@ public class OrderService {
         Order responseOrder = orderRepository.save(order);
 
         return converter.convertOrderToOrderResponse(responseOrder);
+    }
+
+    public List<OrderResponse> getOrderByUsername(String username) {
+        User user = userService.getUserByUsername(username);
+        List<Order> orderList = orderRepository.getOrdersByUser(user);
+        List<OrderResponse> orderResponses = orderList.stream().map(converter::convertOrderToOrderResponse)
+                .collect(Collectors.toList());
+        return orderResponses;
+    }
+
+    public OrderResponse setOrderStatus(Long orderId, String status) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("order id not found"));
+        order.setStatus(status);
+        orderRepository.save(order);
+        return converter.convertOrderToOrderResponse(order);
     }
 }

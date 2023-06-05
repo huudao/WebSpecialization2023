@@ -170,4 +170,16 @@ public class Converter {
 
         return productResponse;
     }
+
+    public GetUserResponse convertUserToGetUserResponse(User user) {
+        GetUserResponse response = mapper.map(user, GetUserResponse.class);
+        List<String> roleList = new ArrayList<>();
+        for(UserRole userRole : user.getUserRoles()){
+            roleList.add(userRole.getRole().getRoleName());
+        }
+        response.setRoleList(roleList);
+        return response;
+    }
+
+
 }
