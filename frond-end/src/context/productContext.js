@@ -2,6 +2,7 @@ import {createContext, useEffect, useState} from "react";
 
 export const ProductContext = createContext({});
 export const ProductProvider = (props) => {
+    const [count, setCount] = useState("0")
     const [result, setResult] = useState({})
     const [productId, setProductId] = useState(0);
     const [variantId, setVariantId] = useState(0);
@@ -23,7 +24,7 @@ export const ProductProvider = (props) => {
     const getDetail=()=>{
         return result;
     }
-    const valueContext = {setVariantIdNew,setProductIdNew, setProductId,setVariantId, setResult,getDetail,productId,variantId}
+    const valueContext = {setVariantIdNew,setProductIdNew, setProductId,setVariantId, setResult,getDetail,productId,variantId,setCount,count}
     return <ProductContext.Provider value={valueContext}>{props.children}</ProductContext.Provider>
 
 }

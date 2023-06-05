@@ -1,5 +1,36 @@
 import '../asset/css/cart.css'
+import {useContext, useEffect, useState} from "react";
+import {getCart} from "../feature/cart";
+import {InfoProduct} from "./infoProduct";
+import {NavLink} from "react-router-dom";
+import {ProductContext} from "../context/productContext";
+import {ListAddress} from "../cart/listAddress";
+
 function Cart() {
+    const [data, setData] = useState({});
+    const [listProduct, setListProduct] = useState([])
+    const {setCount} = useContext(ProductContext);
+
+    useEffect(() => {
+        getCart()
+            .then(res => {
+                setData(res)
+                setListProduct(res.cartItems)
+            }).catch(err => console.err)
+        // if (localStorage.getItem("token") != null) {
+        //     setCount(listProduct.length + 1)
+        // } else {
+        //     setCount(0)
+        //     setData(null)
+        //
+        // }
+        // ;
+
+
+    }, [data, listProduct])
+    function  handlerCheckout(){
+
+    }
     return (
         <>
             <div className="container-fluid cart row">
@@ -7,81 +38,61 @@ function Cart() {
 
 
                     <div className="cart__info fs-2 font-monospace">
-                        Total(2 items): đ 1,906,805,58
+                        Total (
+                        {listProduct.length!==0 ? listProduct.length : "0"} items):
+                        đ {data.length !== 0 && data.totalPrice}
                     </div>
                     <div className="continue__shopping ">
-                        <a href="#" className="d-flex text-decoration-none text-black">
+                        <NavLink to={"/product/sex?women"} className="d-flex text-decoration-none text-black">
                             <i class="fas fa-arrow-left m-2"></i>
                             <p className="m-1">Continue shopping</p>
-                        </a>
+                        </NavLink>
 
                     </div>
-                    <div className="cart__product">
+                    <small className="cart__product ">
                         <table class="table">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Product Information</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
+                                <th className="w-50" scope="col">Product Information</th>
+                                <th className="text-center" scope="col">Price</th>
+                                <th className="text-center" scope="col">Quantity</th>
+                                <th className="text-center" scope="col">Total</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>
-                                    <div className="product__info d-flex">
-                                        <img src="https://img.fragrancex.com/images/products/sku/small/69036.webp" width={"200px"} height={"200px"}></img>
-                                        <div className="product__detail">
-                                            <div className="product__tile fs-5"><a className="text-decoration-none" href="#">Light Blue Perfume</a></div>
-                                            <div className="product__brands">By Dolce & Gabbana</div>
-                                            <div className="product__id"><small>Item #43534</small></div>
-                                            <div className="product__ml">0.7 oz Eau De Toilette Spray</div>
-                                            <div className="product__status">In stock</div>
-                                        </div>
-                                    </div>
+                            {listProduct.map((data, index) => (data.length !== 0) &&
+                                <InfoProduct data={data} count={index}/>)}
 
-                                </td>
-                                <td>
-                                    đ 565,465,464,56
-                                </td>
-                                <td>
-                                    <select name="unit" id="number" className="form-select-sm">
-                                        <option value="1" >1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                    </select>
-                                </td>
-                                <td>453,454,345,33</td>
-                            </tr>
 
                             </tbody>
                         </table>
-                    </div>
+                    </small>
                 </div>
                 <div className="cart__payment   col-sm-4">
-                    <button className="btn btn-block my-3 " height={"50px"}>Process to Checkout</button>
-                    <button className="btn btn-block text-bg-info">Check out with <img src='https://img.fragrancex.com/images/paypal.svg'></img></button>
+                    <button className="btn btn-block my-3 " height={"50px"} onClick={handlerCheckout}>Process to Checkout</button>
+                    <button className="btn btn-block text-bg-info">Check out with <img
+                        src='https://img.fragrancex.com/images/paypal.svg'></img></button>
                     <div className="cart__sum">
                         <div className="d-flex m-2">
                             <p className="justify-content-start">Subtotal</p>
-                            <p className="text-end">đ 2,345,3544</p>
+                            <p className="text-end">đ {data.totalCartPrice}</p>
                         </div>
                         <hr/>
                         <div className="d-flex m-2">
                             <p className="justify-content-start">Total</p>
-                            <p className="text-end">đ 2,345,3544</p>
+                            <p className="text-end">đ {data.totalPrice}</p>
                         </div>
 
                     </div>
+                </div>
+                <div className="w-100 h-100 position-absolute  bg-opacity-75 " >
+                    <ListAddress/>
                 </div>
 
             </div>
         </>
     )
 }
+
 export default Cart;

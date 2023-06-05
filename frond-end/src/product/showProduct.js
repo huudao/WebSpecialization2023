@@ -5,9 +5,7 @@ import CartProduct from "../component/cartProduct";
 import {useContext, memo, useState, useEffect} from "react";
 import {ProductContext} from "../context/productContext";
 import Pagination from "../component/pagination";
-import axios from "axios";
-import {getListProduct} from "../asset/service/productService";
-import httpRequest from "../API/axios";
+
 import {useDispatch} from "react-redux";
 import product, {for_men} from "../feature/product";
 import {unwrapResult} from "@reduxjs/toolkit";
@@ -15,7 +13,6 @@ import {getForMen,getForWomen} from "../service/productService";
 
 function ShowProduct(props) {
     const dispatch = useDispatch();
-    // const {setUrlNew} = useContext(ProductContext);
     const [listProduct, setListProduct] = useState([]);
     const [postList, setPostList] = useState([]);
     const [begin, setBegin] = useState(0);

@@ -4,8 +4,10 @@ import {Menu} from "./menu";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../feature/user";
-
+import {useContext} from "react";
+import {ProductContext} from "../context/productContext";
 function Header() {
+    const {count} = useContext(ProductContext);
     const dispatch = useDispatch();
     let navigate = useNavigate();
     const {user} = useSelector((state) => state);
@@ -18,7 +20,7 @@ function Header() {
     }
     useEffect(() => {
         const token = localStorage.getItem("token");
-        console.log(token, "user");
+        // console.log(token, "user");
         if (token !== null) {
             setLogin("Logout")
         } else {
@@ -79,7 +81,7 @@ function Header() {
                     <div className='cart__shopping col-sm-1'>
                         <div className='pop d-flex '>
                             <a className="cart d-flex" href='/cart'>
-                                <div className='count text-light'>1</div>
+                                <div className='count text-light'>0</div>
                                 <span className="text-light h4">Cart</span>
                             </a>
                         </div>

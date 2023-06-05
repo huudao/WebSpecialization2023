@@ -1,18 +1,44 @@
+import {useEffect, useState} from "react";
+import {addCart} from "../feature/cart";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {ProductContext} from "../context/productContext";
+import {useContext} from "react";
 export function Detail(props){
+    const {setCount} =useContext(ProductContext);
+    let size =props.size;
     const result =props.result;
+    const variantId =result.variantId;
     function handlerAddCart(){
+        const amount = document.getElementById("amount").value;
+        console.log(amount, variantId);
+        addCart(variantId, amount).then(r =>{
+            if(r.status===200){
+                console.log(size+1)
+            }
+            // console.log(r,"uuuu")
+        })
+
 
     }
     return(
         <>
+            <hr/>
             <div className="choose">
                 <div className="choose__info row">
                     <img className="col-sm-2"
-                         src={result.imageUrls} style={{width:"100px", height:"100px"}}/>
+                         src={result.imageList[0]} style={{width:"100px", height:"100px"}}/>
                     <div className="pop__content col-sm-5">
-                        <p className="fw-bold m-1">100 ml Eau De Parfum Spray</p>
+                        <p className="fw-bold m-1">{result.size} ml Eau De Parfum Spray</p>
                         <small>Item #538279</small>
                         <p>In Stock</p>
+                        <select id="amount" className="form-select w-25" aria-label="Default select example">
+                            <option value="1" >1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+
+                        </select>
 
                     </div>
                     <div className="cart__add col-sm-5 text-center">

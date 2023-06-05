@@ -6,8 +6,7 @@ import {unwrapResult} from "@reduxjs/toolkit";
 import {ToastContainer, toast, Slide} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const account = [{name: "123", password: "123", email: "dfd@gmail.com"},
-]
+
 
 export function Register() {
     const dispatch = useDispatch();

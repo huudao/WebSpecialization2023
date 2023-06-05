@@ -6,25 +6,34 @@ import {Detail} from "../component/detail";
 import {useDispatch} from "react-redux";
 import {detailProduct} from "../feature/product";
 
+
 function DetailProduct(props) {
     const dispatch = useDispatch();
     const {productId, variantId, getDetail} = useContext(ProductContext);
-    const result = getDetail();
-    const [varients, setVarients] = useState([]);
-    // console.log(result.star)
-    const styleStar = {
-        width: `${result.star}%`
-    }
-    useEffect(() => {
-        console.log(productId, variantId, "in detail")
-        detailProduct(productId, variantId)
-            .then(items => {
-                console.log(items, "ccc")
-                setVarients([...items]);
-            })
-        console.log(varients, "uuuu")
+    // const result = getDetail();
+    const [variants, setVariants] = useState([]);
+    const [product, setProduct] = useState({});
+    const [img, setImg] = useState([]);
 
-    }, [varients])
+    const styleStar = {
+        width: `${variants.star}%`
+    }
+    const currentURL = window.location.href;
+
+    const proId=currentURL.charAt(30);
+    const varId=currentURL.charAt(33);
+    useEffect(() => {
+        console.log(proId,varId)
+        detailProduct(proId, varId)
+            .then(items => {
+                setProduct(items);
+                setImg([...items.imageUrls]);
+                console.log(img,"đfds")
+                setVariants([...items.variants]);
+            })
+
+
+    }, [variants,product,img])
 
 
     return (
@@ -40,9 +49,9 @@ function DetailProduct(props) {
                     </nav>
                     <div className="detail d-flex w-100">
                         <div className="watch text-center" style={{width: "30%"}}>
-                            <img src={result.imageUrls} style={{width: "300px", height: "300px"}}/><br/>
+                            <img src={img[0]} style={{width: "300px", height: "300px"}}/><br/>
                             <a className="play_review" href="#">
-                                <img src={result.imageUrls} style={{width: "30px", height: "30px"}}/>
+                                <img src={img[0]} style={{width: "30px", height: "30px"}}/>
                                 <span>Watch Our Review</span>
 
                             </a>
@@ -50,8 +59,8 @@ function DetailProduct(props) {
 
 
                         <div className="detail__info" style={{width: "70%"}}>
-                            <p className="h5">{result.name}</p>
-                            <p>By <a href="/product">{result.brand}</a> for {result.sex}</p>
+                            <p className="h5">{product.name}</p>
+                            <p>By <a href="/product">{product.brandName}</a> for {variants.sex}</p>
                             <p> 1 sizes available</p>
                             <div className="product__review  d-flex ">
                                 <div className="product__star  ">
@@ -59,7 +68,9 @@ function DetailProduct(props) {
                                 </div>
                                 <div className="review__count">Read 73 Reviews</div>
                             </div>
-                            <Detail result={result}/>
+                            {
+                                variants.map((data) => <Detail result={data} size={variants.length}/>)
+                            }
 
                         </div>
 
