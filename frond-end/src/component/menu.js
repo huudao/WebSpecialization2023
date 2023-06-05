@@ -1,6 +1,6 @@
 import {NavLink} from "react-router-dom";
 
-export function Menu() {
+export function Menu(props) {
     return (
         <>
             <a className="btn btn__menu" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
@@ -21,9 +21,9 @@ export function Menu() {
                 <div className="offcanvas-body ">
                     <hr></hr>
                     <ul className="ms-0 ps-1 text-light">
-                        <li className="text-light"><NavLink className="text-decoration-none text-light " to="/">Perfume</NavLink></li>
-                        <li className="text-light"><NavLink className="text-decoration-none text-light" to="/login">Sign in</NavLink></li>
-                        <li className="text-light"><NavLink className="text-decoration-none text-light"  to="/order">Order lookup</NavLink></li>
+                        <li className="text-light"><NavLink className="text-decoration-none text-light fw-bold" to="/">Perfume</NavLink></li>
+                        <li className="text-light pe-auto" style={{cursor:"pointer"}}><h5 className="text-decoration-none text-light fw-bold pe-auto" onClick={props.handleLogout}>{props.login}</h5></li>
+                        <li className="text-light"><NavLink className="text-decoration-none text-light fw-bold"  to="/order">Order lookup</NavLink></li>
                     </ul>
                 </div>
             </div>
