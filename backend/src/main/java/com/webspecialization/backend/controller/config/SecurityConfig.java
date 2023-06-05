@@ -1,4 +1,4 @@
-package com.webspecialization.backend.config;
+package com.webspecialization.backend.controller.config;
 
 import com.webspecialization.backend.security.filter.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;

@@ -7,6 +7,7 @@ import com.webspecialization.backend.model.request.UpdateUserInformationRequest;
 import com.webspecialization.backend.model.response.UserAddressResponse;
 import com.webspecialization.backend.model.response.UserInformationResponse;
 import com.webspecialization.backend.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class UserController {
         return ResponseEntity.ok(userAddressResponseList);
     }
     @PostMapping ("/address")
-    public ResponseEntity<List<UserAddressResponse>> addUserAddress(@RequestBody AddUserAddressRequest addUserAddressRequest){
+    public ResponseEntity<List<UserAddressResponse>> addUserAddress(@Valid @RequestBody AddUserAddressRequest addUserAddressRequest){
         List<UserAddressResponse> userAddressResponseList = userService.addUserAddress(addUserAddressRequest.getUsername(),addUserAddressRequest.getPhone(), addUserAddressRequest.getCity(), addUserAddressRequest.getDistrict(), addUserAddressRequest.getWard(), addUserAddressRequest.getSpecificAddress(), addUserAddressRequest.getIsDefault());
         return ResponseEntity.ok(userAddressResponseList);
     }
