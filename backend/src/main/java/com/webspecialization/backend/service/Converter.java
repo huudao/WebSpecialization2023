@@ -38,11 +38,8 @@ public class Converter {
         detailsResponse.setAverageRating(productVariant.getProduct().averageRating());
         detailsResponse.setDescription(productVariant.getProduct().getDescription());
         detailsResponse.setShippingPolicy(productVariant.getProduct().getShippingPolicy());
-        List<String> imageUrls = new ArrayList<>();
-        for(Image urls : productVariant.getImages()){
-            imageUrls.add(urls.getUrl());
-        }
-        detailsResponse.setImageUrls(imageUrls);
+        List<String> imageProductList = new ArrayList<>();
+
 
         List<ProductVariantDetailsResponse> variantDetailsResponseList = new ArrayList<>();
         for(ProductVariant variant : productVariant.getProduct().getVariants()) {
@@ -51,11 +48,13 @@ public class Converter {
             List<String> imageVariantList = new ArrayList<>();
             for(Image urls : variant.getImages()){
                 imageVariantList.add(urls.getUrl());
+                imageProductList.add(urls.getUrl());
             }
             variantDetailsResponse.setImageList(imageVariantList);
             variantDetailsResponseList.add(variantDetailsResponse);
         }
         detailsResponse.setVariants(variantDetailsResponseList);
+        detailsResponse.setImageUrls(imageProductList);
 
         return detailsResponse;
     }
