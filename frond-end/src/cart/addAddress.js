@@ -1,8 +1,9 @@
 import {NavLink} from "react-router-dom";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
 import {addAddress} from "../feature/address";
-
+import {AddressContext} from "../context/addressContext"
 export function AddAddress() {
+    const {setShowList}=useContext(AddressContext);
 
     function handlerOnSubmit() {
 
@@ -46,6 +47,7 @@ export function AddAddress() {
         console.log(name, phone, city, district, guild, special)
         addAddress(name, phone, city, district,guild, special)
             .then((res) => {
+                setShowList(true)
                 console.log("success");
                 console.log(res)
             })

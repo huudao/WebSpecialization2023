@@ -8,6 +8,7 @@ let initialState = {
 };
 export const loginUser = createAsyncThunk('user/login', async (body) => {
     const res = await publicRequest().post("/api/auth/login", body);
+    console.log(res)
     return res.data;
 })
 export const registerUser = createAsyncThunk('user/register', async (body) => {
@@ -50,7 +51,9 @@ const userSlice = createSlice({
     extraReducers: (b) => {
         b.addCase(loginUser.fulfilled, (state, action) => {
             state.token = action.payload;
+
             localStorage.setItem("token", action.payload);
+
         })
     }
 })

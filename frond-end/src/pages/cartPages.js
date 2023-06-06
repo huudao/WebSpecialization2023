@@ -1,13 +1,17 @@
 import Header from "../component/header";
 import Footer from "../component/footer";
 import Cart from "../cart/cart";
+import {AddressProvider} from "../context/addressContext";
+
 function CartPage() {
     return (
-        <>
-            <Header></Header>
-            <Cart></Cart>
-            <Footer></Footer>
-        </>
+        <AddressProvider>
+            <>
+                <Header></Header>
+                <Cart></Cart>
+                <Footer></Footer>
+            </>
+        </AddressProvider>
     )
 };
 

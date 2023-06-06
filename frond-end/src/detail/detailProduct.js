@@ -20,20 +20,21 @@ function DetailProduct(props) {
     }
     const currentURL = window.location.href;
 
-    const proId=currentURL.charAt(30);
-    const varId=currentURL.charAt(33);
+    const myArray = currentURL.split("/:");
+    const proId = myArray[1];
+    const varId = myArray[2];
     useEffect(() => {
-        console.log(proId,varId)
+        console.log(proId, varId)
         detailProduct(proId, varId)
             .then(items => {
                 setProduct(items);
                 setImg([...items.imageUrls]);
-                console.log(img,"đfds")
+                console.log(img, "đfds")
                 setVariants([...items.variants]);
             })
 
 
-    }, [variants,product,img])
+    }, [variants, product, img])
 
 
     return (

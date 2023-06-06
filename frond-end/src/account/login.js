@@ -33,8 +33,9 @@ export function Login() {
     }
 
     useEffect(() => {
-        console.log(user.token, user)
-        if (user.token) navigate("/")
+        console.log(user.role, user.username,"sdfsdfsd")
+        if (user.token)
+            navigate("/")
     }, [user])
 
     function handlerOnSubmit(e) {
@@ -44,8 +45,12 @@ export function Login() {
         dispatch(loginUser({username, password}))
         .then(unwrapResult)
         .then(res => {
-            if (res.status === 200) {
+            console.log(res.data.role_id,"user")
+            if (res.data.role_id === 1) {
                  navigate("/");
+            }else {
+                navigate("/managerment");
+
             }
 
         });

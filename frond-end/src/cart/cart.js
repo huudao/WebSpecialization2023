@@ -21,7 +21,7 @@ function Cart() {
                 setData(res)
                 setListProduct(res.cartItems)
             }).catch(err => console.err)
-
+        setCount(listProduct.length);
     }, [data, listProduct])
 
     function handlerCheckout() {
@@ -93,7 +93,7 @@ function Cart() {
                 </div>
                 {isShow === true &&
                 <div className="w-100 h-100 position-absolute  bg-opacity-75 ">
-                    {listAddress.map(data => <ListAddress data={data}/>)}
+                     <ListAddress data={listAddress}/>
 
                 </div>
                 }

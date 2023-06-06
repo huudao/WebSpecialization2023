@@ -6,7 +6,7 @@ export function ShowAddress(props) {
     const [isDisable,setIsDisable]= useState(true)
     useEffect(()=>{
         if(isDefault===1) setIsDisable(true)
-
+        else setIsDisable(false)
     })
 
     return (
@@ -20,6 +20,8 @@ export function ShowAddress(props) {
                     <button className="btn btn-warning" disabled={isDisable}>Mặc định</button>
                 </div>
             </div>
+            <hr/>
+
         </>
     )
 }

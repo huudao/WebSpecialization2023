@@ -14,7 +14,7 @@ import OrderLookupPage from "./pages/orderLookupPage";
 import {ProductProvider} from "./context/productContext"
 import ForgotPassPage from "./pages/forgotPassPage";
 import ResetPassPage from "./pages/resetPassPage";
-
+import AdminPage  from "./pages/adminPage"
 function App() {
     const getDataDetail = () => {
     }
@@ -34,6 +34,8 @@ function App() {
 
                 <Route index element={<HomePage/>} exact/>
                 <Route path="/cart" element={<CartPage/>} exact/>
+                <Route path="/management/product" element={<AdminPage/>} exact/>
+                <Route path="/management/user" element={<AdminPage/>} exact/>
                 <Route path="/product" element={<ProductPage/>} exact/>
                 <Route path="/product/:sex" element={<ProductPage/>} exact/>
                 <Route path="/detail/:id/:varianId" element={<DetailPage/>} exact/>

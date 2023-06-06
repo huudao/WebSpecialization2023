@@ -16,7 +16,7 @@ function ShowProduct(props) {
     const [listProduct, setListProduct] = useState([]);
     const [postList, setPostList] = useState([]);
     const [begin, setBegin] = useState(0);
-    const [end, setEnd] = useState(2)
+    const [end, setEnd] = useState(5)
     const [distance, setDistance] = useState(end - begin);
     const url = window.location.href;
     const [sex,setSex]=useState("")
