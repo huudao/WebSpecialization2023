@@ -9,6 +9,7 @@ import lombok.Data;
 
 @Data
 public class SaveProductReviewRequest {
+    private int productId;
     @Valid
 
     private Long productId;
