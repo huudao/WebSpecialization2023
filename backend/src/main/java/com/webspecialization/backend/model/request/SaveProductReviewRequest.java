@@ -9,6 +9,7 @@ import lombok.Data;
 
 @Data
 public class SaveProductReviewRequest {
+    private int productId;
     @Valid
     @NotNull(message = "rating is required")
     @Min(value = 1, message = "rating must be at least 1")
@@ -21,5 +22,5 @@ public class SaveProductReviewRequest {
     @Size(max = 500, message = "review cannot exceed 500 characters")
     private String review;
 
-    private Boolean isRecommend;
+    private boolean isRecommend;
 }

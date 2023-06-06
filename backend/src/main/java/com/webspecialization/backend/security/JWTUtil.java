@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class JWTUtil {
@@ -18,9 +19,11 @@ public class JWTUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String generateToken(String username) {
-        return Jwts.builder().setSubject(username).setExpiration(new Date(System.currentTimeMillis() + expiration)).signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
-
+    public String generateToken(String username,  List<String> roles) {
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("roles", roles);
+        return Jwts.builder()
+                .setClaims(claims).setExpiration(new Date(System.currentTimeMillis() + expiration)).signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
     }
 
     public String getToken(HttpServletRequest request) {
