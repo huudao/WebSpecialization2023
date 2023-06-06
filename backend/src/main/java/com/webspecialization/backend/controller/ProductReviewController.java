@@ -4,6 +4,7 @@ import com.webspecialization.backend.model.request.SaveProductReviewRequest;
 import com.webspecialization.backend.model.request.UpdateReviewRequest;
 import com.webspecialization.backend.model.response.ProductReviewResponse;
 import com.webspecialization.backend.service.ProductReviewService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class ProductReviewController {
 
 
     @PostMapping("/products/{productId}/reviews")
-    public ResponseEntity<?> review(@RequestBody SaveProductReviewRequest saveProductReviewRequest) {
+    public ResponseEntity<?> review(@Valid @RequestBody SaveProductReviewRequest saveProductReviewRequest) {
         productReviewService.saveProductReview(saveProductReviewRequest);
         return ResponseEntity.ok().body("Comment added successfully");
     }

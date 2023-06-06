@@ -5,6 +5,7 @@ import com.webspecialization.backend.model.request.AddProductRequest;
 import com.webspecialization.backend.model.response.ProductResponse;
 import com.webspecialization.backend.model.response.ProductVariantResponse;
 import com.webspecialization.backend.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class ProductManagementController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<List<ProductVariantResponse>> addProduct(@RequestBody AddProductRequest request) {
+    public ResponseEntity<List<ProductVariantResponse>> addProduct(@Valid @RequestBody AddProductRequest request) {
         List<ProductVariantResponse> products = productService.addProduct(request);
         return ResponseEntity.ok(products);
     }
