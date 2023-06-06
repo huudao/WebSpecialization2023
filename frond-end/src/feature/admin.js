@@ -1,4 +1,4 @@
-import {protectedRequest, publicRequest} from "../API/axios";
+import {protectedRequest} from "../API/axios";
 
 export const getAllProduct =async () => {
     const res = await protectedRequest().get("/admin/product");

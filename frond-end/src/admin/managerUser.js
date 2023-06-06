@@ -19,8 +19,7 @@ function ManagerUser() {
                 <div className="">
                     <div className="h-75 mb-5">
                         <div className="d-flex">
-                            <NavLink to="/management/user" className="btn btn-primary h-100"
-                                    >Quản lý người dùng</NavLink>
+                            <NavLink to="/management/user" className="btn btn-primary h-100">Quản lý người dùng</NavLink>
                             <NavLink to="/management/product" className="btn btn-primary">Quản lý sản phẩm</NavLink>
                             <NavLink to="/management/order" className="btn btn-primary">Quản lý đơn hàng</NavLink>
 

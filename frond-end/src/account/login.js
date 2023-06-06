@@ -38,13 +38,15 @@ export function Login() {
     useEffect(() => {
         try {
             const token = localStorage.getItem("token");
-            var decodedHeader = jwt_decode(token, { header: true });
-            console.log(decodedHeader.json);
+            const list =token.split(".");
+
+            var decodedHeader = jwt_decode(token, {header: true});
+            console.log(decodedHeader);
             console.log(token, "token")
-            const {roles} = decodeJWT(token);
-            console.log(roles, "sdfsdfsd")
-            // if (user.token)
-            //     navigate("/")}
+            const {sub} = decodeJWT(token);
+            console.log({sub}, "sdfsdfsd")
+            if (user.token)
+                navigate("/")
         } catch (e) {
             console.log(e)
         }

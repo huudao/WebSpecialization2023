@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getAllOrder, getAllProduct, getAllUser} from "../feature/admin";
+import {getAllOrder} from "../feature/admin";
 import {OrderShow} from "./orderShow";
 import {NavLink} from "react-router-dom";
 
@@ -19,8 +19,7 @@ function ManagerProduct() {
                 <div className="container">
                     <div className="row">
                         <div id="manager " className="h-100">
-                            <NavLink to="/management/user" className="btn btn-primary h-100"
-                                    >Quản lý người dùng</NavLink>
+                            <NavLink to="/management/user" className="btn btn-primary h-100">Quản lý người dùng</NavLink>
                             <NavLink to="/management/product" className="btn btn-primary">Quản lý sản phẩm</NavLink>
                             <NavLink to="/management/order" className="btn btn-primary">Quản lý đơn hàng</NavLink>
 

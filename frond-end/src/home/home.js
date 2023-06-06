@@ -1,10 +1,12 @@
+import {NavLink} from "react-router-dom";
+
 function Home() {
     return (
         <>
             <div className="container-fluid brands py-4">
                 <div className="brands__title text-center">
                     <div className="h2 text-center">Top Fragrance Brands</div>
-                    <a className=" " href="#">View All Brands</a>
+                    <NavLink to="/product" className=" ">View All Brands</NavLink>
                 </div>
                 <div className="brands__detail d-flex flex-wrap justify-content-center mx-5 my-5">
                     <div className="part d-flex rounded mx-3 my-3 ">
@@ -44,10 +46,10 @@ function Home() {
             <div className="bestsaler container p-5">
                 <div className="brands__title text-center">
                     <div className="h2 text-center">Best Saller</div>
-                    <a className=" " href="#">See All</a>
+                    <NavLink to="/product"className=" " >See All</NavLink>
                 </div>
                 <div className="bestsaler__product  row  overflow-hidden position-relative flex-nowrap ">
-                    <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
+                    <NavLink to="/product" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
                         <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
                         <div className="product__name h5">Bright Crystal</div>
                         <div className="product__brand">By Versace</div>
@@ -60,8 +62,8 @@ function Home() {
 
                         <div className="product__name">đ 237,940.70</div>
 
-                    </a>
-                    <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
+                    </NavLink>
+                    <NavLink to="/product" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
                         <img src="https://img.fragrancex.com/images/products/sku/small/81419w.webp"></img>
                         <div className="product__name h5">
                             Lattafa Pride Royal Sapphire</div>
@@ -75,8 +77,8 @@ function Home() {
 
                         <div className="product__name">đ 237,940.70</div>
 
-                    </a>
-                    <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
+                    </NavLink>
+                    <NavLink to="/product" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
                         <img src="https://img.fragrancex.com/images/products/sku/small/81418w.webp"></img>
                         <div className="product__name h5">
                             <div className="serif h3">
@@ -92,8 +94,8 @@ function Home() {
 
                         <div className="product__name">đ 237,940.70</div>
 
-                    </a>
-                    <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
+                    </NavLink>
+                    <NavLink to="/product"  className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
                         <img src="https://img.fragrancex.com/images/products/sku/small/81422w.webp"></img>
                         <div className="product__name h5">
                             <div className="serif h3">
@@ -109,8 +111,8 @@ function Home() {
 
                         <div className="product__name">đ 237,940.70</div>
 
-                    </a>
-                    <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
+                    </NavLink>
+                    <NavLink to="/product"  className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
                         <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
                         <div className="product__name h5">Bright Crystal</div>
                         <div className="product__brand">By Versace</div>
@@ -123,8 +125,8 @@ function Home() {
 
                         <div className="product__name">đ 237,940.70</div>
 
-                    </a>
-                    <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
+                    </NavLink>
+                    <NavLink to="/product"  className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
                         <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
                         <div className="product__name h5">Bright Crystal</div>
                         <div className="product__brand">By Versace</div>
@@ -137,8 +139,8 @@ function Home() {
 
                         <div className="product__name">đ 237,940.70</div>
 
-                    </a>
-                    <a href="#" className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
+                    </NavLink>
+                    <NavLink to="/product"  className="bestsaler__product-detail text-center col-sm-3 text-decoration-none ">
                     <img src="https://img.fragrancex.com/images/products/sku/small/61100w.webp"></img>
                     <div className="product__name h5">Bright Crystal</div>
                     <div className="product__brand">By Versace</div>
@@ -151,7 +153,7 @@ function Home() {
 
                     <div className="product__name">đ 237,940.70</div>
 
-                </a>
+                    </NavLink>
 
 
 
