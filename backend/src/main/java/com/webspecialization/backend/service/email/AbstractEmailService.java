@@ -47,7 +47,7 @@ public abstract class AbstractEmailService implements EmailService {
         String token = UUID.randomUUID().toString();
         u.setResetPasswordToken(token);
         repository.save(u);
-        String resetPasswordLink = " http://localhost:3000/" + "api/auth/reset-password?token=" + token;
+        String resetPasswordLink = "http://localhost:3000/" + "api/auth/reset-password?token=" + token;
 
         SimpleMailMessage sm = prepareLinkForResetPasswordEmail(email, resetPasswordLink);
         sendEmail(sm);

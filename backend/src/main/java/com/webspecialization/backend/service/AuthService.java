@@ -20,12 +20,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -46,8 +49,14 @@ public class AuthService {
     public String login(LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
         try {
-            authenticationManager.authenticate(token);
-            String jwt = jwtUtil.generateToken(loginRequest.getUsername());
+            Authentication authentication =authenticationManager.authenticate(token);
+
+            List<String> roles = authentication.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+
+
+            String jwt = jwtUtil.generateToken(loginRequest.getUsername(), roles);
             return jwt;
         } catch (Exception e) {
             throw new InvalidArgumentException("Username or password is wrong");
