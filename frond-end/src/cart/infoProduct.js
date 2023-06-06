@@ -1,9 +1,10 @@
 import {useContext, useState} from "react";
 import {decrement, deleteCart, increment} from "../feature/cart";
-
+import {ProductContext}  from "../context/productContext"
 export function InfoProduct(props) {
     // var i=0;
     // const [count,setCount]=useState(amount)
+    const {setCount}=useContext(ProductContext)
 
     const {
         imgUrl,
@@ -20,12 +21,8 @@ export function InfoProduct(props) {
 
     function handlerDelete() {
         deleteCart(cartItemId).then(res => {
-            console.log(res.status,"status")
-                if (res.status === 404) {
-                    window.location.reload()
-
-                }
             }
+        ).catch(() => window.location.reload()
         )
     }
 

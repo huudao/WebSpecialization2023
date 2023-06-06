@@ -70,7 +70,7 @@ export function Register() {
                 setTimeout( ()=>{navigate("/login")},2000)
             })
             .catch(err => {
-                toast.error('🦄 Fail!', {
+                toast.error(`🦄 ${err.message}!`, {
                     position: "top-right",
                     autoClose: 4000,
                     hideProgressBar: false,

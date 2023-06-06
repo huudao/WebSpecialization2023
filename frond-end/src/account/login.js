@@ -5,6 +5,8 @@ import {forgotPass, loginUser} from "../feature/user";
 
 import {NavLink, useNavigate} from "react-router-dom"
 import {unwrapResult} from "@reduxjs/toolkit";
+import {Slide, toast, ToastContainer} from "react-toastify";
+import jwt_decode from "jwt-decode"
 
 
 export function Login() {
@@ -14,9 +16,10 @@ export function Login() {
     const [path, setPath] = useState("");
     const [errol, setErrol] = useState("");
 
-
-    function handler(event) {
-
+    const decodeJWT = (token) => {
+        const decodedToken = jwt_decode(token)
+        const {roles} = decodedToken;
+        return {roles}
     }
 
     function handlerOnchange(data, id) {
@@ -33,9 +36,21 @@ export function Login() {
     }
 
     useEffect(() => {
-        console.log(user.role, user.username,"sdfsdfsd")
-        if (user.token)
-            navigate("/")
+        try {
+            const token = localStorage.getItem("token");
+            var decodedHeader = jwt_decode(token, { header: true });
+            console.log(decodedHeader.json);
+            console.log(token, "token")
+            const {roles} = decodeJWT(token);
+            console.log(roles, "sdfsdfsd")
+            // if (user.token)
+            //     navigate("/")}
+        } catch (e) {
+            console.log(e)
+        }
+        {
+
+        }
     }, [user])
 
     function handlerOnSubmit(e) {
@@ -43,18 +58,36 @@ export function Login() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
         dispatch(loginUser({username, password}))
-        .then(unwrapResult)
-        .then(res => {
-            console.log(res.data.role_id,"user")
-            if (res.data.role_id === 1) {
-                 navigate("/");
-            }else {
-                navigate("/managerment");
+            .then(unwrapResult)
+            .then(res => {
 
-            }
+                console.log(res.data.role_id, "user")
+                if (res.data.role_id === 1) {
+                    navigate("/");
+                } else {
+                    navigate("/managerment");
 
-        });
-        function handlerForgotPass(e){
+                }
+
+            }).then(() => {
+            // const token = localStorage.getItem("token");
+            // const {roles} = decodeJWT(token);
+            // console.log(roles.json, "role")
+        })
+            .catch(err => {
+                toast.error(`🦄 ${err.message}!`, {
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                })
+            });
+
+        function handlerForgotPass(e) {
             dispatch(forgotPass())
         }
 
@@ -105,6 +138,16 @@ export function Login() {
 
                         {/*-- Submit button --*/}
                         <button type="submit" className="btn btn-primary btn-block mb-4">Sign in</button>
+                        <ToastContainer position="top-right"
+                                        autoClose={2000}
+                                        hideProgressBar={false}
+                                        newestOnTop={false}
+                                        closeOnClick
+                                        rtl={false}
+                                        draggable
+                                        pauseOnHover
+                                        transition={Slide}
+                                        theme="light"/>
                         {/*<button type="submit" className="btn btn-primary btn-block mb-4"><NavLink to={path}>Sign in</NavLink></button>*/}
 
                         {/*-- Register buttons --*/}

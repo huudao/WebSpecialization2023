@@ -9,7 +9,7 @@ import {ProductContext} from "../context/productContext";
 import {search} from "../feature/product";
 
 function Header() {
-    const {count,setKey} = useContext(ProductContext);
+    const {setKey} = useContext(ProductContext);
     const dispatch = useDispatch();
     let navigate = useNavigate();
     const {user} = useSelector((state) => state);
@@ -20,8 +20,10 @@ function Header() {
         return show ? (a.style.display = "block", setShow(false)) : (a.style.display = "none", setShow(true))
 
     }
+    const token = localStorage.getItem("token");
+    const counts = localStorage.getItem("count");
     useEffect(() => {
-        const token = localStorage.getItem("token");
+
         // console.log(token, "user");
         if (token !== null) {
             setLogin("Logout")
@@ -93,7 +95,7 @@ function Header() {
                     <div className='cart__shopping col-sm-1'>
                         <div className='pop d-flex '>
                             <a className="cart d-flex" href='/cart'>
-                                <div className='count text-light'>{count}</div>
+                                <div className='count text-light'>{counts}</div>
                                 <span className="text-light h4">Cart</span>
                             </a>
                         </div>

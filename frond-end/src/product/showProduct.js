@@ -12,11 +12,11 @@ import {unwrapResult} from "@reduxjs/toolkit";
 import {getForMen,getForWomen} from "../service/productService";
 
 function ShowProduct(props) {
-    const {key}=useContext(ProductContext)
+    const {key,setCount}=useContext(ProductContext)
     const [listProduct, setListProduct] = useState([]);
     const [postList, setPostList] = useState([]);
     const [begin, setBegin] = useState(0);
-    const [end, setEnd] = useState(5)
+    const [end, setEnd] = useState(3)
     const [distance, setDistance] = useState(end - begin);
     const url = window.location.href;
     const [sex,setSex]=useState("")

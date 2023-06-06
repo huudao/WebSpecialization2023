@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {getAllProduct} from "../feature/admin";
 import {ProductShow} from "./productShow";
-import {NavLink} from "react-bootstrap";
+import {NavLink} from "react-router-dom";
 
 function ManagerProduct() {
     const [listProduct, setListProduct] = useState([])
@@ -18,13 +18,14 @@ function ManagerProduct() {
             <section className="contact-form">
                 <div className="container">
                     <div className="row">
-                        <div id="manager">
-                            <NavLink  type="button" className="btn btn-primary" defaultValue="Quản lý người dùng"/>
-                            <NavLink to={"/management"}type="button" className="btn btn-primary" defaultValue="Quản lý sản phẩm"/>
-                            <NavLink type="button" className="btn btn-primary" defaultValue="Quản lý đơn hàng"/>
+                        <div id="manager" className="d-flex">
+                            <NavLink to="/management/user" className="btn btn-primary "
+                                     style={{height: "100px !important" }}>Quản lý người dùng</NavLink>
+                            <NavLink to="/management/product" className="btn btn-primary">Quản lý sản phẩm</NavLink>
+                            <NavLink to="/management/order" className="btn btn-primary">Quản lý đơn hàng</NavLink>
 
                         </div>
-                        <div id="content">
+                        <div id="content" className="mt-5">
                             <div className="table-responsive">
                                 <div className="table-wrapper">
                                     <div className="table-title">

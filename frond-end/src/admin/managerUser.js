@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {getAllProduct, getAllUser} from "../feature/admin";
-import {ProductShow} from "./productShow";
-import {NavLink} from "react-bootstrap";
+import {UserShow} from "./userShow";
+import {NavLink} from "react-router-dom";
 
-function ManagerProduct() {
+function ManagerUser() {
     const [listUser, setListUser] = useState([])
     useEffect(() => {
         getAllUser().then(res => {
@@ -15,13 +15,14 @@ function ManagerProduct() {
     }, [listUser])
     return (
         <>
-            <section className="contact-form">
-                <div className="container">
-                    <div className="row">
-                        <div id="manager " className="h-100">
-                            <NavLink  type="/management/user" className="btn btn-primary h-100" style={{height:"100px"}} >Quản lý người dùng</NavLink>
-                            <NavLink to={"/management/product"}type="button" className="btn btn-primary" >Quản lý sản phẩm</NavLink>
-                            <NavLink  to={"management/order"}type="button" className="btn btn-primary" >Quản lý đơn hàng</NavLink>
+            <section className="">
+                <div className="">
+                    <div className="h-75 mb-5">
+                        <div className="d-flex">
+                            <NavLink to="/management/user" className="btn btn-primary h-100"
+                                    >Quản lý người dùng</NavLink>
+                            <NavLink to="/management/product" className="btn btn-primary">Quản lý sản phẩm</NavLink>
+                            <NavLink to="/management/order" className="btn btn-primary">Quản lý đơn hàng</NavLink>
 
                         </div>
                         <div id="content">
@@ -46,22 +47,18 @@ function ManagerProduct() {
                                             <th>
                                             </th>
                                             <th>Id</th>
-                                            <th>variantId</th>
-                                            <th>brandId</th>
-                                            <th>brand</th>
-                                            <th>name</th>
-                                            <th>size</th>
-                                            <th>sell</th>
-                                            <th>price</th>
-                                            <th>discount</th>
-                                            <th>stock</th>
-                                            <th>image</th>
-                                            <th>averageRating</th>
+                                            <th>Name</th>
+                                            <th>Password</th>
+                                            <th>email</th>
+                                            <th>Last name</th>
+                                            <th>First name</th>
+                                            <th>Phone</th>
+
                                             <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {listProduct.map((data) => <ProductShow data={data}/>)}
+                                        {listUser.map((data) => <UserShow data={data}/>)}
                                         </tbody>
                                     </table>
 
@@ -282,7 +279,8 @@ function ManagerProduct() {
                 </div>
             </section>
         </>
-)
+    )
 }
 
-export default ManagerProduct;
+export default ManagerUser
+;

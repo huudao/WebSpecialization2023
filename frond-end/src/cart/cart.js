@@ -22,6 +22,7 @@ function Cart() {
                 setListProduct(res.cartItems)
             }).catch(err => console.err)
         setCount(listProduct.length);
+        localStorage.setItem("count",listProduct.length);
     }, [data, listProduct])
 
     function handlerCheckout() {

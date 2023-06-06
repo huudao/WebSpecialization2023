@@ -1,27 +1,28 @@
 import {useEffect, useState} from "react";
-import {getAllProduct, getAllUser} from "../feature/admin";
-import {ProductShow} from "./productShow";
-import {NavLink} from "react-bootstrap";
+import {getAllOrder, getAllProduct, getAllUser} from "../feature/admin";
+import {OrderShow} from "./orderShow";
+import {NavLink} from "react-router-dom";
 
 function ManagerProduct() {
-    const [listUser, setListUser] = useState([])
+    const [listOrder, setListOrder] = useState([])
     useEffect(() => {
-        getAllUser().then(res => {
-                setListUser(res)
+        getAllOrder().then(res => {
+                setListOrder(res)
 
             }
         )
 
-    }, [listUser])
+    }, [listOrder])
     return (
         <>
             <section className="contact-form">
                 <div className="container">
                     <div className="row">
                         <div id="manager " className="h-100">
-                            <NavLink  type="/management/user" className="btn btn-primary h-100" defaultValue="Quản lý người dùng"/>
-                            <NavLink to={"/management/product"}type="button" className="btn btn-primary" defaultValue="Quản lý sản phẩm"/>
-                            <NavLink  to={"management/order"}type="button" className="btn btn-primary" defaultValue="Quản lý đơn hàng"/>
+                            <NavLink to="/management/user" className="btn btn-primary h-100"
+                                    >Quản lý người dùng</NavLink>
+                            <NavLink to="/management/product" className="btn btn-primary">Quản lý sản phẩm</NavLink>
+                            <NavLink to="/management/order" className="btn btn-primary">Quản lý đơn hàng</NavLink>
 
                         </div>
                         <div id="content">
@@ -46,22 +47,20 @@ function ManagerProduct() {
                                             <th>
                                             </th>
                                             <th>Id</th>
-                                            <th>variantId</th>
-                                            <th>brandId</th>
-                                            <th>brand</th>
-                                            <th>name</th>
-                                            <th>size</th>
-                                            <th>sell</th>
-                                            <th>price</th>
-                                            <th>discount</th>
-                                            <th>stock</th>
-                                            <th>image</th>
-                                            <th>averageRating</th>
+                                            <th>userAddress</th>
+                                            <th>discountPercentage</th>
+                                            <th>totalPrice</th>
+                                            <th>status</th>
+                                            <th>shipped</th>
+                                            <th>trackingNumber</th>
+                                            <th>orderDetailList</th>
+                                            <th>date</th>
+
                                             <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {listProduct.map((data) => <ProductShow data={data}/>)}
+                                        {listOrder.map((data) => <OrderShow data={data}/>)}
                                         </tbody>
                                     </table>
 
@@ -282,7 +281,7 @@ function ManagerProduct() {
                 </div>
             </section>
         </>
-)
+    )
 }
 
 export default ManagerProduct;

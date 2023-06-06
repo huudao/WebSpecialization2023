@@ -5,18 +5,32 @@ import {ProductContext} from "../context/productContext";
 import {useContext} from "react";
 export function Detail(props){
     const {setCount} =useContext(ProductContext);
-    let size =props.size;
     const result =props.result;
     const variantId =result.variantId;
+    const [counts,setCounts]=useState([])
+    useEffect(()=>{
+        // setCount(props.size);
+        // console.log(count)
+
+    },[counts])
+    // var = localStorage.getItem("count")+1
     function handlerAddCart(){
+        console.log(counts)
+        localStorage.setItem("count",counts)
         const amount = document.getElementById("amount").value;
         console.log(amount, variantId);
         addCart(variantId, amount).then(r =>{
+            // console.log(r.data.cartItems.length,"cccccccccc")
+            localStorage.setItem("count",r.data.cartItems.length)
+            // setCounts(r.cartItems)
+            console.log(r.data.length)
             if(r.status===200){
-                console.log(size+1)
+                // setCount(count+1)
             }
+            window.location.reload()
             // console.log(r,"uuuu")
         })
+        console.log(counts)
 
 
     }

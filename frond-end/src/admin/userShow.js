@@ -1,4 +1,4 @@
-export function ProductShow(props) {
+export function UserShow(props) {
     const {
         id,
         username,

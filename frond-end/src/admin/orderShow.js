@@ -1,16 +1,15 @@
-export function ProductShow(props) {
+export function OrderShow(props) {
     const {
         id,
-        username,
-        password,
-        email,
-        avatar,
-        firstName,
-        lastName,
-        telephone,
-        active,
-        resetPasswordToken,
-        roleList
+        userAddress,
+        discountPercentage,
+        totalPrice,
+        status,
+        shipped,
+        trackingNumber,
+        orderDetailList,
+        date,
+
     } = props.data
 
     return (
@@ -26,16 +25,15 @@ export function ProductShow(props) {
                 </td>
 
                 <td className="id">{id}</td>
-                <td className="account">{username}</td>
-                <td className="go_air">{password}</td>
-                <td className="go_back">{email}</td>
-                <td className="number_person">{avatar}</td>
-                <td className="number_chilren">{firstName}</td>
-                <td className="price_sum"> {lastName}</td>
-                <td className="phone">{telephone}</td>
-                <td className="day_order">{active}</td>
+                <td className="account">{userAddress}</td>
+                <td className="go_air">{discountPercentage}</td>
+                <td className="go_back">{totalPrice}</td>
+                <td className="number_person">{status}</td>
+                <td className="number_chilren">{shipped}</td>
+                <td className="phone">{trackingNumber}</td>
+                <td className="day_order">{orderDetailList}</td>
                 <td className="day_order">resetPasswordToken</td>
-                <td className="day_order">{roleList}</td>
+                <td className="day_order">{date}</td>
 
                 <td>
                     <a href="#editEmployeeModal" className="edit" data-toggle="modal"><i className="material-icons"
