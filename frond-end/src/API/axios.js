@@ -8,11 +8,13 @@ const baseURL='http://localhost:8080/';
 export const publicRequest = () => {
     return axios.create({
         baseURL: baseURL,
+
     });
 }
 
 export const protectedRequest = () => {
-    const token = JSON.parse(localStorage.getItem("user")).token;
+    const token = localStorage.getItem("token");
+    // console.log(token,"test")
     return axios.create({
         baseURL: baseURL,
         headers: {Authorization: `Bearer ${token}`},

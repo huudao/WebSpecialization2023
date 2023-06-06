@@ -1,13 +1,14 @@
 import '../asset/css/account.css'
 import {useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {forgotPass, loginUser} from "../feature/user";
+import {forgotPass, loginUser, resetPass} from "../feature/user";
 
 import {NavLink, useNavigate} from "react-router-dom"
 import {unwrapResult} from "@reduxjs/toolkit";
+// import  queryString from "querystring";
 
 
-export function ForgotPass() {
+export function ResetPass() {
     const {user} = useSelector((state) => state);
     const dispatch = useDispatch();
     let navigate = useNavigate();
@@ -20,15 +21,12 @@ export function ForgotPass() {
     }
 
     function handlerOnchange(data, id) {
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
         try {
             if (data.trim() === "") throw "* Enter data";
-            else {
-                if(id==="erremail"){
-                    if(!data.match(mailformat)) throw  "* Not invalid"
-                } throw ""
-            }
-            throw "";
+            if (data.trim() !== "") throw "";
+
+
         } catch (event) {
             document.getElementById(id).innerText = event;
 
@@ -37,8 +35,12 @@ export function ForgotPass() {
 
     function handlerOnSubmit(e) {
         e.preventDefault();
-        const email = document.getElementById("email").value;
-        dispatch(forgotPass({email}))
+        let param= window.location.href;
+        const token = param.slice(52,)
+        console.log(token,"param");
+        const repass = document.getElementById("repass").value;
+        console.log(repass);
+        dispatch(resetPass({token,password:repass}))
             .then(unwrapResult)
             .then(() => navigate("/login"))
     }
@@ -47,20 +49,20 @@ export function ForgotPass() {
         <>
             <div className="form__detail d-flex justify-content-center align-items-center ">
                 <div className="content text-center">
-                    <p className="h1 mx-0 my-5 text-uppercase">Forgot password</p>
+                    <p className="h1 my-5 mx-0 text-uppercase">Reset password</p>
                     <form onSubmit={handlerOnSubmit}>
                         {/*-- Email input --*/}
                         <div className="form-outline mb-4 position-relative">
-                            <input type="text" id="email" className="form-control" onChange={(e) => {
-                                handlerOnchange(e.target.value, "erremail")
+                            <input type="text" id="repass" className="form-control" onChange={(e) => {
+                                handlerOnchange(e.target.value, "errrepass")
                             }}/>
-                            <label className="form-label" htmlFor="form2Example1">Email</label>
-                            <p className="errol" id="erremail"></p>
+                            <label className="form-label" htmlFor="form2Example1">Repassword</label>
+                            <p className="errol" id="errrepass"></p>
                         </div>
 
 
                         {/*-- forgot button --*/}
-                        <button type="submit" className="btn btn-primary btn-block mb-4">Forgot password</button>
+                        <button type="submit" className="btn btn-primary btn-block mb-4">Reset password</button>
 
 
                     </form>

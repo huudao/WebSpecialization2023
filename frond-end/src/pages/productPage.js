@@ -13,4 +13,4 @@ function ProductPage() {
     )
 };
 
-export default  memo(ProductPage);
+export default  (ProductPage);

@@ -56,9 +56,9 @@ public class AuthController {
     // In the change password page, user fill information to change password
     @PostMapping("/reset-password")
     public ResponseEntity<HttpStatus> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
+        System.out.println(resetPasswordRequest.getPassword() + " - " + resetPasswordRequest.getToken());
         authService.resetPassword(resetPasswordRequest);
         return ResponseEntity.ok().build();
     }
-
 
 }

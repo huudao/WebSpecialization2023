@@ -4,24 +4,24 @@ function BarFilter() {
             <div className="filter ">
                 <p>Filter By</p>
                 <form>
-                    <div className="gender form-check">
-                        <p>Gender</p>
-                        <div className="form-check">
+                    {/*<div className="gender form-check">*/}
+                    {/*    <p>Gender</p>*/}
+                    {/*    <div className="form-check">*/}
 
-                            <input className="form-check-input" type="checkbox" value="" id="women"/>
-                            <label className="form-check-label" htmlFor="women">Women</label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="man"/>
-                            <label className="form-check-label" htmlFor="man">Man</label>
-                        </div>
+                    {/*        <input className="form-check-input" type="checkbox" value="" id="women"/>*/}
+                    {/*        <label className="form-check-label" htmlFor="women">Women</label>*/}
+                    {/*    </div>*/}
+                    {/*    <div className="form-check">*/}
+                    {/*        <input className="form-check-input" type="checkbox" value="" id="man"/>*/}
+                    {/*        <label className="form-check-label" htmlFor="man">Man</label>*/}
+                    {/*    </div>*/}
 
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="unisex"/>
-                            <label className="form-check-label" htmlFor="unisex">Unisex</label>
-                        </div>
+                    {/*    <div className="form-check">*/}
+                    {/*        <input className="form-check-input" type="checkbox" value="" id="unisex"/>*/}
+                    {/*        <label className="form-check-label" htmlFor="unisex">Unisex</label>*/}
+                    {/*    </div>*/}
 
-                    </div>
+                    {/*</div>*/}
                     <hr/>
                     <div className="brand form-check">
                         <p>Brand</p>
