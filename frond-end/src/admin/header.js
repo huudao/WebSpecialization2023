@@ -1,15 +1,9 @@
-import '../asset/css/home.css'
-import {useEffect, useState} from "react";
-import {Menu} from "./menu";
+import {Menu} from "../component/menu";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../feature/user";
-import {useContext} from "react";
-import {ProductContext} from "../context/productContext";
-import {search} from "../feature/product";
+import {useEffect, useState} from "react";
 
-function Header() {
-    const {setKey} = useContext(ProductContext);
+export  function Header(){
     const dispatch = useDispatch();
     let navigate = useNavigate();
     const {user} = useSelector((state) => state);
@@ -21,7 +15,7 @@ function Header() {
 
     }
     const token = localStorage.getItem("token");
-    const counts = localStorage.getItem("count");
+
     useEffect(() => {
 
         // console.log(token, "user");
@@ -31,7 +25,6 @@ function Header() {
             setLogin("Login")
         }
     }, [login])
-
     function handleLogout() {
         console.log("test log out")
         console.log(login, "login")
@@ -48,23 +41,11 @@ function Header() {
 
         }
     }
-
-    function handlerSearch(e) {
-        e.preventDefault()
-        const key = document.getElementById("search").value;
-        setKey(key);
-        navigate("/product")
-
-
-        // search(key).then(res => console.log(res))
-
-    }
-
     return (
         <>
             <div className="container-fluid header">
                 <div className='row'>
-                    <div className="col-sm-2 d-flex">
+                    <div className="col-sm-10 d-flex">
                         <Menu login={login} handleLogout={handleLogout}></Menu>
                         <NavLink className="logo " to="/">
                             <img src="https://img.fragrancex.com/images/assets/logo/fragrancex_logo.svg?v=3"
@@ -73,34 +54,11 @@ function Header() {
 
                         </NavLink>
                     </div>
-                    <div className="search col-sm-6">
-                        <form className='d-flex form--search ' onSubmit={handlerSearch}>
-                            <input type="text"
-                                   className="form-control" name="" id="search" aria-describedby="helpId"
-                                   placeholder="Enter word"/>
-                            <button  className="btn" style={{width: "39px", height: "39px"}}>
-                                <img src="https://img.fragrancex.com/images/assets/ui/search-square-icon.svg"
-                                     title="search"/>
-                            </button>
 
-                        </form>
-
-                    </div>
-                    <div className="express col-sm-3 text-end">
+                    <div className="express col-sm-2 text-end">
                         <p className="btn btn-lg text-light h1" id="log" onClick={handleLogout}>{login}</p>
-                        {/*<NavLink to="/management/product" className="btn btn-lg text-light h6">Management</NavLink>*/}
-
-
                     </div>
-                    <div className='cart__shopping col-sm-1'>
-                        <div className='pop d-flex '>
-                            <a className="cart d-flex" href='/cart'>
-                                <div className='count text-light'>{counts}</div>
-                                <span className="text-light h4">Cart</span>
-                            </a>
-                        </div>
 
-                    </div>
 
 
                 </div>
@@ -108,11 +66,13 @@ function Header() {
                     <div className="header__second w-100">
                         <ul className="navbar-nav row">
                             <li className="nav-item col-sm-2">
-                                <NavLink className="nav-link text-light" to="/product/sex?women">Women's
-                                    Perfume</NavLink>
+                                <NavLink className="nav-link text-light" to="/management/product">Manager Product</NavLink>
                             </li>
                             <li className="nav-item col-sm-2">
-                                <NavLink className="nav-link text-light" to="/product/sex?men">Men's Cologne</NavLink>
+                                <NavLink className="nav-link text-light" to="/management/user">Manager User</NavLink>
+                            </li>
+                            <li className="nav-item col-sm-2">
+                                <NavLink className="nav-link text-light" to="/management/order">Manager Order</NavLink>
                             </li>
 
 
@@ -127,5 +87,3 @@ function Header() {
 
     )
 }
-
-export default Header;

@@ -100,35 +100,35 @@ export function Register() {
                                 handlerErrol(e.target.value, "erruser")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">User name</label>
-                            <p className="errol" id="erruser"></p>
+                            <p className="errol" id="erruser">* Enter data</p>
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="lastname" className="form-control" onChange={(e) => {
-                                handlerErrol(e.target.value, "erruser")
+                                handlerErrol(e.target.value, "errlname")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">Last name</label>
-                            <p className="errol" id="erruser"></p>
+                            <p className="errol" id="errlname">* Enter data</p>
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="firstname" className="form-control" onChange={(e) => {
-                                handlerErrol(e.target.value, "erruser")
+                                handlerErrol(e.target.value, "errfName")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">First name</label>
-                            <p className="errol" id="erruser"></p>
+                            <p className="errol" id="errfName">* Enter data</p>
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="phone" className="form-control" onChange={(e) => {
                                 handlerErrol(e.target.value, "errphone")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">Phone</label>
-                            <p className="errol" id="errphone"></p>
+                            <p className="errol" id="errphone">* Enter data</p>
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="email" className="form-control" onChange={(e) => {
                                 handlerErrol(e.target.value, "erremail")
                             }}/>
                             <label className="form-label" htmlFor="form2Example2">Address Email</label>
-                            <p className="errol" id="erremail"></p>
+                            <p className="errol" id="erremail">* Enter data</p>
 
                         </div>
 
@@ -138,7 +138,7 @@ export function Register() {
                                 handlerErrol(e.target.value, "errpass");
                             }}/>
                             <label className="form-label" htmlFor="form2Example2">Password</label>
-                            <p className="errol" id="errpass"></p>
+                            <p className="errol" id="errpass">* Enter data</p>
 
                         </div>
                         <div className="form-outline mb-4 position-relative">
@@ -146,7 +146,7 @@ export function Register() {
                                 handlerErrol(e.target.value, "errrepass");
                             }}/>
                             <label className="form-label" htmlFor="form2Example2">Repeat password</label>
-                            <p className="errol" id="errrepass"></p>
+                            <p className="errol" id="errrepass">* Enter data</p>
 
                         </div>
 

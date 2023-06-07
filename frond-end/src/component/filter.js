@@ -1,4 +1,16 @@
+import {brands} from "../feature/product";
+import {useContext, useState} from "react";
+import {BrandName} from "../product/brandName";
+import {ProductContext} from "../context/productContext";
+
 function BarFilter() {
+    const {listBrand} =useContext(ProductContext)
+    const [brand, setBrand] = useState([]);
+
+    // brands().then(res => {
+    //     setBrand(res)
+    //     console.log(brand)
+    // })
     return (
         <>
             <div className="filter ">
@@ -25,19 +37,7 @@ function BarFilter() {
                     <hr/>
                     <div className="brand form-check">
                         <p>Brand</p>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="dolce__gabbana"/>
-                            <label className="form-check-label" htmlFor="dolce__gabbana"> Dolce & Gabbana</label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="armaf"/>
-                            <label className="form-check-label" htmlFor="armaf">Armaf</label>
-                        </div>
-
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="calvin"/>
-                            <label className="form-check-label" htmlFor="calvin">Calvin Klein</label>
-                        </div>
+                        {listBrand.map(data=> <BrandName data={data} />)}
 
                     </div>
                     <hr/>

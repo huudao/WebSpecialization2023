@@ -1,4 +1,5 @@
 import '../asset/css/account.css'
+import $ from "jquery"
 import {useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {forgotPass, loginUser} from "../feature/user";
@@ -38,15 +39,15 @@ export function Login() {
     useEffect(() => {
         try {
             const token = localStorage.getItem("token");
-            const list =token.split(".");
 
             var decodedHeader = jwt_decode(token, {header: true});
             console.log(decodedHeader);
             console.log(token, "token")
-            const {sub} = decodeJWT(token);
-            console.log({sub}, "sdfsdfsd")
-            if (user.token)
+            const {roles} = decodeJWT(token);
+            console.log({roles}, "sdfsdfsd")
+            if (roles[0]==="ROLE_USER")
                 navigate("/")
+            else navigate("/management/product");
         } catch (e) {
             console.log(e)
         }
@@ -57,19 +58,22 @@ export function Login() {
 
     function handlerOnSubmit(e) {
         e.preventDefault();
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+        // const username = document.getElementById("username").value;
+        const username=$("#username").val()
+        // const password = document.getElementById("password").value;
+        const password=$("#password").val()
+
         dispatch(loginUser({username, password}))
             .then(unwrapResult)
             .then(res => {
 
-                console.log(res.data.role_id, "user")
-                if (res.data.role_id === 1) {
-                    navigate("/");
-                } else {
-                    navigate("/managerment");
-
-                }
+                // console.lg(res.data.role_id, "user")
+                // if (res.data.role_id === 1) {
+                //     // navigate("/");
+                // } else {
+                //     navigate("/managerment");
+                //
+                // }
 
             }).then(() => {
             // const token = localStorage.getItem("token");
@@ -108,7 +112,7 @@ export function Login() {
                                 handlerOnchange(e.target.value, "anounceusername")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">User name</label>
-                            <p className="errol" id="anounceusername"></p>
+                            <p className="errol" id="anounceusername">* Enter data</p>
                         </div>
 
                         {/*-- Password input --*/}
@@ -117,7 +121,7 @@ export function Login() {
                                 handlerOnchange(e.target.value, "anouncepassword")
                             }}/>
                             <label className="form-label" htmlFor="form2Example2">Password</label>
-                            <p className="errol" id="anouncepassword"></p>
+                            <p className="errol" id="anouncepassword">* Enter data</p>
 
                         </div>
 

@@ -1,8 +1,7 @@
 import Header from "../component/header";
 import Footer from "../component/footer";
 import DetailProduct from "../detail/detailProduct";
-import {memo, useContext, useState} from "react";
-import {ProductContext} from "../context/productContext";
+import {memo} from "react";
 function DetailPage() {
     return (
         <>

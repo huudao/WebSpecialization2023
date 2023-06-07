@@ -7,7 +7,7 @@ export const getAddress = async () => {
 
 }
 export const addAddress = async (username,phone,city,district,ward,specificAddress) => {
-    const res = await protectedRequest().post("/user/address",{username,phone,city,district:district,ward,specificAddress});
+    const res = await protectedRequest().post("/user/address",{username,phone,city,district,ward,specificAddress});
     console.log(res.data)
     return res.data
 

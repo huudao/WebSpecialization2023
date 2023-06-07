@@ -1,16 +1,11 @@
 import '../asset/css/home.css'
 import '../asset/css/detail.css'
-import {ProductContext} from "../context/productContext"
-import {useContext, useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 import {Detail} from "../component/detail";
-import {useDispatch} from "react-redux";
 import {detailProduct} from "../feature/product";
 
 
 function DetailProduct(props) {
-    const dispatch = useDispatch();
-    const {productId, variantId, getDetail} = useContext(ProductContext);
-    // const result = getDetail();
     const [variants, setVariants] = useState([]);
     const [product, setProduct] = useState({});
     const [img, setImg] = useState([]);
@@ -40,7 +35,7 @@ function DetailProduct(props) {
     return (
         <>
             <div className="container-fluid">
-                <div className="bread-crumb">
+                <div className="bread-crumb ">
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
                             <li className="breadcrumb-item"><a href="">Home</a></li>
@@ -48,18 +43,19 @@ function DetailProduct(props) {
                             <li className="breadcrumb-item active" aria-current="page">Detail Product</li>
                         </ol>
                     </nav>
-                    <div className="detail d-flex w-100">
-                        <div className="watch text-center" style={{width: "30%"}}>
-                            <img src={img[0]} style={{width: "300px", height: "300px"}}/><br/>
+
+                    <div className="detail row ">
+                        <div className="watch text-center col-sm-3 ">
+                            <img className="img-thumbnail"  src={img[0]} /><br/>
                             <a className="play_review" href="#">
-                                <img src={img[0]} style={{width: "30px", height: "30px"}}/>
+                                <img className="img-thumbnail" src={img[0]} style={{width: "30px", height: "30px"}}/>
                                 <span>Watch Our Review</span>
 
                             </a>
                         </div>
 
 
-                        <div className="detail__info" style={{width: "70%"}}>
+                        <div className="detail__info col-sm-9" >
                             <p className="h5">{product.name}</p>
                             <p>By <a href="/product">{product.brandName}</a> for {variants.sex}</p>
                             <p> 1 sizes available</p>

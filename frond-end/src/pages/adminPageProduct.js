@@ -1,14 +1,15 @@
 import ManagerProduct from "../admin/managerProduct"
-import Header from "../component/header";
+import {Header} from "../admin/header";
 import Footer from "../component/footer";
-function AdminPage() {
+function AdminPageProduct() {
+
     return (
             <>
-                <Header/><br></br>
+                <Header/>
                 <ManagerProduct/>
                 <Footer/>
             </>
     )
 };
 
-export default AdminPage;
+export default AdminPageProduct;

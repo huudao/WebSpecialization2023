@@ -1,42 +1,62 @@
 import {useEffect, useState} from "react";
-import {getAllOrder} from "../feature/admin";
 import {OrderShow} from "./orderShow";
-import {NavLink} from "react-router-dom";
+import {getAllOrder, getOrderByName} from "../feature/admin"
+import $ from 'jquery'
 
-function ManagerProduct() {
+function ManagerOrder() {
     const [listOrder, setListOrder] = useState([])
     useEffect(() => {
-        getAllOrder().then(res => {
-                setListOrder(res)
-
-            }
+        getAllOrder().then(res =>
+            setListOrder(res)
         )
 
     }, [listOrder])
+
+    function handlerSearch(e) {
+        e.preventDefault()
+        const name = $("#search").val()
+        getOrderByName(name).then(res => {
+
+        })
+
+    }
+
     return (
         <>
-            <section className="contact-form">
-                <div className="container">
+            <section className="contact-form mt-5">
+                <div className="container-fluid">
                     <div className="row">
-                        <div id="manager " className="h-100">
-                            <NavLink to="/management/user" className="btn btn-primary h-100">Quản lý người dùng</NavLink>
-                            <NavLink to="/management/product" className="btn btn-primary">Quản lý sản phẩm</NavLink>
-                            <NavLink to="/management/order" className="btn btn-primary">Quản lý đơn hàng</NavLink>
 
-                        </div>
                         <div id="content">
                             <div className="table-responsive">
                                 <div className="table-wrapper">
                                     <div className="table-title">
                                         <div className="row">
-                                            <div className="col-xs-6">
-                                                <h2>Quán lý người dùng</h2>
+                                            <div className="">
+                                                <h2>Manager Order</h2>
                                             </div>
-                                            <div className="col-xs-6">
-                                                <a href="#addEmployeeModal" className="btn btn-success"
-                                                   data-toggle="modal"><i className="material-icons"></i> <span>Thêm người dùng</span></a>
-                                                <a href="#deleteEmployeeModal" className="btn btn-danger"
-                                                   data-toggle="modal"><i className="material-icons"></i> <span>Xóa người dùng</span></a>
+                                            <div className="row">
+                                                <div className="col-sm-9">
+                                                    <button className="btn btn-success"
+                                                            data-toggle="modal"><i className="material-icons"></i>
+                                                        <span>Add order</span></button>
+                                                    <button className="btn btn-danger"
+                                                            data-toggle="modal"><i className="material-icons"></i>
+                                                        <span>Delete order</span></button>
+                                                </div>
+                                                <form className='d-flex form--search col-sm-3' onSubmit={handlerSearch}>
+                                                    <input type="text"
+                                                           className="form-control " name="" id="search"
+                                                           aria-describedby="helpId"
+                                                           placeholder="Enter word"/>
+                                                    <button className="btn me-4"
+                                                            style={{width: "39px", height: "39px"}}>
+                                                        <img
+                                                            src="https://img.fragrancex.com/images/assets/ui/search-square-icon.svg"
+                                                            title="search"/>
+                                                    </button>
+
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -283,4 +303,4 @@ function ManagerProduct() {
     )
 }
 
-export default ManagerProduct;
+export default ManagerOrder;

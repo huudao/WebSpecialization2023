@@ -26,7 +26,7 @@ function CartProduct(props) {
                  onClick={() => {
                      handler(productId, variantId)
                  }}>
-            <img class="img-thumbnail" src={imageUrls} style={{width: "250px", height: "300px"}}></img>
+            <img class="img-thumbnail " src={imageUrls} style={{width: "200px", height: "240px"}}></img>
             <div className="product__name h5">{name}</div>
             <div className="product__brand">By <a href="#">{brandName}</a></div>
             <div className="product__sex">{props.sex}</div>

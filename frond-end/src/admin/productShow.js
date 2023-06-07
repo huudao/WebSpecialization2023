@@ -2,8 +2,8 @@ export function ProductShow(props) {
     const {
         productId,
         variantId,
-        brandId,
         brandName,
+        name,
         size,
         sellCount,
         price,
@@ -12,38 +12,38 @@ export function ProductShow(props) {
         imageUrls,
         averageRating
     } = props.data
+    function handlerDelete(){
+        console.log()
+        console.log(variantId)
 
+    }
+    function handlerRepair(){
+
+    }
     return (
         <>
             <tr>
-
-
                 <td>
-                          <span className="custom-checkbox">
-                            <input type="checkbox" className="checkbox" name="options[]" defaultValue={1}/>
-                            <label htmlFor="checkbox"/>
-                          </span>
+                    <span className="custom-checkbox">
+                        <input type="checkbox" className="checkbox" name="options[]" defaultValue={variantId}/>
+                        {/*<label htmlFor="checkbox"/>*/}
+                    </span>
                 </td>
-
                 <td className="id">{productId}</td>
-                <td className="account">{variantId}</td>
-                <td className="go_air">{brandId}</td>
-                <td className="go_back">{brandName}</td>
-                <td className="number_person">{size}</td>
-                <td className="number_chilren">{sellCount}</td>
-                <td className="price_sum"> {price}</td>
-                <td className="phone">{discount}</td>
-                <td className="day_order">{stock}</td>
-                <td className="day_order"><img url={imageUrls[0]}/></td>
-                <td className="day_order">{averageRating}</td>
+                <td className="variant text-center" style={{width:"90px"}}>{variantId}</td>
+                <td className="name">{name}</td>
+                <td className="brand">{brandName}</td>
+                <td className="size">{size}</td>
+                <td className="sell_count">{sellCount}</td>
+                <td className="price"> {price}</td>
+                <td className="discount">{discount}</td>
+                <td className="stock">{stock}</td>
+                <td className="img"><img className="" src={imageUrls[0]} style={{width:"50px",height:"60px"}}/></td>
+                <td className="rating">{averageRating}</td>
 
                 <td>
-                    <a href="#editEmployeeModal" className="edit" data-toggle="modal"><i className="material-icons"
-                                                                                         data-toggle="tooltip"
-                                                                                         title="Edit">Sửa</i></a>
-                    <a href="#deleteEmployeeModal" className="delete" data-toggle="modal"><i className="material-icons"
-                                                                                             data-toggle="tooltip"
-                                                                                             title="Delete">Xóa</i></a>
+                    <button  className="btn btn-primary" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit" onClick={handlerRepair}>Repair</i></button>
+                    <button  className="btn btn-danger" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete" onClick={handlerDelete}>Delete</i></button>
                 </td>
             </tr>
         </>
