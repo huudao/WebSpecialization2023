@@ -1,12 +1,57 @@
 import {useEffect, useState} from "react";
-import {getAllProduct} from "../feature/admin";
+import {addProduct, getAllProduct} from "../feature/admin";
 import {ProductShow} from "./productShow";
 import {NavLink} from "react-router-dom";
 import $ from "jquery"
+import {brands} from "../feature/product";
+import {storage} from "../firebase/firebase";
 
 function ManagerProduct() {
     const arrVariant = []
+    const [image, setImage] = useState(null)
     const [isShow, setIsShow] = useState(false)
+    const [brand, setBrand] = useState([])
+    const [file, setFile] = useState();
+    const [listImage, setListImage] = useState([])
+
+    function handleChange(e) {
+        setFile(URL.createObjectURL(e.target.files[0]))
+        if (e.target.files[0]) {
+            setImage(e.target.files[0])
+        }
+    }
+
+
+    function handlerUpload(e) {
+        e.preventDefault()
+        const arrImage = []
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+            "state_changed",
+            snapshot => {
+            },
+            error => {
+                console.log(error)
+            },
+            () => {
+                storage
+                    .ref("images")
+                    .child(image.name)
+                    .getDownloadURL()
+                    .then(url => {
+                        arrImage.push(url)
+                        console.log(arrImage)
+                    })
+                setListImage(arrImage);
+            }
+        )
+
+    }
+
+    // console.log(listImage)
+
+    // console.log(image, "image")
+
     // $("#addProduct").hide();
     // $("#tableShow").show();
 
@@ -31,32 +76,53 @@ function ManagerProduct() {
 
             }
         )
+        brands().then(res => {
+            setBrand(res)
 
-    }, [listProduct])
+        })
+    }, [listProduct, brand])
 
-    function handlerAdd() {
+    function handlerAdd(e) {
+        e.preventDefault()
         console.log(isShow)
         setIsShow(true)
         console.log(isShow, "sfsdflkjsdflksjdflksdjlkf")
 
     }
 
-    function handlerClose() {
+    function handlerClose(e) {
         console.log(isShow)
         setIsShow(false)
         console.log(isShow, "sfsdflkjsdflksjdflksdjlkf")
 
     }
 
+
+    function handlerAddProduct(e) {
+        e.preventDefault()
+        const name = $('#username').val()
+        const brand = $('#brand').val()
+        const policy = $('#policy').val()
+        const sex = $('#sex').val().toUpperCase()
+        const descript = $('#descript').val()
+        console.log(name, brand, policy, sex, descript)
+        addProduct(name, sex, descript, policy, arrVariant).then(res => {
+
+        })
+        // const name=$('#name')
+        // const name=$('#name')
+        // const name=$('#name'
+    }
+
     function handlerAddVariant(e) {
         e.preventDefault()
-        const img = $("#image").val()
+        // const img = $("#image").val()
         const discount = $("#discount").val()
         const stock = $("#stock").val()
         const price = $("#price").val()
         const size = $("#size").val()
-        console.log(img,discount,stock,price,size)
-        arrVariant.push({img,discount,stock,price,size})
+        console.log(listImage, discount, stock, price, size)
+        arrVariant.push({listImage, size, price, discount})
         console.log(arrVariant);
 
     }
@@ -139,35 +205,44 @@ function ManagerProduct() {
                                                                        onChange={(e) => {
                                                                            // handlerOnchange(e.target.value, "anounceusername")
                                                                        }}/>
-                                                                <label className="form-label" htmlFor="form2Example1">Name
+                                                                <label className="form-label" htmlFor="form2Example1"
+                                                                       id="name">Name
                                                                     product</label>
                                                                 <p className="errol" id="anounceusername">* Enter
                                                                     data</p>
                                                             </div>
                                                             <div className="form-outline mb-4 position-relative">
-                                                                <input type="text" id="username"
-                                                                       className="form-control"
-                                                                       onChange={(e) => {
-                                                                           // handlerOnchange(e.target.value, "anounceusername")
-                                                                       }}/>
+                                                                {/*<input type="" id="brand"*/}
+                                                                {/*       className="form-control"*/}
+                                                                {/*       onChange={(e) => {*/}
+                                                                {/*           // handlerOnchange(e.target.value, "anounceusername")*/}
+                                                                {/*       }}/>*/}
+                                                                <select className="form-select"
+                                                                        aria-label="Default select example" id="brand">
+                                                                    <option selected>Open this select menu</option>
+                                                                    {brand.map(data => <option
+                                                                        value={data.id}>{data.name}</option>)}
+
+                                                                </select>
                                                                 <label className="form-label"
                                                                        htmlFor="form2Example1">Brand</label>
                                                                 <p className="errol" id="anounceusername">* Enter
                                                                     data</p>
                                                             </div>
                                                             <div className="form-outline mb-4 position-relative">
-                                                                <input type="text" id="username"
-                                                                       className="form-control"
-                                                                       onChange={(e) => {
-                                                                           // handlerOnchange(e.target.value, "anounceusername")
-                                                                       }}/>
+                                                                <select className="form-select"
+                                                                        aria-label="Default select example" id="sex">
+                                                                    <option value="men">Men</option>
+                                                                    <option value="women">Women</option>
+                                                                    <option value="other">Other</option>
+                                                                </select>
                                                                 <label className="form-label"
                                                                        htmlFor="form2Example1">Sex</label>
                                                                 <p className="errol" id="anounceusername">* Enter
                                                                     data</p>
                                                             </div>
                                                             <div className="form-outline mb-4 position-relative">
-                                                                <input type="text" id="username"
+                                                                <input type="text" id="descript"
                                                                        className="form-control"
                                                                        onChange={(e) => {
                                                                            // handlerOnchange(e.target.value, "anounceusername")
@@ -178,7 +253,7 @@ function ManagerProduct() {
                                                                     data</p>
                                                             </div>
                                                             <div className="form-outline mb-4 position-relative">
-                                                                <input type="text" id="username"
+                                                                <input type="text" id="policy"
                                                                        className="form-control"
                                                                        onChange={(e) => {
                                                                            // handlerOnchange(e.target.value, "anounceusername")
@@ -195,11 +270,21 @@ function ManagerProduct() {
                                                                     <p className="fw-bold">Variant List</p>
                                                                     <div
                                                                         className="form-outline mb-4 position-relative">
-                                                                        <input type="text" id="image"
+
+                                                                        {/*<div>*/}
+                                                                        {/*    <h2>Add Image:</h2>*/}
+                                                                        {/*    <input type="file" onChange={handleChange} />*/}
+                                                                        {/*    <img src={file} />*/}
+                                                                        {/*</div>*/}
+                                                                        <input type="file" id="image"
                                                                                className="form-control"
-                                                                               onChange={(e) => {
-                                                                                   // handlerOnchange(e.target.value, "anounceusername")
-                                                                               }}/>
+                                                                               onChange={handleChange}
+                                                                        />
+                                                                        <img src={file} className=""
+                                                                             style={{width: "100px", height: "100px"}}/>
+                                                                        <button className="btn btn-info ms-3"
+                                                                                onClick={handlerUpload}>Choose
+                                                                        </button>
                                                                         <label className="form-label"
                                                                                htmlFor="form2Example1">Image</label>
                                                                         <p className="errol" id="anounceusername">*
@@ -261,7 +346,7 @@ function ManagerProduct() {
                                                                     <div
                                                                         className="form-outline mb-4 position-relative text-end">
                                                                         <button className="btn btn-info"
-                                                                                onClick={handlerAddVariant}>Add
+                                                                                onClick={handlerAddVariant}>Add variant
                                                                         </button>
                                                                     </div>
                                                                 </div>
@@ -270,13 +355,12 @@ function ManagerProduct() {
 
 
                                                         </div>
-                                                        <div className="modal-footer">
-                                                            <input type="button" className="btn btn-default"
-                                                                   data-dismiss="modal"
-                                                                   defaultValue="Hủy"/>
-                                                            <input type="submit" id="addTicket"
-                                                                   className="btn btn-success"
-                                                                   defaultValue="Thêm"/>
+                                                        <div
+                                                            className="modal-footer justify-content-center align-content-center">
+                                                            <button id="addTicket"
+                                                                    className="btn btn-success"
+                                                                    onClick={handlerAddProduct}>Add Product
+                                                            </button>
                                                         </div>
                                                     </form>
                                                 </div>

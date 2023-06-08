@@ -16,6 +16,7 @@ function ManagerOrder() {
         e.preventDefault()
         const name = $("#search").val()
         getOrderByName(name).then(res => {
+            setListOrder(res)
 
         })
 
@@ -66,20 +67,20 @@ function ManagerOrder() {
                                             <th>
                                             </th>
                                             <th>Id</th>
-                                            <th>userAddress</th>
-                                            <th>discountPercentage</th>
-                                            <th>totalPrice</th>
-                                            <th>status</th>
-                                            <th>shipped</th>
-                                            <th>trackingNumber</th>
-                                            <th>orderDetailList</th>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Discount</th>
+                                            <th>Total Price</th>
+                                            <th>Status</th>
+                                            <th>Shipped</th>
+                                            <th>Tracking</th>
                                             <th>date</th>
 
                                             <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {listOrder.map((data) => <OrderShow data={data}/>)}
+                                        {listOrder.map((data) => <OrderShow key={data.id} data={data}/>)}
                                         </tbody>
                                     </table>
 
