@@ -122,6 +122,7 @@ public class Converter {
         List<Image> imageList = orderDetail.getProductVariant().getImages();
         if(imageList != null && !imageList.isEmpty()){
             orderDetailDTO.setImageUrl(imageList.get(0).getUrl());}
+        orderDetailDTO.setProductName(orderDetail.getProductVariant().getProduct().getName());
         orderDetailDTO.setSize(orderDetail.getProductVariant().getSize());
         orderDetailDTO.setPrice(orderDetail.getProductVariant().getPrice());
         orderDetailDTO.setPriceAfterDiscount(orderDetail.getProductVariant().getPrice() * (100 - orderDetail.getProductVariant().getDiscount()) / 100);
