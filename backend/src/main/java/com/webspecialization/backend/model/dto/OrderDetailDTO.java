@@ -10,6 +10,7 @@ import java.util.List;
 public class OrderDetailDTO {
     Long id;
     String imageUrl;
+    String productName;
     String size;
     float price;
     float priceAfterDiscount;

@@ -1,5 +1,7 @@
 package com.webspecialization.backend.controller.admin;
 
+import com.webspecialization.backend.entity.OrderDetail;
+import com.webspecialization.backend.model.dto.OrderDetailDTO;
 import com.webspecialization.backend.model.response.OrderResponse;
 import com.webspecialization.backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,12 @@ public class OrderManagementController {
     public ResponseEntity<List<OrderResponse>> getAllOrders(){
         List<OrderResponse> orderResponses = orderService.getAllOrder();
         return ResponseEntity.ok(orderResponses);
+    }
+
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<List<OrderDetailDTO>> getOrderDetailsByOrderId(@PathVariable Long orderId){
+        List<OrderDetailDTO> response = orderService.getOrderDetailByOrderId(orderId);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/order/user/{username}")

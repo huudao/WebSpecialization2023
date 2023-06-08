@@ -44,12 +44,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-
-//                .logout()
-//                .logoutUrl("/api/v1/auth/logout")
-//                .addLogoutHandler(logoutHandler)
-//                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         ;
 
         return http.build();
