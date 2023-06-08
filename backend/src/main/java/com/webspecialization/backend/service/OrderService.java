@@ -2,8 +2,10 @@ package com.webspecialization.backend.service;
 
 import com.webspecialization.backend.entity.*;
 import com.webspecialization.backend.exception.NotFoundException;
+import com.webspecialization.backend.model.dto.OrderDetailDTO;
 import com.webspecialization.backend.model.request.PostOrderRequest;
 import com.webspecialization.backend.model.response.OrderResponse;
+import com.webspecialization.backend.repo.OrderDetailRepository;
 import com.webspecialization.backend.repo.OrderRepository;
 import com.webspecialization.backend.repo.UserAddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
+    private OrderDetailRepository orderDetailRepository;
+    @Autowired
     private UserAddressRepository userAddressRepository;
     @Autowired
     private UserService userService;
@@ -42,6 +46,12 @@ public class OrderService {
         List<OrderResponse> response = orderList.stream().map(converter::convertOrderToOrderResponse)
                 .collect(Collectors.toList());
         return response;
+    }
+
+    public List<OrderDetailDTO> getOrderDetailByOrderId(Long orderId){
+        List<OrderDetail> orderDetailList = orderDetailRepository.getOrderDetailsByOrder_Id(orderId);
+
+        return orderDetailList.stream().map(converter::convertOrderDetailToOrderDetailDTO).collect(Collectors.toList());
     }
 
     public List<OrderResponse> getAllOrder(){
