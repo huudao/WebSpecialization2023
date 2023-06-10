@@ -1,3 +1,5 @@
+import {deleteProduct} from "../feature/admin";
+
 export function ProductShow(props) {
     const {
         productId,
@@ -13,8 +15,9 @@ export function ProductShow(props) {
         averageRating
     } = props.data
     function handlerDelete(){
-        console.log()
-        console.log(variantId)
+        deleteProduct(variantId).then(res=>{
+
+        })
 
     }
     function handlerRepair(){

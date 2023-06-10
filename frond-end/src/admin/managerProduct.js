@@ -5,14 +5,19 @@ import {NavLink} from "react-router-dom";
 import $ from "jquery"
 import {brands} from "../feature/product";
 import {storage} from "../firebase/firebase";
+import {current} from "@reduxjs/toolkit";
 
 function ManagerProduct() {
-    const arrVariant = []
+    const [arrVariant, setArrVariant] = useState([])
     const [image, setImage] = useState(null)
     const [isShow, setIsShow] = useState(false)
     const [brand, setBrand] = useState([])
     const [file, setFile] = useState();
-    const [listImage, setListImage] = useState([])
+    const [imageList, setImageList] = useState([])
+    const [listProduct, setListProduct] = useState([])
+    const [isChecked, setIsChecked] = useState(true)
+    const [variantDefault,setVariantDefault] =useState(0);
+
 
     function handleChange(e) {
         setFile(URL.createObjectURL(e.target.files[0]))
@@ -42,45 +47,27 @@ function ManagerProduct() {
                         arrImage.push(url)
                         console.log(arrImage)
                     })
-                setListImage(arrImage);
+                setImageList(arrImage);
             }
         )
 
     }
 
-    // console.log(listImage)
 
-    // console.log(image, "image")
-
-    // $("#addProduct").hide();
-    // $("#tableShow").show();
-
-    $(document).ready(() => {
-        // $("#add").click(() => {
-        //     $("#addProduct").show();
-        //     $("#tableShow").hide();
-        // })
-        // $("#closeButton").click(() => {
-        //     $("#addProduct").hide();
-        //     $("#tableShow").show();
-        //
-        // })
-    })
-
-
-    const [showAdd, setShowAdd] = useState(false)
-    const [listProduct, setListProduct] = useState([])
     useEffect(() => {
         getAllProduct().then(res => {
                 setListProduct(res)
 
             }
-        )
+        ).catch(err => console.log(err))
         brands().then(res => {
             setBrand(res)
 
-        })
-    }, [listProduct, brand])
+        }).catch(err => console.log(err))
+
+
+    }, [listProduct])
+
 
     function handlerAdd(e) {
         e.preventDefault()
@@ -100,30 +87,45 @@ function ManagerProduct() {
 
     function handlerAddProduct(e) {
         e.preventDefault()
+        console.log(arrVariant, "arrvariant")
+
         const name = $('#username').val()
         const brand = $('#brand').val()
         const policy = $('#policy').val()
         const sex = $('#sex').val().toUpperCase()
         const descript = $('#descript').val()
         console.log(name, brand, policy, sex, descript)
-        addProduct(name, sex, descript, policy, arrVariant).then(res => {
-
-        })
-        // const name=$('#name')
-        // const name=$('#name')
-        // const name=$('#name'
+        addProduct(name, brand, sex, descript, policy, arrVariant).then(res => {
+            console.log("ok")
+        }).catch(err => console.log(err, "err"))
     }
 
-    function handlerAddVariant(e) {
+    // let variantDefault ;
+    const handlerAddVariant = (e) => {
         e.preventDefault()
-        // const img = $("#image").val()
         const discount = $("#discount").val()
         const stock = $("#stock").val()
         const price = $("#price").val()
-        const size = $("#size").val()
-        console.log(listImage, discount, stock, price, size)
-        arrVariant.push({listImage, size, price, discount})
-        console.log(arrVariant);
+        const size = $("#size").val() + "ml"
+        console.log(imageList, discount, stock, price, size, variantDefault)
+        setArrVariant(current => [...current, {imageList, size, price, discount, variantDefault}])
+        console.log(variantDefault,"aaaa");
+        if(variantDefault===1){
+            $('#form__checked').hide()
+
+        }
+
+    }
+
+    // console.log(arrVariant)
+
+
+    function onchangeChecked() {
+        setIsChecked(!isChecked)
+        if (isChecked === true) {
+            setVariantDefault(1)
+        }
+        console.log(isChecked,variantDefault)
 
     }
 
@@ -141,15 +143,15 @@ function ManagerProduct() {
                                                 <h2>Manager Product</h2>
                                             </div>
                                             <div className="col-xs-6">
-                                                <button className="btn btn-success" id="add" data-toggle="modal"
+                                                <button className="btn btn-success" id="add"
                                                         onClick={handlerAdd}>
                                                     <i className="fas fa-plus-circle"></i>
                                                     <span>Add product</span>
                                                 </button>
-                                                <button className="btn btn-danger" data-toggle="modal">
-                                                    <i className="fas fa-minus-circle"></i>
-                                                    <span>Delete product</span>
-                                                </button>
+                                                {/*<button className="btn btn-danger" data-toggle="modal">*/}
+                                                {/*    <i className="fas fa-minus-circle"></i>*/}
+                                                {/*    <span>Delete product</span>*/}
+                                                {/*</button>*/}
                                             </div>
                                         </div>
                                     </div>
@@ -263,19 +265,15 @@ function ManagerProduct() {
                                                                 <p className="errol" id="anounceusername">* Enter
                                                                     data</p>
                                                             </div>
-                                                            <hr/>
+
+
+                                                            {/*variant*/}
                                                             <div
                                                                 className="w-100 d-flex justify-content-center align-content-center">
                                                                 <div className="w-75">
                                                                     <p className="fw-bold">Variant List</p>
                                                                     <div
                                                                         className="form-outline mb-4 position-relative">
-
-                                                                        {/*<div>*/}
-                                                                        {/*    <h2>Add Image:</h2>*/}
-                                                                        {/*    <input type="file" onChange={handleChange} />*/}
-                                                                        {/*    <img src={file} />*/}
-                                                                        {/*</div>*/}
                                                                         <input type="file" id="image"
                                                                                className="form-control"
                                                                                onChange={handleChange}
@@ -342,6 +340,13 @@ function ManagerProduct() {
                                                                         <p className="errol" id="anounceusername">*
                                                                             Enter
                                                                             data</p>
+                                                                    </div>
+                                                                    <div className="form-check" id="form__checked">
+                                                                        <input className="form-check-input"
+                                                                               type="checkbox" value="default"
+                                                                               id="checked" onChange={onchangeChecked}/>
+                                                                        <label htmlFor="checked" >Check default variant</label>
+
                                                                     </div>
                                                                     <div
                                                                         className="form-outline mb-4 position-relative text-end">
@@ -455,9 +460,9 @@ function ManagerProduct() {
                                                     <div className="modal-footer">
                                                         <input type="button" className="btn btn-default"
                                                                data-dismiss="modal"
-                                                               defaultValue="Hủy"/>
+                                                        />
                                                         <input type="submit" className="btn btn-info"
-                                                               defaultValue="Lưu"/>
+                                                        />
                                                     </div>
                                                 </form>
                                             </div>
@@ -484,9 +489,9 @@ function ManagerProduct() {
                                                     <div className="modal-footer">
                                                         <input type="button" className="btn btn-default"
                                                                data-dismiss="modal"
-                                                               defaultValue="Hủy"/>
+                                                        />
                                                         <input type="submit" className="btn btn-danger"
-                                                               defaultValue="Xóa"/>
+                                                        />
                                                     </div>
                                                 </form>
                                             </div>

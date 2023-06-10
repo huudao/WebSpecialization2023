@@ -7,6 +7,7 @@ import {logout} from "../feature/user";
 import {useContext} from "react";
 import {ProductContext} from "../context/productContext";
 import {search} from "../feature/product";
+import {getCookie} from "../API/getToken";
 
 function Header() {
     const {setKey} = useContext(ProductContext);
@@ -20,12 +21,12 @@ function Header() {
         return show ? (a.style.display = "block", setShow(false)) : (a.style.display = "none", setShow(true))
 
     }
-    const token = localStorage.getItem("token");
+    const token = getCookie("token");
     const counts = localStorage.getItem("count");
     useEffect(() => {
 
         // console.log(token, "user");
-        if (token !== null) {
+        if (token !== "") {
             setLogin("Logout")
         } else {
             setLogin("Login")
@@ -38,7 +39,7 @@ function Header() {
         const log = document.getElementById("log").value
         const token = localStorage.getItem("token");
         if (login === "Logout") {
-            localStorage.removeItem("token");
+            document.cookie = `token="aaaaa"; expires= Thu, 01 Jan 1970 00:00:00 UTC`
             setLogin("Login")
             window.location.reload()
         }

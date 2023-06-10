@@ -23,6 +23,7 @@ export const search =async (key) => {
 
 export const brands =async (key) => {
     const res = await publicRequest().get("/products/brands");
+    // console.log(res.data)
     return res.data;
 }
 export const getProductByBrandId =async (id) => {

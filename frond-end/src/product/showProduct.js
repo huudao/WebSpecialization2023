@@ -23,7 +23,7 @@ function ShowProduct(props) {
     const sexUrl = url.slice(34,)
     useEffect(() => {
 
-        console.log(sexUrl, "sex")
+        // console.log(sexUrl, "sex")
         if (sexUrl === "men") {
             getForMen()
                 .then(items => {
@@ -42,7 +42,7 @@ function ShowProduct(props) {
                 })
         }else{
            search(key).then(items => {
-               console.log(items)
+               console.log(items,"item")
                setListProduct([...items])
                setSex("")
 
@@ -86,7 +86,7 @@ function ShowProduct(props) {
                 }
             }
         }
-        console.log(begin, end)
+        // console.log(begin, end)
     }
 
 

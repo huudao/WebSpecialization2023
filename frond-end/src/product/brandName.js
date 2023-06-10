@@ -1,5 +1,11 @@
+import {useEffect} from "react";
+import {brands} from "../feature/product";
+
 export  function BrandName(props){
-    const {name}=props.data;
+    const {name,id}=props.data;
+    // useEffect(()=>{
+    //     brands(id)
+    // })
     return(
         <>
             <div className="form-check">

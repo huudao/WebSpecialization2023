@@ -6,6 +6,7 @@ let initialState = {
     token: "",
     loading: false
 };
+
 export const loginUser = createAsyncThunk('user/login', async (body) => {
     const res = await publicRequest().post("/api/auth/login", body);
     console.log(res)
@@ -26,11 +27,11 @@ export const resetPass = createAsyncThunk('user/reset', async (body) => {
     return res;
 
 })
-export const logout =async () => {
+export const logout = async () => {
     return localStorage.removeItem("token");
 };
 export const getAddressList = createAsyncThunk('user/address', async (body) => {
-    const res = await protectedRequest().get("/user/address",body)
+    const res = await protectedRequest().get("/user/address", body)
     return res.data;
 
 })
@@ -52,7 +53,7 @@ const userSlice = createSlice({
         b.addCase(loginUser.fulfilled, (state, action) => {
             state.token = action.payload;
 
-            localStorage.setItem("token", action.payload);
+            document.cookie = (`token= ${action.payload}; max-age=9000`);
 
         })
     }

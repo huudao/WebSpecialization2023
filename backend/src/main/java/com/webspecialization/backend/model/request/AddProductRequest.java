@@ -13,7 +13,6 @@ public class AddProductRequest {
     @Valid
     long productId;
     @NotNull(message = "brandId is mandatory")
-    @NotBlank(message = "brandId is mandatory")
     long brandId;
     @NotNull(message = "name is mandatory")
     @NotBlank(message = "name is mandatory")

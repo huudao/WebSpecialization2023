@@ -6,8 +6,13 @@ export const getAllProduct =async () => {
     return res.data;
 }
 export const addProduct =async (name,brand,genderType,description,shippingPolicy,productVariantList) => {
-    const res = await protectedRequest().post("/admin/product",{brand,name,genderType,description,shippingPolicy,productVariantList});
-    console.log(res.data)
+    const res = await protectedRequest().post("/admin/product",{brandId:brand,name:name,genderType:genderType,description:description,shippingPolicy:shippingPolicy,productVariantList:productVariantList});
+    console.log(res.data,"data")
+    return res.data;
+}
+export const deleteProduct =async (idVariant) => {
+    const res = await protectedRequest().delete(`/admin/product/variant/${idVariant}`);
+    console.log(res,"delete")
     return res.data;
 }
 

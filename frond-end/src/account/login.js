@@ -8,6 +8,7 @@ import {NavLink, useNavigate} from "react-router-dom"
 import {unwrapResult} from "@reduxjs/toolkit";
 import {Slide, toast, ToastContainer} from "react-toastify";
 import jwt_decode from "jwt-decode"
+import {getCookie} from "../API/getToken";
 
 
 export function Login() {
@@ -38,7 +39,8 @@ export function Login() {
 
     useEffect(() => {
         try {
-            const token = localStorage.getItem("token");
+            const token = getCookie("token");
+            console.log(token,"cookie")
 
             var decodedHeader = jwt_decode(token, {header: true});
             console.log(decodedHeader);

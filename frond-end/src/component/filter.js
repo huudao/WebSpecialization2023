@@ -1,11 +1,12 @@
 import {brands} from "../feature/product";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {BrandName} from "../product/brandName";
 import {ProductContext} from "../context/productContext";
 
 function BarFilter() {
     const {listBrand} =useContext(ProductContext)
     const [brand, setBrand] = useState([]);
+
 
     // brands().then(res => {
     //     setBrand(res)

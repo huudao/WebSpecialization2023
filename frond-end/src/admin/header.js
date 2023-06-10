@@ -2,9 +2,9 @@ import {Menu} from "../component/menu";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
+import {getCookie} from "../API/getToken";
 
 export  function Header(){
-    const dispatch = useDispatch();
     let navigate = useNavigate();
     const {user} = useSelector((state) => state);
     const [login, setLogin] = useState("Login")
@@ -14,12 +14,11 @@ export  function Header(){
         return show ? (a.style.display = "block", setShow(false)) : (a.style.display = "none", setShow(true))
 
     }
-    const token = localStorage.getItem("token");
-
+    const token = getCookie("token");
+    console.log(token)
     useEffect(() => {
 
-        // console.log(token, "user");
-        if (token !== null) {
+        if (token !== "") {
             setLogin("Logout")
         } else {
             setLogin("Login")
@@ -29,11 +28,12 @@ export  function Header(){
         console.log("test log out")
         console.log(login, "login")
         const log = document.getElementById("log").value
-        const token = localStorage.getItem("token");
+        const token = getCookie("token");
         if (login === "Logout") {
-            localStorage.removeItem("token");
+            document.cookie = `token="aaaaa"; expires= Thu, 01 Jan 1970 00:00:00 UTC`
+            console.log("logout success")
             setLogin("Login")
-            window.location.reload()
+            // window.location.reload()
         }
         if (login === "Login") {
             setLogin("Logout")

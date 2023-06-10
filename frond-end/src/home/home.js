@@ -19,7 +19,7 @@ function Home() {
 
             }
             setBrand(arrBrand)
-            console.log(brand)
+            console.log(brand,"barmd")
         })
         latests().then(res=>{
             setLatest(res)
