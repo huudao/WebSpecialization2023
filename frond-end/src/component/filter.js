@@ -1,43 +1,41 @@
+import {brands} from "../feature/product";
+import {useContext, useEffect, useState} from "react";
+import {BrandName} from "../product/brandName";
+import {ProductContext} from "../context/productContext";
+import {NavLink} from "react-router-dom";
+
 function BarFilter() {
+    const {listBrand} =useContext(ProductContext)
+    const [brand, setBrand] = useState([]);
+
+
+    // brands().then(res => {
+    //     setBrand(res)
+    //     console.log(brand)
+    // })
     return (
         <>
             <div className="filter ">
                 <p>Filter By</p>
                 <form>
-                    {/*<div className="gender form-check">*/}
-                    {/*    <p>Gender</p>*/}
-                    {/*    <div className="form-check">*/}
+                    <div className="gender form-check">
+                        <p>Gender</p>
+                        <NavLink to="/product/sex?women" className="nav-link form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="women"/>
+                            <label className="form-check-label" htmlFor="women">Women</label>
+                        </NavLink>
+                        <NavLink to="/product/sex?men" className="nav-link form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="man"/>
+                            <label className="form-check-label" htmlFor="man">Man</label>
+                        </NavLink>
 
-                    {/*        <input className="form-check-input" type="checkbox" value="" id="women"/>*/}
-                    {/*        <label className="form-check-label" htmlFor="women">Women</label>*/}
-                    {/*    </div>*/}
-                    {/*    <div className="form-check">*/}
-                    {/*        <input className="form-check-input" type="checkbox" value="" id="man"/>*/}
-                    {/*        <label className="form-check-label" htmlFor="man">Man</label>*/}
-                    {/*    </div>*/}
 
-                    {/*    <div className="form-check">*/}
-                    {/*        <input className="form-check-input" type="checkbox" value="" id="unisex"/>*/}
-                    {/*        <label className="form-check-label" htmlFor="unisex">Unisex</label>*/}
-                    {/*    </div>*/}
 
-                    {/*</div>*/}
+                    </div>
                     <hr/>
                     <div className="brand form-check">
                         <p>Brand</p>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="dolce__gabbana"/>
-                            <label className="form-check-label" htmlFor="dolce__gabbana"> Dolce & Gabbana</label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="armaf"/>
-                            <label className="form-check-label" htmlFor="armaf">Armaf</label>
-                        </div>
-
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="calvin"/>
-                            <label className="form-check-label" htmlFor="calvin">Calvin Klein</label>
-                        </div>
+                        {listBrand.map(data=> <BrandName data={data} />)}
 
                     </div>
                     <hr/>

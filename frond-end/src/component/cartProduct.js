@@ -22,11 +22,11 @@ function CartProduct(props) {
     const urls = `/detail/:${productId}/:${variantId}`;
     return (
         //{urls}
-        <NavLink to={urls} className="bestsaler__product-detail text-center col-sm-3 text-decoration-none "
+        <NavLink to={urls} className="nav-link bestsaler__product-detail text-center col-sm-3 text-decoration-none "
                  onClick={() => {
                      handler(productId, variantId)
                  }}>
-            <img class="img-thumbnail" src={imageUrls} style={{width: "250px", height: "300px"}}></img>
+            <img class="img-thumbnail " src={imageUrls} style={{width: "200px", height: "240px"}}></img>
             <div className="product__name h5">{name}</div>
             <div className="product__brand">By <a href="#">{brandName}</a></div>
             <div className="product__sex">{props.sex}</div>

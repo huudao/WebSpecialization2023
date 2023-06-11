@@ -30,3 +30,9 @@ export const decrement = async (cartItemId,amount) => {
     return res.data;
 }
 
+
+export const order = async (addressId) => {
+    const res = await protectedRequest().post("/order",{addressId});
+    console.log(res.data,"decre")
+    return res.data;
+}

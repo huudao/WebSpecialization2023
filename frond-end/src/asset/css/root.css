@@ -16,3 +16,29 @@ html,body{
     right: 20px;
     display: none;
 }
+#addProduct{
+    z-index: 10;
+}
+.contact-form .table-title {
+    z-index: 1;
+}
+.nav-link {
+    color: black;
+}
+.detail{
+    position: fixed;
+    top: 200px;
+    height: auto;
+    background-color: #ffc800;
+}
+.list__address{
+    background-color: #ffca2c !important;
+}
+.shipping{
+    height: 100px !important;
+    overflow: hidden;
+}
+.line__tr{
+    height: 100px !important;
+    overflow: hidden;
+}

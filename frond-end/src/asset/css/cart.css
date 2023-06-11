@@ -24,3 +24,23 @@
 .cart__sum p{
     width: 50%;
 }
+@media only screen and(max-width: 1120px) {
+
+
+}
+
+.list__address{
+    border-radius: 10px;
+    background-color: #ffca2c ;
+}
+.add_address{
+    border-radius: 10px;
+    /*background-color: #0dcaf0 !important;*/
+
+}
+.choose__address{
+    background-color: #0dcaf0;
+}
+NavLink{
+    color: black;
+}

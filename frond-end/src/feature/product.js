@@ -21,3 +21,17 @@ export const search =async (key) => {
     return res.data;
 }
 
+export const brands =async (key) => {
+    const res = await publicRequest().get("/products/brands");
+    // console.log(res.data)
+    return res.data;
+}
+export const getProductByBrandId =async (id) => {
+    const res = await publicRequest().get(`/products/brands/${id}`);
+    return res.data;
+}
+export const latests =async (key) => {
+    const res = await publicRequest().get("/products/latest");
+    return res.data;
+}
+

@@ -44,8 +44,8 @@ function Footer() {
                     <div className="col-md-4 offset-md-7  ">
                         <p className="h1">Join Our Coupon List</p>
                         <p>Get the best dcount on name brand fragrances and more</p>
-                        <form className=" d-flex" >
-                            <input type={"email"} placeholder="Enter your email" className="form-control "></input>
+                        <form className="d-flex position-relative" >
+                            <input type="email" placeholder="Enter your email" className="form-control  highlighted"></input>
                             <button type="summit" className="btn bg-light">Sign Up</button>
                         </form>
                         <div className=""></div>

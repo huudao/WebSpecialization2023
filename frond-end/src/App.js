@@ -3,7 +3,6 @@ import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './asset/css/root.css';
-import './asset/css/detail.css';
 import HomePage from "./pages/homePage";
 import CartPage from "./pages/cartPages";
 import ProductPage from "./pages/productPage";
@@ -14,26 +13,31 @@ import OrderLookupPage from "./pages/orderLookupPage";
 import {ProductProvider} from "./context/productContext"
 import ForgotPassPage from "./pages/forgotPassPage";
 import ResetPassPage from "./pages/resetPassPage";
+import AdminPageProduct  from "./pages/adminPageProduct"
+import AdminPageUser from "./pages/adminPageUser";
+import AdminPageOrder from "./pages/adminPageOrder";
+
 
 function App() {
-    const getDataDetail = () => {
-    }
     return (
 
         <ProductProvider>
-            {/*<>*/}
-            {/*    <button*/}
-            {/*        type="button"*/}
-            {/*        class="btn btn-danger btn-floating btn-lg"*/}
-            {/*        id="btn-back-to-top"*/}
-            {/*    >*/}
-            {/*        <i class="fas fa-arrow-up"></i>*/}
-            {/*    </button>*/}
-            {/*</>*/}
+            <>
+                <button
+                    type="button"
+                    class="btn btn-danger btn-floating btn-lg"
+                    id="btn-back-to-top"
+                >
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+            </>
             <Routes>
 
                 <Route index element={<HomePage/>} exact/>
                 <Route path="/cart" element={<CartPage/>} exact/>
+                <Route path="/management/product" element={<AdminPageProduct/>} exact/>
+                <Route path="/management/user" element={<AdminPageUser/>} exact/>
+                <Route path="/management/order" element={<AdminPageOrder/>} exact/>
                 <Route path="/product" element={<ProductPage/>} exact/>
                 <Route path="/product/:sex" element={<ProductPage/>} exact/>
                 <Route path="/detail/:id/:varianId" element={<DetailPage/>} exact/>

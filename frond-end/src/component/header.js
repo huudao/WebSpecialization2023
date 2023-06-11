@@ -3,14 +3,12 @@ import {useEffect, useState} from "react";
 import {Menu} from "./menu";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../feature/user";
 import {useContext} from "react";
 import {ProductContext} from "../context/productContext";
-import {search} from "../feature/product";
+import {getCookie} from "../API/getToken";
 
 function Header() {
-    const {count,setKey} = useContext(ProductContext);
-    const dispatch = useDispatch();
+    const {setKey} = useContext(ProductContext);
     let navigate = useNavigate();
     const {user} = useSelector((state) => state);
     const [login, setLogin] = useState("Login")
@@ -20,10 +18,12 @@ function Header() {
         return show ? (a.style.display = "block", setShow(false)) : (a.style.display = "none", setShow(true))
 
     }
+    const token = getCookie("token");
+    const counts = localStorage.getItem("count");
     useEffect(() => {
-        const token = localStorage.getItem("token");
+
         // console.log(token, "user");
-        if (token !== null) {
+        if (token !== "") {
             setLogin("Logout")
         } else {
             setLogin("Login")
@@ -36,7 +36,7 @@ function Header() {
         const log = document.getElementById("log").value
         const token = localStorage.getItem("token");
         if (login === "Logout") {
-            localStorage.removeItem("token");
+            document.cookie = `token=""; expires= Thu, 01 Jan 1970 00:00:00 UTC`
             setLogin("Login")
             window.location.reload()
         }
@@ -54,7 +54,6 @@ function Header() {
         navigate("/product")
 
 
-        // search(key).then(res => console.log(res))
 
     }
 
@@ -84,18 +83,18 @@ function Header() {
                         </form>
 
                     </div>
-                    <div className="express col-sm-3 text-center">
+                    <div className="express col-sm-3 text-end">
                         <p className="btn btn-lg text-light h1" id="log" onClick={handleLogout}>{login}</p>
-                        <NavLink to="/order" className="btn btn-lg text-light h6">Order Lookup</NavLink>
+                        {/*<NavLink to="/management/product" className="btn btn-lg text-light h6">Management</NavLink>*/}
 
 
                     </div>
                     <div className='cart__shopping col-sm-1'>
                         <div className='pop d-flex '>
-                            <a className="cart d-flex" href='/cart'>
-                                <div className='count text-light'>0</div>
+                            <NavLink className="cart d-flex" to='/cart'>
+                                <div className='count text-light'>{counts}</div>
                                 <span className="text-light h4">Cart</span>
-                            </a>
+                            </NavLink>
                         </div>
 
                     </div>
@@ -112,49 +111,7 @@ function Header() {
                             <li className="nav-item col-sm-2">
                                 <NavLink className="nav-link text-light" to="/product/sex?men">Men's Cologne</NavLink>
                             </li>
-                            {/*<li className="nav-item ms-xl-2 col-sm-7">*/}
-                            {/*    <p className="nav-link text-light my-0 btn__brands" onClick={swap}>Brands</p>*/}
-                            {/*    <div className="menu_show w-75 position-relative " id="menu_show">*/}
-                            {/*        <p className="h4 pt-2 ps-3">Most popular perfume brands</p>*/}
-                            {/*        <div className="d-flex flex-wrap w-100  row ms-0">*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce*/}
-                            {/*                & Gabbana</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Coach</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce*/}
-                            {/*                & Gabbana</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Dolce*/}
-                            {/*                & Gabbana</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
-                            {/*                Saint Laurent</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
-                            {/*                Saint Laurent</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
-                            {/*                Saint Laurent</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
-                            {/*                Saint Laurent</NavLink>*/}
-                            {/*            <NavLink to="#"*/}
-                            {/*                     className="text-decoration-none text-black  col-sm-6 px-0 py-1 m-0 text-center">Yves*/}
-                            {/*                Saint Laurent</NavLink>*/}
 
-
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-
-                            {/*</li>*/}
 
                         </ul>
 

@@ -5,40 +5,13 @@ import {useDispatch} from "react-redux";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {ToastContainer, toast, Slide} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {handlerErrol} from "../component/handlerErrol";
 
 
 
 export function Register() {
     const dispatch = useDispatch();
     let navigate = useNavigate();
-
-    // process errol
-    function handlerErrol(data, id) {
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        var phoneformat = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
-
-        try {
-            if (data.trim() === "") throw "* Enter data";
-            else {
-                if (id === "erremail") {
-                    if (!data.match(mailformat)) throw "* Not invalid"
-                    else throw "";
-                } else if (id === "errrepass") {
-                    console.log(data)
-                    if (data !== document.getElementById("password").value) throw "* Not equal password"
-
-                } else if (id === "errphone") {
-                    if (!data.match(phoneformat)) throw "* Not invalid"
-                    else throw "";
-                }
-            }
-            throw "";
-
-        } catch (event) {
-            document.getElementById(id).innerText = event;
-
-        }
-    }
 
     const notify = (result) => toast(`${result}!`);
 
@@ -70,7 +43,7 @@ export function Register() {
                 setTimeout( ()=>{navigate("/login")},2000)
             })
             .catch(err => {
-                toast.error('🦄 Fail!', {
+                toast.error(`🦄 ${err.message}!`, {
                     position: "top-right",
                     autoClose: 4000,
                     hideProgressBar: false,
@@ -100,35 +73,35 @@ export function Register() {
                                 handlerErrol(e.target.value, "erruser")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">User name</label>
-                            <p className="errol" id="erruser"></p>
+                            <p className="errol" id="erruser">* Enter data</p>
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="lastname" className="form-control" onChange={(e) => {
-                                handlerErrol(e.target.value, "erruser")
+                                handlerErrol(e.target.value, "errlname")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">Last name</label>
-                            <p className="errol" id="erruser"></p>
+                            <p className="errol" id="errlname">* Enter data</p>
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="firstname" className="form-control" onChange={(e) => {
-                                handlerErrol(e.target.value, "erruser")
+                                handlerErrol(e.target.value, "errfName")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">First name</label>
-                            <p className="errol" id="erruser"></p>
+                            <p className="errol" id="errfName">* Enter data</p>
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="phone" className="form-control" onChange={(e) => {
                                 handlerErrol(e.target.value, "errphone")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">Phone</label>
-                            <p className="errol" id="errphone"></p>
+                            <p className="errol" id="errphone">* Enter data</p>
                         </div>
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="email" className="form-control" onChange={(e) => {
                                 handlerErrol(e.target.value, "erremail")
                             }}/>
                             <label className="form-label" htmlFor="form2Example2">Address Email</label>
-                            <p className="errol" id="erremail"></p>
+                            <p className="errol" id="erremail">* Enter data</p>
 
                         </div>
 
@@ -138,7 +111,7 @@ export function Register() {
                                 handlerErrol(e.target.value, "errpass");
                             }}/>
                             <label className="form-label" htmlFor="form2Example2">Password</label>
-                            <p className="errol" id="errpass"></p>
+                            <p className="errol" id="errpass">* Enter data</p>
 
                         </div>
                         <div className="form-outline mb-4 position-relative">
@@ -146,7 +119,7 @@ export function Register() {
                                 handlerErrol(e.target.value, "errrepass");
                             }}/>
                             <label className="form-label" htmlFor="form2Example2">Repeat password</label>
-                            <p className="errol" id="errrepass"></p>
+                            <p className="errol" id="errrepass">* Enter data</p>
 
                         </div>
 

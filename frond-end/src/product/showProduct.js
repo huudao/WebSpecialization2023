@@ -6,24 +6,22 @@ import {useContext, memo, useState, useEffect} from "react";
 import {ProductContext, ProductProvider} from "../context/productContext";
 import Pagination from "../component/pagination";
 
-import {useDispatch} from "react-redux";
-import product, {for_men, search} from "../feature/product";
-import {unwrapResult} from "@reduxjs/toolkit";
+import product, {for_men, getProductByBrandId, search} from "../feature/product";
 import {getForMen,getForWomen} from "../service/productService";
 
 function ShowProduct(props) {
-    const {key}=useContext(ProductContext)
+    const {key,idBrand}=useContext(ProductContext)
     const [listProduct, setListProduct] = useState([]);
     const [postList, setPostList] = useState([]);
     const [begin, setBegin] = useState(0);
-    const [end, setEnd] = useState(2)
-    const [distance, setDistance] = useState(end - begin);
+    const [end, setEnd] = useState(3)
+    const [distance] = useState(end - begin);
     const url = window.location.href;
     const [sex,setSex]=useState("")
     const sexUrl = url.slice(34,)
     useEffect(() => {
 
-        console.log(sexUrl, "sex")
+        // console.log(sexUrl, "sex")
         if (sexUrl === "men") {
             getForMen()
                 .then(items => {
@@ -41,13 +39,23 @@ function ShowProduct(props) {
 
                 })
         }else{
-           search(key).then(items => {
-               console.log(items)
-               setListProduct([...items])
-               setSex("")
+           if(key!=""){
+
+               search(key).then(items => {
+                   console.log(items, "item")
+                   setListProduct([...items])
+                   setSex("")
 
 
-           })
+               })
+           }
+           if(idBrand!=""){
+               getProductByBrandId(idBrand).then(items=>{
+                   console.log(items, "item")
+                   setListProduct([...items])
+                   setSex("")
+               })
+           }
 
         }
 
@@ -86,7 +94,7 @@ function ShowProduct(props) {
                 }
             }
         }
-        console.log(begin, end)
+        // console.log(begin, end)
     }
 
 

@@ -1,8 +1,11 @@
 import {NavLink} from "react-router-dom";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
 import {addAddress} from "../feature/address";
+import {AddressContext} from "../context/addressContext"
+import $ from 'jquery'
 
 export function AddAddress() {
+    const {setShowList} = useContext(AddressContext);
 
     function handlerOnSubmit() {
 
@@ -34,31 +37,36 @@ export function AddAddress() {
 
         }
     }
+    function handlerClose(){
+        setShowList(true)
 
+    }
     function handlerCreate(e) {
         e.preventDefault()
-        const name = document.getElementById("username").value;
-        const phone = document.getElementById("phone").value;
-        const city = document.getElementById("city").value;
-        const district = document.getElementById("district").value;
-        const guild = document.getElementById("ward").value;
-        const special = document.getElementById("special").value;
+        const name = $("#username").val();
+        const phone = $("#phone").val();
+        const city = $("#city").val();
+        const district = $("#district").val();
+        const guild = $("#ward").val();
+        const special = $("#special").val();
         console.log(name, phone, city, district, guild, special)
-        addAddress(name, phone, city, district,guild, special)
+        addAddress(name, phone, city, district, guild, special)
             .then((res) => {
+                setShowList(true)
                 console.log("success");
-                console.log(res)
-            })
-
-
+            }).catch(err => console.log(err))
     }
 
     return (
         <>
-            <div className="container bg-light w-100 h-100 navbar-nav-scroll ">
+
+            <div className="add_address container bg-light w-75  navbar-nav-scroll font-monospace">
+                <div className="w-100 text-end">
+                    <button className="btn  btn-danger m-3" onClick={handlerClose}>x</button>
+                </div>
                 <div className="form__detail d-flex justify-content-center align-items-center ">
                     <div className="content text-center">
-                        <p className="h1 m-5 text-uppercase">Add address</p>
+                        <p className="h1 mt-2 mb-4 text-uppercase">Add address</p>
                         <form onSubmit={handlerOnSubmit}>
                             {/*-- name input --*/}
                             <div className="form-outline mb-4 position-relative">

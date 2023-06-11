@@ -6,14 +6,22 @@ import {NavLink} from "react-router-dom";
 import {ProductContext} from "../context/productContext";
 import {ListAddress} from "../cart/listAddress";
 import {getAddress} from "../feature/address";
+import $ from 'jquery'
+import {AddressContext} from "../context/addressContext";
 
 function Cart() {
     const [data, setData] = useState({});
     const [listProduct, setListProduct] = useState([])
     const {setCount} = useContext(ProductContext);
-    const [isShow, setIsShow] = useState(false)
-    const [listAddress, setListAddress] = useState([])
+    const {showChekout,setShowCheckout} = useContext(AddressContext);
 
+    const [isShow, setIsShow] = useState()
+    const [listAddress, setListAddress] = useState([])
+    $(document).ready(()=>{
+        $("#checkout").click(()=>{
+            $('#address').show()
+        })
+    })
 
     useEffect(() => {
         getCart()
@@ -21,10 +29,12 @@ function Cart() {
                 setData(res)
                 setListProduct(res.cartItems)
             }).catch(err => console.err)
-
+        setCount(listProduct.length);
+        localStorage.setItem("count",listProduct.length);
     }, [data, listProduct])
 
     function handlerCheckout() {
+        setShowCheckout(true)
         getAddress()
             .then(res => {
                 console.log(res,"rest")
@@ -37,7 +47,7 @@ function Cart() {
 
     return (
         <>
-            <div className="container-fluid cart row">
+            <div className="container-fluid cart-item row">
                 <div className="cart__detail col-sm-8 ">
 
 
@@ -74,7 +84,7 @@ function Cart() {
                     </small>
                 </div>
                 <div className="cart__payment   col-sm-4">
-                    <button className="btn btn-block my-3 " height={"50px"} onClick={handlerCheckout}>Process to Checkout
+                    <button className="btn btn-block my-3 " height={"50px"} id="checkout" onClick={handlerCheckout}>Process to Checkout
                     </button>
                     <button className="btn btn-block text-bg-info">Check out with <img
                         src='https://img.fragrancex.com/images/paypal.svg'></img></button>
@@ -91,9 +101,9 @@ function Cart() {
 
                     </div>
                 </div>
-                {isShow === true &&
-                <div className="w-100 h-100 position-absolute  bg-opacity-75 ">
-                    {listAddress.map(data => <ListAddress data={data}/>)}
+                {showChekout === true &&
+                <div className="w-100 h-100 position-absolute" id="address">
+                     <ListAddress data={listAddress}/>
 
                 </div>
                 }

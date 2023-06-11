@@ -1,11 +1,19 @@
-.cart__add p{
+.cart__add p {
     margin: 0;
 }
-@media only screen  and(max-width: 1000px){
-   .detail .watch {
-       display: none !important;
-       background-color: yellow;
-       width: 100% !important;
-       height: 250px !important;
-   }
+
+@media only screen and(max-width: 560px) {
+    .detail .watch img{
+        /*box-sizing: unset !important;*/
+        /*display: flex !important;*/
+        /*background-color: yellow;*/
+        /*width: 100% !important;*/
+        /*height: 250px !important;*/
+        width: 10px;
+        height: 10px;
+    }
+}
+
+.aaaaaaaaaaa {
+    background-color: yellow;
 }
