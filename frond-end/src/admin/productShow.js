@@ -1,51 +1,60 @@
-import {deleteProduct} from "../feature/admin";
+import {deleteProduct, getAllProductById} from "../feature/admin";
 import {useContext} from "react";
+import {ProductContext} from "../context/productContext";
 
 export function ProductShow(props) {
+    const {setShowDetail, showDetail, setListDetail} = useContext(ProductContext)
     const {
-        productId,
-        variantId,
+        id,
         brandName,
         name,
-        size,
-        sellCount,
-        price,
-        discount,
-        stock,
-        imageUrls,
+        genderType,
+        description,
+        shippingPolicy,
+        quantitySold,
         averageRating
     } = props.data
-    // console.log(count,"count")
-    function handlerDelete(){
-        deleteProduct(variantId).then(res=>{
 
+    // console.log(count,"count")
+    function handlerDelete() {
+        deleteProduct(id).then(res => {
         })
 
     }
-    function handlerRepair(){
+
+    function handlerDetail() {
+        getAllProductById(id).then(res => {
+            setListDetail(res)
+            setShowDetail(true)
+        })
+        console.log(showDetail, "show")
 
     }
+
     return (
         <>
-            <tr>
+            <tr className="line__tr" style={{height: "100px!important"}}>
                 <td>
-                    {props.count+1}
+                    {props.count + 1}
                 </td>
-                <td className="id">{productId}</td>
-                <td className="variant text-center" style={{width:"90px"}}>{variantId}</td>
-                <td className="name">{name}</td>
+                <td className="id">{id}</td>
                 <td className="brand">{brandName}</td>
-                <td className="size">{size}</td>
-                <td className="sell_count">{sellCount}</td>
-                <td className="price"> {price}</td>
-                <td className="discount">{discount}</td>
-                <td className="stock">{stock}</td>
-                <td className="img"><img className="" src={imageUrls[0]} style={{width:"50px",height:"60px"}}/></td>
+                <td className="name" style={{width: "100px"}}>{name}</td>
+                <td className="size">{genderType}</td>
+                <td className="desciption navbar-nav-scroll h-25">{description}</td>
+                <td className="shipping "> {shippingPolicy}</td>
+                <td className="discount">{quantitySold}</td>
                 <td className="rating">{averageRating}</td>
 
                 <td>
-                    <button  className="btn btn-primary" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit" onClick={handlerRepair}>Repair</i></button>
-                    <button  className="btn btn-danger" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete" onClick={handlerDelete}>Delete</i></button>
+                    <button className="btn btn-primary" data-toggle="modal"><i className="material-icons"
+                                                                               data-toggle="tooltip" title="Edit"
+                                                                               onClick={handlerDetail}>Detail</i>
+                    </button>
+                    <button className="btn btn-danger" data-toggle="modal"><i className="material-icons"
+                                                                              data-toggle="tooltip" title="Delete"
+                                                                              onClick={handlerDelete}>Delete</i>
+                    </button>
                 </td>
             </tr>
         </>

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {addProduct, getAllProduct} from "../feature/admin";
 import {ProductShow} from "./productShow";
 import $ from "jquery"
@@ -6,8 +6,11 @@ import {brands} from "../feature/product";
 import {storage} from "../firebase/firebase";
 import Pagination from "../component/pagination";
 import {handlerErrol} from "../component/handlerErrol";
+import {DetailShowProduct} from "./detailShowProduct";
+import {ProductContext} from "../context/productContext";
 
 function ManagerProduct() {
+    const {showDetail,listDetail} =useContext(ProductContext)
     const [arrVariant, setArrVariant] = useState([])
     const [image, setImage] = useState(null)
     const [isShow, setIsShow] = useState(false)
@@ -206,17 +209,16 @@ function ManagerProduct() {
                                                 <th>#
                                                 </th>
                                                 <th>Id</th>
-                                                <th>Id variant</th>
-                                                <th className="w-25">Name</th>
-                                                <th>Brand</th>
-                                                <th>Size</th>
-                                                <th>Sell</th>
-                                                <th>Price</th>
-                                                <th>Discount</th>
-                                                <th>Stock</th>
-                                                <th>Image</th>
-                                                <th>Rating</th>
+                                                <th>Brand </th>
+                                                <th className="" style={{width:"50px"}}>Name</th>
+                                                <th style={{width:"40px"}}>Sex</th>
+                                                <th style={{width:"200px"}}>Desciption</th>
+                                                <th style={{width:"300px"}}>Shipping policy</th>
+                                                <th>Quantity Sold</th>
+                                                <th>Average Rating</th>
                                                 <th></th>
+
+
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -413,6 +415,42 @@ function ManagerProduct() {
                                                             </button>
                                                         </div>
                                                     </form>
+                                                    {/*detail*/}
+                                                    {showDetail === true &&
+                                                    <>
+                                                        <div className="d-flex justify-content-center align-items-center">
+                                                            <div className="detail w-75">
+                                                                <div className="w-100 text-end">
+                                                                    <button className="btn btn-danger m-2" onClick={handlerClose}>x
+                                                                    </button>
+                                                                </div>
+                                                                <table className="table  table-hover">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>
+                                                                        </th>
+                                                                        <th>Id</th>
+                                                                        <th>Image</th>
+                                                                        <th>Size</th>
+                                                                        <th>Sell count</th>
+                                                                        <th>Discount</th>
+                                                                        <th>Price </th>
+                                                                        <th>Price discount</th>
+                                                                        <th>Stock </th>
+                                                                        <th>Rating </th>
+
+
+                                                                        <th></th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {/*{listDetail.map(data => <DetailShowProduct data={data}/>)}*/}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>

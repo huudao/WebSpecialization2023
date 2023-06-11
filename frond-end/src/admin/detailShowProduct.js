@@ -1,4 +1,4 @@
-export function DetailShow(props) {
+export function DetailShowProduct(props) {
     const {id, imageUrl, productName, size, price, priceAfterDiscount, amount} = props.data
     return (
         <>
@@ -7,7 +7,6 @@ export function DetailShow(props) {
                 <span className="custom-checkbox">
                 </span>
                 </td>
-
                 <td className="id">{id}</td>
                 <td className="account"><img style={{width: "30px", height: "40px"}} src={imageUrl}/></td>
                 <td className="discount">{productName}</td>

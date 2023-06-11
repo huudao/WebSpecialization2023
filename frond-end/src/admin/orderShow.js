@@ -3,7 +3,7 @@ import {OrderContext} from "../context/orderContext";
 import {getDetailOrder} from "../feature/admin";
 
 export function OrderShow(props) {
-    const{setListDetail,setShowDetail}=useContext(OrderContext);
+    const{setListDetail,showDetail,setShowDetail}=useContext(OrderContext);
 
     const {
         id,
@@ -24,6 +24,7 @@ export function OrderShow(props) {
             setListDetail(item);
             setShowDetail(true)
         })
+        console.log(showDetail,"order");
 
     }
 

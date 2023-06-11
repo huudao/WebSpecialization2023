@@ -4,7 +4,7 @@ import {getAllOrder, getOrderByName} from "../feature/admin"
 import $ from 'jquery'
 import {OrderContext} from "../context/orderContext";
 import data from "bootstrap/js/src/dom/data";
-import {DetailShow} from "./detailShow";
+import {DetailShowOrder} from "./detailShowOrder";
 import Pagination from "../component/pagination";
 
 function ManagerOrder() {
@@ -154,7 +154,7 @@ function ManagerOrder() {
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {listDetail.map(data => <DetailShow data={data}/>)}
+                                                    {listDetail.map(data => <DetailShowOrder data={data}/>)}
                                                     </tbody>
                                                 </table>
                                             </div>

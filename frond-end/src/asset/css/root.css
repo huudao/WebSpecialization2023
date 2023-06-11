@@ -34,3 +34,11 @@ html,body{
 .list__address{
     background-color: #ffca2c !important;
 }
+.shipping{
+    height: 100px !important;
+    overflow: hidden;
+}
+.line__tr{
+    height: 100px !important;
+    overflow: hidden;
+}

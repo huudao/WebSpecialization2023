@@ -45,14 +45,10 @@ const userSlice = createSlice({
         addUser: (state, action) => {
             state.user = localStorage.getItem("user")
         },
-        // removeToken:(state,action)=>{
-        //     state.token=localStorage.removeItem("token")
-        // }
     },
     extraReducers: (b) => {
         b.addCase(loginUser.fulfilled, (state, action) => {
             state.token = action.payload;
-
             document.cookie = (`token= ${action.payload}; max-age=30000`);
 
         })
