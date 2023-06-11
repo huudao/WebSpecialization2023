@@ -9,6 +9,7 @@ import {unwrapResult} from "@reduxjs/toolkit";
 import {Slide, toast, ToastContainer} from "react-toastify";
 import jwt_decode from "jwt-decode"
 import {getCookie} from "../API/getToken";
+import {handlerErrol} from "../component/handlerErrol";
 
 
 export function Login() {
@@ -22,19 +23,6 @@ export function Login() {
         const decodedToken = jwt_decode(token)
         const {roles} = decodedToken;
         return {roles}
-    }
-
-    function handlerOnchange(data, id) {
-
-        try {
-            if (data.trim() === "") throw "* Enter data";
-            if (data.trim() !== "") throw "";
-
-
-        } catch (event) {
-            document.getElementById(id).innerText = event;
-
-        }
     }
 
     useEffect(() => {
@@ -111,7 +99,7 @@ export function Login() {
                         {/*-- Email input --*/}
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="username" className="form-control" onChange={(e) => {
-                                handlerOnchange(e.target.value, "anounceusername")
+                                handlerErrol(e.target.value, "anounceusername")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">User name</label>
                             <p className="errol" id="anounceusername">* Enter data</p>
@@ -120,7 +108,7 @@ export function Login() {
                         {/*-- Password input --*/}
                         <div className="form-outline mb-4 position-relative">
                             <input type="password" id="password" className="form-control" onChange={(e) => {
-                                handlerOnchange(e.target.value, "anouncepassword")
+                                handlerErrol(e.target.value, "anouncepassword")
                             }}/>
                             <label className="form-label" htmlFor="form2Example2">Password</label>
                             <p className="errol" id="anouncepassword">* Enter data</p>

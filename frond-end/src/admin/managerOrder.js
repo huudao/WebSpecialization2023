@@ -38,12 +38,12 @@ function ManagerOrder() {
                                             </div>
                                             <div className="row">
                                                 <div className="col-sm-9">
-                                                    <button className="btn btn-success"
-                                                            data-toggle="modal"><i className="material-icons"></i>
-                                                        <span>Add order</span></button>
-                                                    <button className="btn btn-danger"
-                                                            data-toggle="modal"><i className="material-icons"></i>
-                                                        <span>Delete order</span></button>
+                                                    {/*<button className="btn btn-success"*/}
+                                                    {/*        data-toggle="modal"><i className="material-icons"></i>*/}
+                                                    {/*    <span>Add order</span></button>*/}
+                                                    {/*<button className="btn btn-danger"*/}
+                                                    {/*        data-toggle="modal"><i className="material-icons"></i>*/}
+                                                    {/*    <span>Delete order</span></button>*/}
                                                 </div>
                                                 <form className='d-flex form--search col-sm-3' onSubmit={handlerSearch}>
                                                     <input type="text"
@@ -80,191 +80,14 @@ function ManagerOrder() {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {listOrder.map((data) => <OrderShow key={data.id} data={data}/>)}
+                                        {listOrder.map((data,index) => <OrderShow key={data.id} data={data} count={index}/>)}
                                         </tbody>
                                     </table>
+                                    {/*//detail*/}
 
-                                    {/* Add Modal HTML, Nút add ở phía trên */}
-                                    <div id="addEmployeeModal" className="modal fade">
-                                        <div className="modal-dialog">
-                                            <div className="modal-content">
-                                                <form>
-                                                    <div className="modal-header">
-                                                        <h4 className="modal-title">Thêm Vé</h4>
-                                                        <button type="button" className="close" data-dismiss="modal"
-                                                                aria-hidden="true">×
-                                                        </button>
-                                                    </div>
-                                                    <div
-                                                        className="modal-body">{/*lúc test nhớ để hết sang cmt, chức năng thêm vẫn chưa ổn*/}
-                                                        <div className="form-group">
-                                                            <label>MÃ CHUYẾN BAY</label>
-                                                            <input type="text" id="FlightName" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>MÃ THUẾ</label>
-                                                            <input type="text" id="TaxID" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>MÃ MB</label>
-                                                            <input type="text" id="FlightID" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>MÃ HÃNG VÉ</label>
-                                                            <input type="text" id="FlightID" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>ĐIỂM ĐI</label>
-                                                            <input type="text" id="DeparturePlace"
-                                                                   className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>SÂN BAY ĐI</label>
-                                                            <input type="text" id="ArrivalPlace"
-                                                                   className="form-control" required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>ĐIỂM ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>SÂN BAY ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>NGÀY ĐI</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>NGÀY ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>GIỜ ĐI</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>GIỜ ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>NGÀY NHẬP</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                    </div>
-                                                    <div className="modal-footer">
-                                                        <input type="button" className="btn btn-default"
-                                                               data-dismiss="modal"
-                                                               defaultValue="Hủy"/>
-                                                        <input type="submit" id="addTicket" className="btn btn-success"
-                                                               defaultValue="Thêm"/>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Edit Modal HTML, Nút edit ở phía bên phải, cùng hàng với sản phẩn */}
-                                    <div id="editEmployeeModal" className="modal fade">
-                                        <div className="modal-dialog">
-                                            <div className="modal-content">
-                                                <form>
-                                                    <div className="modal-header">
-                                                        <h4 className="modal-title">Chỉnh sửa chuyến bay</h4>
-                                                        <button type="button" className="close" data-dismiss="modal"
-                                                                aria-hidden="true">×
-                                                        </button>
-                                                    </div>
-                                                    <div className="modal-body">
-                                                        <div className="form-group">
-                                                            <label>MÃ CHUYẾN BAY</label>
-                                                            <input type="text" id="FlightName" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>MÃ THUẾ</label>
-                                                            <input type="text" id="TaxID" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>MÃ MB</label>
-                                                            <input type="text" id="FlightID" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>MÃ HÃNG VÉ</label>
-                                                            <input type="text" id="FlightID" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>ĐIỂM ĐI</label>
-                                                            <input type="text" id="DeparturePlace"
-                                                                   className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>SÂN BAY ĐI</label>
-                                                            <input type="text" id="ArrivalPlace"
-                                                                   className="form-control" required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>ĐIỂM ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>SÂN BAY ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>NGÀY ĐI</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>NGÀY ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>GIỜ ĐI</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>GIỜ ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>NGÀY NHẬP</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                    </div>
-                                                    <div className="modal-footer">
-                                                        <input type="button" className="btn btn-default"
-                                                               data-dismiss="modal"
-                                                               defaultValue="Hủy"/>
-                                                        <input type="submit" className="btn btn-info"
-                                                               defaultValue="Lưu"/>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
+
+
+
                                     {/* Delete Modal HTML */}
                                     <div id="deleteEmployeeModal" className="modal fade">
                                         <div className="modal-dialog">

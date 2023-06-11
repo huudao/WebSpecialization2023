@@ -3,15 +3,12 @@ import {useEffect, useState} from "react";
 import {Menu} from "./menu";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../feature/user";
 import {useContext} from "react";
 import {ProductContext} from "../context/productContext";
-import {search} from "../feature/product";
 import {getCookie} from "../API/getToken";
 
 function Header() {
     const {setKey} = useContext(ProductContext);
-    const dispatch = useDispatch();
     let navigate = useNavigate();
     const {user} = useSelector((state) => state);
     const [login, setLogin] = useState("Login")
@@ -39,7 +36,7 @@ function Header() {
         const log = document.getElementById("log").value
         const token = localStorage.getItem("token");
         if (login === "Logout") {
-            document.cookie = `token="aaaaa"; expires= Thu, 01 Jan 1970 00:00:00 UTC`
+            document.cookie = `token=""; expires= Thu, 01 Jan 1970 00:00:00 UTC`
             setLogin("Login")
             window.location.reload()
         }
@@ -57,7 +54,6 @@ function Header() {
         navigate("/product")
 
 
-        // search(key).then(res => console.log(res))
 
     }
 
@@ -95,10 +91,10 @@ function Header() {
                     </div>
                     <div className='cart__shopping col-sm-1'>
                         <div className='pop d-flex '>
-                            <a className="cart d-flex" href='/cart'>
+                            <NavLink className="cart d-flex" to='/cart'>
                                 <div className='count text-light'>{counts}</div>
                                 <span className="text-light h4">Cart</span>
-                            </a>
+                            </NavLink>
                         </div>
 
                     </div>

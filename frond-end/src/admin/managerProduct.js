@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
 import {addProduct, getAllProduct} from "../feature/admin";
 import {ProductShow} from "./productShow";
-import {NavLink} from "react-router-dom";
 import $ from "jquery"
 import {brands} from "../feature/product";
 import {storage} from "../firebase/firebase";
-import {current} from "@reduxjs/toolkit";
+import Pagination from "../component/pagination";
+import {handlerErrol} from "../component/handlerErrol";
 
 function ManagerProduct() {
     const [arrVariant, setArrVariant] = useState([])
@@ -16,7 +16,37 @@ function ManagerProduct() {
     const [imageList, setImageList] = useState([])
     const [listProduct, setListProduct] = useState([])
     const [isChecked, setIsChecked] = useState(true)
-    const [variantDefault,setVariantDefault] =useState(0);
+    const [variantDefault, setVariantDefault] = useState(0);
+    const [begin, setBegin] = useState(0);
+    const [end, setEnd] = useState(10)
+    const [distance] = useState(end - begin);
+    const [postList, setPostList] = useState([]);
+
+    function handlePageChange(newPage) {
+        if (newPage === "next") {
+            if (end <= listProduct.length) {
+                if (end + (end - begin) > listProduct.length) {
+                    setBegin(begin + (end - begin));
+                    setEnd(end + (listProduct.length - end))
+                } else {
+                    setBegin(begin + (end - begin));
+                    setEnd(end + (end - begin))
+                }
+            } else {
+            }
+        } else if (newPage === "pre") {
+            if (begin >= 0) {
+                if (end - begin < distance) {
+                    setBegin(begin - distance);
+                    setEnd(end - (end - begin))
+                } else if (end - begin == distance) {
+                    setBegin(begin - distance);
+                    setEnd(end - distance)
+                }
+            }
+        }
+        // console.log(begin, end)
+    }
 
 
     function handleChange(e) {
@@ -53,20 +83,30 @@ function ManagerProduct() {
 
     }
 
-
     useEffect(() => {
         getAllProduct().then(res => {
                 setListProduct(res)
-
             }
-        ).catch(err => console.log(err))
+        ).then(() => {
+            let listPa = [];
+            for (let i = begin; i < end; i++) {
+                listPa.push(listProduct[i])
+            }
+            setPostList([...listPa])
+            console.log(postList)
+        }).catch(err => console.log(err))
         brands().then(res => {
             setBrand(res)
 
         }).catch(err => console.log(err))
+        console.log(listProduct)
 
 
-    }, [listProduct])
+    }, [listProduct,begin,end])
+
+    useEffect(() => {
+
+    }, [begin, end, postList])
 
 
     function handlerAdd(e) {
@@ -109,8 +149,8 @@ function ManagerProduct() {
         const size = $("#size").val() + "ml"
         console.log(imageList, discount, stock, price, size, variantDefault)
         setArrVariant(current => [...current, {imageList, size, price, discount, variantDefault}])
-        console.log(variantDefault,"aaaa");
-        if(variantDefault===1){
+        console.log(variantDefault, "aaaa");
+        if (variantDefault === 1) {
             $('#form__checked').hide()
 
         }
@@ -125,7 +165,7 @@ function ManagerProduct() {
         if (isChecked === true) {
             setVariantDefault(1)
         }
-        console.log(isChecked,variantDefault)
+        console.log(isChecked, variantDefault)
 
     }
 
@@ -148,10 +188,6 @@ function ManagerProduct() {
                                                     <i className="fas fa-plus-circle"></i>
                                                     <span>Add product</span>
                                                 </button>
-                                                {/*<button className="btn btn-danger" data-toggle="modal">*/}
-                                                {/*    <i className="fas fa-minus-circle"></i>*/}
-                                                {/*    <span>Delete product</span>*/}
-                                                {/*</button>*/}
                                             </div>
                                         </div>
                                     </div>
@@ -161,7 +197,7 @@ function ManagerProduct() {
                                                id="tableShow">
                                             <thead>
                                             <tr>
-                                                <th>
+                                                <th>#
                                                 </th>
                                                 <th>Id</th>
                                                 <th>Id variant</th>
@@ -178,9 +214,12 @@ function ManagerProduct() {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {listProduct.map((data) => <ProductShow data={data}/>)}
+                                            {postList.map((data,index) => data !== undefined && <ProductShow data={data} count={index}/>)}
                                             </tbody>
                                         </table>
+                                        <Pagination begin={begin} end={end} totalRow={listProduct.length}
+                                                    onPageChange={handlePageChange}
+                                        />
                                     </>
                                     }
 
@@ -205,12 +244,12 @@ function ManagerProduct() {
                                                                 <input type="text" id="username"
                                                                        className="form-control"
                                                                        onChange={(e) => {
-                                                                           // handlerOnchange(e.target.value, "anounceusername")
+                                                                           handlerErrol(e.target.value, "errusername")
                                                                        }}/>
                                                                 <label className="form-label" htmlFor="form2Example1"
                                                                        id="name">Name
                                                                     product</label>
-                                                                <p className="errol" id="anounceusername">* Enter
+                                                                <p className="errol" id="errusername">* Enter
                                                                     data</p>
                                                             </div>
                                                             <div className="form-outline mb-4 position-relative">
@@ -221,48 +260,47 @@ function ManagerProduct() {
                                                                 {/*       }}/>*/}
                                                                 <select className="form-select"
                                                                         aria-label="Default select example" id="brand">
-                                                                    <option selected>Open this select menu</option>
+                                                                    {/*<option selected>Open this select menu</option>*/}
                                                                     {brand.map(data => <option
                                                                         value={data.id}>{data.name}</option>)}
 
                                                                 </select>
                                                                 <label className="form-label"
                                                                        htmlFor="form2Example1">Brand</label>
-                                                                <p className="errol" id="anounceusername">* Enter
-                                                                    data</p>
+                                                                {/*<p className="errol" id="anounceusername">* Enter*/}
+                                                                {/*    data</p>*/}
                                                             </div>
                                                             <div className="form-outline mb-4 position-relative">
                                                                 <select className="form-select"
                                                                         aria-label="Default select example" id="sex">
                                                                     <option value="men">Men</option>
                                                                     <option value="women">Women</option>
-                                                                    <option value="other">Other</option>
                                                                 </select>
                                                                 <label className="form-label"
                                                                        htmlFor="form2Example1">Sex</label>
-                                                                <p className="errol" id="anounceusername">* Enter
-                                                                    data</p>
+                                                                {/*<p className="errol" id="anounceusername">* Enter*/}
+                                                                {/*    data</p>*/}
                                                             </div>
                                                             <div className="form-outline mb-4 position-relative">
                                                                 <input type="text" id="descript"
                                                                        className="form-control"
                                                                        onChange={(e) => {
-                                                                           // handlerOnchange(e.target.value, "anounceusername")
+                                                                           handlerErrol(e.target.value, "errdescript")
                                                                        }}/>
                                                                 <label className="form-label"
                                                                        htmlFor="form2Example1">Descript</label>
-                                                                <p className="errol" id="anounceusername">* Enter
+                                                                <p className="errol" id="errdescript">* Enter
                                                                     data</p>
                                                             </div>
                                                             <div className="form-outline mb-4 position-relative">
                                                                 <input type="text" id="policy"
                                                                        className="form-control"
                                                                        onChange={(e) => {
-                                                                           // handlerOnchange(e.target.value, "anounceusername")
+                                                                           handlerErrol(e.target.value, "errpolicy")
                                                                        }}/>
                                                                 <label className="form-label" htmlFor="form2Example1">Shippign
                                                                     Policy</label>
-                                                                <p className="errol" id="anounceusername">* Enter
+                                                                <p className="errol" id="errpolicy">* Enter
                                                                     data</p>
                                                             </div>
 
@@ -285,20 +323,20 @@ function ManagerProduct() {
                                                                         </button>
                                                                         <label className="form-label"
                                                                                htmlFor="form2Example1">Image</label>
-                                                                        <p className="errol" id="anounceusername">*
-                                                                            Enter
-                                                                            data</p>
+                                                                        {/*<p className="errol" id="anounceusername">**/}
+                                                                        {/*    Enter*/}
+                                                                        {/*    data</p>*/}
                                                                     </div>
                                                                     <div
                                                                         className="form-outline mb-4 position-relative">
                                                                         <input type="text" id="size"
                                                                                className="form-control"
                                                                                onChange={(e) => {
-                                                                                   // handlerOnchange(e.target.value, "anounceusername")
+                                                                                   handlerErrol(e.target.value, "errsize")
                                                                                }}/>
                                                                         <label className="form-label"
                                                                                htmlFor="form2Example1">Size</label>
-                                                                        <p className="errol" id="anounceusername">*
+                                                                        <p className="errol" id="errsize">*
                                                                             Enter
                                                                             data</p>
                                                                     </div>
@@ -307,11 +345,11 @@ function ManagerProduct() {
                                                                         <input type="text" id="price"
                                                                                className="form-control"
                                                                                onChange={(e) => {
-                                                                                   // handlerOnchange(e.target.value, "anounceusername")
+                                                                                   handlerErrol(e.target.value, "errprice")
                                                                                }}/>
                                                                         <label className="form-label"
                                                                                htmlFor="form2Example1">Price</label>
-                                                                        <p className="errol" id="anounceusername">*
+                                                                        <p className="errol" id="errprice">*
                                                                             Enter
                                                                             data</p>
                                                                     </div>
@@ -320,11 +358,11 @@ function ManagerProduct() {
                                                                         <input type="text" id="stock"
                                                                                className="form-control"
                                                                                onChange={(e) => {
-                                                                                   // handlerOnchange(e.target.value, "anounceusername")
+                                                                                   handlerErrol(e.target.value, "errstock")
                                                                                }}/>
                                                                         <label className="form-label"
                                                                                htmlFor="form2Example1">Stock</label>
-                                                                        <p className="errol" id="anounceusername">*
+                                                                        <p className="errol" id="errstock">*
                                                                             Enter
                                                                             data</p>
                                                                     </div>
@@ -333,11 +371,11 @@ function ManagerProduct() {
                                                                         <input type="text" id="discount"
                                                                                className="form-control"
                                                                                onChange={(e) => {
-                                                                                   // handlerOnchange(e.target.value, "anounceusername")
+                                                                                   handlerErrol(e.target.value, "errdiscount")
                                                                                }}/>
                                                                         <label className="form-label"
                                                                                htmlFor="form2Example1">Discount</label>
-                                                                        <p className="errol" id="anounceusername">*
+                                                                        <p className="errol" id="errdiscount">*
                                                                             Enter
                                                                             data</p>
                                                                     </div>
@@ -345,7 +383,8 @@ function ManagerProduct() {
                                                                         <input className="form-check-input"
                                                                                type="checkbox" value="default"
                                                                                id="checked" onChange={onchangeChecked}/>
-                                                                        <label htmlFor="checked" >Check default variant</label>
+                                                                        <label htmlFor="checked">Check default
+                                                                            variant</label>
 
                                                                     </div>
                                                                     <div

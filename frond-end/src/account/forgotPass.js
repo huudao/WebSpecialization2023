@@ -5,6 +5,7 @@ import {forgotPass, loginUser} from "../feature/user";
 
 import {NavLink, useNavigate} from "react-router-dom"
 import {unwrapResult} from "@reduxjs/toolkit";
+import {handlerErrol} from "../component/handlerErrol";
 
 
 export function ForgotPass() {
@@ -19,21 +20,7 @@ export function ForgotPass() {
 
     }
 
-    function handlerOnchange(data, id) {
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        try {
-            if (data.trim() === "") throw "* Enter data";
-            else {
-                if(id==="erremail"){
-                    if(!data.match(mailformat)) throw  "* Not invalid"
-                } throw ""
-            }
-            throw "";
-        } catch (event) {
-            document.getElementById(id).innerText = event;
 
-        }
-    }
 
     function handlerOnSubmit(e) {
         e.preventDefault();
@@ -52,7 +39,7 @@ export function ForgotPass() {
                         {/*-- Email input --*/}
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="email" className="form-control" onChange={(e) => {
-                                handlerOnchange(e.target.value, "erremail")
+                                handlerErrol(e.target.value, "erremail")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">Email</label>
                             <p className="errol" id="erremail"></p>

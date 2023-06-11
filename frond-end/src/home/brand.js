@@ -4,13 +4,13 @@ import {useContext} from "react";
 import {ProductContext} from "../context/productContext";
 
 export function Brand(props) {
-    const {setKey} = useContext(ProductContext);
+    const {setIdBrand} = useContext(ProductContext);
     const navigate = useNavigate();
     const {name, imageUrl, id} = props.data;
 
     function handerBrand() {
         console.log(id, "iddddds")
-        setKey(id)
+        setIdBrand(id)
         navigate("/product")
 
     }

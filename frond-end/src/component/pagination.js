@@ -1,6 +1,6 @@
 
 function  Pagination(props){
-    const {pagination, onPageChange}=props;
+    const { onPageChange}=props;
     const begin =props.begin;
     const end =props.end;
     const totalRow =props.totalRow;

@@ -22,3 +22,6 @@ html,body{
 .contact-form .table-title {
     z-index: 1;
 }
+NavLink {
+    color: black;
+}

@@ -5,7 +5,7 @@ import {forgotPass, loginUser, resetPass} from "../feature/user";
 
 import {NavLink, useNavigate} from "react-router-dom"
 import {unwrapResult} from "@reduxjs/toolkit";
-// import  queryString from "querystring";
+import {handlerErrol} from "../component/handlerErrol";
 
 
 export function ResetPass() {
@@ -18,19 +18,6 @@ export function ResetPass() {
 
     function handler(event) {
 
-    }
-
-    function handlerOnchange(data, id) {
-
-        try {
-            if (data.trim() === "") throw "* Enter data";
-            if (data.trim() !== "") throw "";
-
-
-        } catch (event) {
-            document.getElementById(id).innerText = event;
-
-        }
     }
 
     function handlerOnSubmit(e) {
@@ -54,7 +41,7 @@ export function ResetPass() {
                         {/*-- Email input --*/}
                         <div className="form-outline mb-4 position-relative">
                             <input type="text" id="repass" className="form-control" onChange={(e) => {
-                                handlerOnchange(e.target.value, "errrepass")
+                                handlerErrol(e.target.value, "errrepass")
                             }}/>
                             <label className="form-label" htmlFor="form2Example1">Repassword</label>
                             <p className="errol" id="errrepass"></p>

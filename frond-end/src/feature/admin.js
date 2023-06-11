@@ -47,3 +47,8 @@ export const getOrderByName =async (name) => {
     console.log(res.data,"sdfsdfsdfsdfsdfsdfsd")
     return res.data;
 }
+export const getDetailOrder =async (id) => {
+    const res = await protectedRequest().get(`admin/order/${id}`);
+    console.log(res.data,"sdfsdfsdfsdfsdfsdfsd")
+    return res.data;
+}

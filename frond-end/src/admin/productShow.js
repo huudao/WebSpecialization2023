@@ -14,6 +14,7 @@ export function ProductShow(props) {
         imageUrls,
         averageRating
     } = props.data
+    // console.log(count,"count")
     function handlerDelete(){
         deleteProduct(variantId).then(res=>{
 
@@ -27,10 +28,7 @@ export function ProductShow(props) {
         <>
             <tr>
                 <td>
-                    <span className="custom-checkbox">
-                        <input type="checkbox" className="checkbox" name="options[]" defaultValue={variantId}/>
-                        {/*<label htmlFor="checkbox"/>*/}
-                    </span>
+                    {props.count+1}
                 </td>
                 <td className="id">{productId}</td>
                 <td className="variant text-center" style={{width:"90px"}}>{variantId}</td>
