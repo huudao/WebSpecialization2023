@@ -13,6 +13,6 @@ public class ProductResponse {
     private String genderType;
     private String description;
     private String shippingPolicy;
-    private List<ProductVariantDetailsResponse> variants;
+    private int quantitySold;
     private double averageRating;
 }

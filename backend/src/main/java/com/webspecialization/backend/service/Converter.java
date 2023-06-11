@@ -156,18 +156,12 @@ public class Converter {
         productResponse.setBrandName(product.getBrand().getName());
         productResponse.setAverageRating(product.averageRating());
 
-        List<ProductVariantDetailsResponse> variantDetailsResponseList = new ArrayList<>();
-        for(ProductVariant variant : product.getVariants()) {
-            ProductVariantDetailsResponse variantDetailsResponse = mapper.map(variant, ProductVariantDetailsResponse.class);
-            variantDetailsResponse.setPriceAfterDiscount(variant.getPrice() * (100 - variant.getDiscount()) / 100);
-            List<String> imageVariantList = new ArrayList<>();
-            for(Image urls : variant.getImages()){
-                imageVariantList.add(urls.getUrl());
-            }
-            variantDetailsResponse.setImageList(imageVariantList);
-            variantDetailsResponseList.add(variantDetailsResponse);
+        List<ProductVariant> productVariantList = product.getVariants();
+        int quantitySold = 0;
+        for(ProductVariant productVariant : productVariantList) {
+            quantitySold += productVariant.getSellCount();
         }
-        productResponse.setVariants(variantDetailsResponseList);
+        productResponse.setQuantitySold(quantitySold);
 
         return productResponse;
     }

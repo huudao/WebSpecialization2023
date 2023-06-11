@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface ProductVariantRepository extends JpaRepository<ProductVariant, Long> {
     List<ProductVariant> findProductVariantsByVariantDefaultIsTrue(Pageable pageable);
+
+    List<ProductVariant> findProductVariantsByProductId(Long id);
     @Query("SELECT pv FROM ProductVariant pv JOIN pv.product p WHERE pv.variantDefault = true AND p.genderType = :gender")
     List<ProductVariant> findProductVariantsByGender(String gender, Pageable pageable);
 
@@ -22,4 +24,6 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariant, 
     @Query("SELECT pv FROM ProductVariant pv JOIN pv.product p WHERE pv.variantDefault = true ORDER BY p.productViews DESC")
     List<ProductVariant> findProductVariantsHaveMostViews(Pageable pageable);
     ProductVariant findProductVariantsById(Long id);
+
+
 }

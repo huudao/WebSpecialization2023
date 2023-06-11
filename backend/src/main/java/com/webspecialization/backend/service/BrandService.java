@@ -31,7 +31,7 @@ public class BrandService {
     }
 
     public Brand findById(Long id) {
-        return brandRepository.findById(id).orElse(null);
+        return brandRepository.findById(id).orElseThrow(() -> new NotFoundException("Brand id not found"));
     }
 
     public List<ProductVariantResponse> findProductsByBrandId(long brandId) {
