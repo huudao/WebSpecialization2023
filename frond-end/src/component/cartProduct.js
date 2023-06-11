@@ -22,7 +22,7 @@ function CartProduct(props) {
     const urls = `/detail/:${productId}/:${variantId}`;
     return (
         //{urls}
-        <NavLink to={urls} className="bestsaler__product-detail text-center col-sm-3 text-decoration-none "
+        <NavLink to={urls} className="nav-link bestsaler__product-detail text-center col-sm-3 text-decoration-none "
                  onClick={() => {
                      handler(productId, variantId)
                  }}>

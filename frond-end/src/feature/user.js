@@ -53,7 +53,7 @@ const userSlice = createSlice({
         b.addCase(loginUser.fulfilled, (state, action) => {
             state.token = action.payload;
 
-            document.cookie = (`token= ${action.payload}; max-age=9000`);
+            document.cookie = (`token= ${action.payload}; max-age=30000`);
 
         })
     }

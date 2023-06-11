@@ -31,10 +31,16 @@
 
 .list__address{
     border-radius: 10px;
-    background-color: #0dcaf0 !important;
+    background-color: #ffca2c ;
 }
 .add_address{
     border-radius: 10px;
     /*background-color: #0dcaf0 !important;*/
 
+}
+.choose__address{
+    background-color: #0dcaf0;
+}
+NavLink{
+    color: black;
 }

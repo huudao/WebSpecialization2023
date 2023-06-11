@@ -28,10 +28,7 @@ export function UserShow(props) {
 
 
                 <td>
-                          <span className="custom-checkbox">
-                            <input type="checkbox" className="checkbox" name="options[]" defaultValue={1}/>
-                            <label htmlFor="checkbox"/>
-                          </span>
+                    {props.count+1}
                 </td>
 
                 <td className="id">{id}</td>

@@ -1,26 +1,74 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {OrderShow} from "./orderShow";
 import {getAllOrder, getOrderByName} from "../feature/admin"
 import $ from 'jquery'
+import {OrderContext} from "../context/orderContext";
+import data from "bootstrap/js/src/dom/data";
+import {DetailShow} from "./detailShow";
+import Pagination from "../component/pagination";
 
 function ManagerOrder() {
     const [listOrder, setListOrder] = useState([])
+    const {listDetail, showDetail, setShowDetail} = useContext(OrderContext)
+    const [begin, setBegin] = useState(0);
+    const [end, setEnd] = useState(2)
+    const [distance] = useState(end - begin);
+    const [postList, setPostList] = useState([]);
+    function handlePageChange(newPage) {
+        if (newPage === "next") {
+            if (end <= listOrder.length) {
+                if (end + (end - begin) > listOrder.length) {
+                    setBegin(begin + (end - begin));
+                    setEnd(end + (listOrder.length - end))
+                } else {
+                    setBegin(begin + (end - begin));
+                    setEnd(end + (end - begin))
+                }
+            } else {
+            }
+        } else if (newPage === "pre") {
+            if (begin >= 0) {
+                if (end - begin < distance) {
+                    setBegin(begin - distance);
+                    setEnd(end - (end - begin))
+                } else if (end - begin == distance) {
+                    setBegin(begin - distance);
+                    setEnd(end - distance)
+                }
+            }
+        }
+        // console.log(begin, end)
+    }
+
     useEffect(() => {
         getAllOrder().then(res =>
             setListOrder(res)
-        )
+        ).then(()=>{
+            let listPa = [];
+            for (let i = begin; i < end; i++) {
+                listPa.push(listOrder[i])
+            }
+            setPostList([...listPa])
+            console.log(postList)
+        })
 
     }, [listOrder])
 
     function handlerSearch(e) {
         e.preventDefault()
         const name = $("#search").val()
+        console.log(name)
         getOrderByName(name).then(res => {
             setListOrder(res)
 
-        })
+        }).catch(err => console.log(err.message))
 
     }
+
+    function handlerClose() {
+        setShowDetail(false)
+    }
+
 
     return (
         <>
@@ -38,12 +86,6 @@ function ManagerOrder() {
                                             </div>
                                             <div className="row">
                                                 <div className="col-sm-9">
-                                                    {/*<button className="btn btn-success"*/}
-                                                    {/*        data-toggle="modal"><i className="material-icons"></i>*/}
-                                                    {/*    <span>Add order</span></button>*/}
-                                                    {/*<button className="btn btn-danger"*/}
-                                                    {/*        data-toggle="modal"><i className="material-icons"></i>*/}
-                                                    {/*    <span>Delete order</span></button>*/}
                                                 </div>
                                                 <form className='d-flex form--search col-sm-3' onSubmit={handlerSearch}>
                                                     <input type="text"
@@ -80,12 +122,45 @@ function ManagerOrder() {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {listOrder.map((data,index) => <OrderShow key={data.id} data={data} count={index}/>)}
+                                        {postList.map((data, index) =>data!==undefined && <OrderShow key={data.id} data={data}
+                                                                                   count={index}/>)}
                                         </tbody>
                                     </table>
-                                    {/*//detail*/}
-
-
+                                    <Pagination begin={begin} end={end} totalRow={listOrder.length}
+                                                onPageChange={handlePageChange}
+                                    />
+                                    {/*detail*/}
+                                    {showDetail === true &&
+                                    <>
+                                        <div className="d-flex justify-content-center align-items-center">
+                                            <div className="detail w-75">
+                                                <div className="w-100 text-end">
+                                                    <button className="btn btn-danger m-2" onClick={handlerClose}>x
+                                                    </button>
+                                                </div>
+                                                <table className="table  table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>
+                                                        </th>
+                                                        <th>Id</th>
+                                                        <th>Image</th>
+                                                        <th>Name</th>
+                                                        <th>Size</th>
+                                                        <th>Price</th>
+                                                        <th>Price discount</th>
+                                                        <th>Amount</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {listDetail.map(data => <DetailShow data={data}/>)}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </>
+                                    }
 
 
                                     {/* Delete Modal HTML */}

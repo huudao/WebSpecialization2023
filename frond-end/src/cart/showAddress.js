@@ -14,6 +14,7 @@ export function ShowAddress(props) {
     function  handlerChoose(){
         console.log(id)
         order(id).then(res=>{
+            window.show.reload()
         })
             setShowCheckout(false)
     }
@@ -27,7 +28,7 @@ export function ShowAddress(props) {
                     <p>{specificAddress} phường {ward}, quận {district}, thành phố {city}</p>
                 </div>
                 <div className=" w-25 text-center m-auto">
-                    <button className="btn btn-warning" disabled={isDisable} onClick={handlerChoose}>Choose</button>
+                    <button className="btn btn-warning choose__address" disabled={isDisable} onClick={handlerChoose}>Choose</button>
                 </div>
             </div>
 

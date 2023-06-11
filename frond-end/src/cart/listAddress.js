@@ -29,8 +29,8 @@ export function ListAddress(props) {
         <>{
             showList === true ?
                 <>
-                    <div className="list__address container-fluid bg-body w-50 h-100  navbar-nav-scroll border-5" id="detail_address">
-                        <div className="d-flex w-100  bd-highlight pt-2">
+                    <div className="list__address container-fluid  w-50 h-100  navbar-nav-scroll border-5" id="detail_address">
+                        <div className="d-flex w-100   pt-2">
                             <h3 className="w-75">List address</h3>
                             <button className="btn btn-light w-25" id="add_address" onClick={handlderAdd}>ADD ADDRESS</button>
                         </div>

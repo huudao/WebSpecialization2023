@@ -44,7 +44,7 @@ function DetailProduct(props) {
                         </ol>
                     </nav>
 
-                    <div className="detail row ">
+                    <div className="details row ">
                         <div className="watch text-center col-sm-3 ">
                             <img className="img-thumbnail"  src={img[0]} /><br/>
                             <a className="play_review" href="#">

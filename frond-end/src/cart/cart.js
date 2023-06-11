@@ -102,7 +102,7 @@ function Cart() {
                     </div>
                 </div>
                 {showChekout === true &&
-                <div className="w-100 h-100  position-absolute" id="address">
+                <div className="w-100 h-100 position-absolute" id="address">
                      <ListAddress data={listAddress}/>
 
                 </div>

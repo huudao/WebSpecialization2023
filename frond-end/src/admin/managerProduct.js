@@ -104,9 +104,7 @@ function ManagerProduct() {
 
     }, [listProduct,begin,end])
 
-    useEffect(() => {
 
-    }, [begin, end, postList])
 
 
     function handlerAdd(e) {
@@ -136,7 +134,7 @@ function ManagerProduct() {
         const descript = $('#descript').val()
         console.log(name, brand, policy, sex, descript)
         addProduct(name, brand, sex, descript, policy, arrVariant).then(res => {
-            console.log("ok")
+            setIsShow(false)
         }).catch(err => console.log(err, "err"))
     }
 
@@ -149,6 +147,14 @@ function ManagerProduct() {
         const size = $("#size").val() + "ml"
         console.log(imageList, discount, stock, price, size, variantDefault)
         setArrVariant(current => [...current, {imageList, size, price, discount, variantDefault}])
+        alert("Success")
+        $(document).ready(()=>{
+            $("#discount").text("dfsdf")
+            $("#stock").text("sdfsd")
+            $("#price").text("sdfsd")
+            $("#size").text("dsfsd")
+
+        })
         console.log(variantDefault, "aaaa");
         if (variantDefault === 1) {
             $('#form__checked').hide()

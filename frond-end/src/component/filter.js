@@ -20,11 +20,11 @@ function BarFilter() {
                 <form>
                     <div className="gender form-check">
                         <p>Gender</p>
-                        <NavLink to="/product/sex?women" className="form-check">
+                        <NavLink to="/product/sex?women" className="nav-link form-check">
                             <input className="form-check-input" type="checkbox" value="" id="women"/>
                             <label className="form-check-label" htmlFor="women">Women</label>
                         </NavLink>
-                        <NavLink to="/product/sex?men" className="form-check">
+                        <NavLink to="/product/sex?men" className="nav-link form-check">
                             <input className="form-check-input" type="checkbox" value="" id="man"/>
                             <label className="form-check-label" htmlFor="man">Man</label>
                         </NavLink>

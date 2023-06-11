@@ -48,8 +48,8 @@ export function InfoProduct(props) {
                         <img src={imgUrl}
                              width={"180px"} height={"180px"}></img>
                         <div className="product__detail w-50">
-                            <div className="product__tile fs-5"><a className="text-decoration-none"
-                                                                   href="#">{name}</a></div>
+                            <div className="product__tile fs-5"><p className="nav-link text-decoration-none"
+                                                                  >{name}</p></div>
                             <div className="product__brands">By {brandName}</div>
                             <div className="product__id"><small>Item #{cartItemId}</small></div>
                             <div className="product__ml">{size} oz Eau De Toilette Spray</div>
