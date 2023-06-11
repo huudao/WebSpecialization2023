@@ -11,5 +11,5 @@ public class ProductVariantDTO {
     float price;
     int stock;
     float discount;
-    boolean variantDefault;
+    boolean variantDefault = false;
 }
