@@ -15,8 +15,8 @@ export const addProduct =async (name,brand,genderType,description,shippingPolicy
     console.log(res.data,"data")
     return res.data;
 }
-export const deleteProductByVariant =async (id) => {
-    const res = await protectedRequest().delete(`/admin/product/variant/${id}`);
+export const deleteProductByVariant =async (idProduct,idVariant) => {
+    const res = await protectedRequest().delete(`/admin/product/${idProduct}/${idVariant}`);
     console.log(res,"delete")
     return res.data;
 }

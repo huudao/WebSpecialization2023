@@ -10,7 +10,7 @@ import {DetailShowProduct} from "./detailShowProduct";
 import {ProductContext} from "../context/productContext";
 
 function ManagerProduct() {
-    const {showDetail,listDetail} =useContext(ProductContext)
+    const {showDetail,listDetail,setShowDetail} =useContext(ProductContext)
     const [arrVariant, setArrVariant] = useState([])
     const [image, setImage] = useState(null)
     const [isShow, setIsShow] = useState(false)
@@ -87,6 +87,7 @@ function ManagerProduct() {
     }
 
     useEffect(() => {
+        console.log(showDetail,"show")
         getAllProduct().then(res => {
                 setListProduct(res)
             }
@@ -176,6 +177,10 @@ function ManagerProduct() {
         }
         console.log(isChecked, variantDefault)
 
+    }
+
+    function handlerCloseTable() {
+        setShowDetail(false)
     }
 
     return (
@@ -415,43 +420,44 @@ function ManagerProduct() {
                                                             </button>
                                                         </div>
                                                     </form>
-                                                    {/*detail*/}
-                                                    {showDetail === true &&
-                                                    <>
-                                                        <div className="d-flex justify-content-center align-items-center">
-                                                            <div className="detail w-75">
-                                                                <div className="w-100 text-end">
-                                                                    <button className="btn btn-danger m-2" onClick={handlerClose}>x
-                                                                    </button>
-                                                                </div>
-                                                                <table className="table  table-hover">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th>
-                                                                        </th>
-                                                                        <th>Id</th>
-                                                                        <th>Image</th>
-                                                                        <th>Size</th>
-                                                                        <th>Sell count</th>
-                                                                        <th>Discount</th>
-                                                                        <th>Price </th>
-                                                                        <th>Price discount</th>
-                                                                        <th>Stock </th>
-                                                                        <th>Rating </th>
-
-
-                                                                        <th></th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    {/*{listDetail.map(data => <DetailShowProduct data={data}/>)}*/}
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                    }
                                                 </div>
+                                            </div>
+
+                                        </div>
+                                    </>
+                                    }
+                                    {/*detail*/}
+                                    {showDetail === true &&
+                                    <>
+                                        <div className="d-flex align-items-center justify-content-center">
+                                            <div className="detail w-75">
+                                                <div className="w-100 text-end">
+                                                    <button className="btn btn-danger m-2" onClick={handlerCloseTable}>x
+                                                    </button>
+                                                </div>
+                                                <table className="table  table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>
+                                                        </th>
+                                                        <th>Id</th>
+                                                        <th>Image</th>
+                                                        <th>Size</th>
+                                                        <th>Sell count</th>
+                                                        <th>Discount</th>
+                                                        <th>Price </th>
+                                                        <th>Price discount</th>
+                                                        <th>Stock </th>
+                                                        <th>Rating </th>
+
+
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {listDetail.map(data => <DetailShowProduct data={data}/>)}
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </>
