@@ -38,7 +38,14 @@ html,body{
     height: 100px !important;
     overflow: hidden;
 }
-.line__tr{
-    height: 100px !important;
+.line__tr th{
+    height: 400px !important;
     overflow: hidden;
+}
+.repair{
+    position: fixed;
+    top: 10%;
+    height: 75%;
+    background-color: #ffc800;
+    overflow: scroll;
 }

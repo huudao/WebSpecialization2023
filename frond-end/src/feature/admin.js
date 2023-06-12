@@ -62,3 +62,16 @@ export const getDetailOrder =async (id) => {
     console.log(res.data,"sdfsdfsdfsdfsdfsdfsd")
     return res.data;
 }
+
+
+// brand
+export  const getAllBrand= async ()=>{
+    const res = await  protectedRequest().get("/admin/brand")
+    console.log(res.data)
+    return res.data
+}
+export const deleteBrand =async (idBrand) => {
+    const res = await protectedRequest().delete(`/admin/brand/${idBrand}`);
+    console.log(res.data)
+    return res.data;
+}

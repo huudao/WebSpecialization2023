@@ -16,6 +16,7 @@ import ResetPassPage from "./pages/resetPassPage";
 import AdminPageProduct  from "./pages/adminPageProduct"
 import AdminPageUser from "./pages/adminPageUser";
 import AdminPageOrder from "./pages/adminPageOrder";
+import AdminPageBrand from "./pages/adminPageBrand";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/management/product" element={<AdminPageProduct/>} exact/>
                 <Route path="/management/user" element={<AdminPageUser/>} exact/>
                 <Route path="/management/order" element={<AdminPageOrder/>} exact/>
+                <Route path="/management/brand" element={<AdminPageBrand/>} exact/>
                 <Route path="/product" element={<ProductPage/>} exact/>
                 <Route path="/product/:sex" element={<ProductPage/>} exact/>
                 <Route path="/detail/:id/:varianId" element={<DetailPage/>} exact/>

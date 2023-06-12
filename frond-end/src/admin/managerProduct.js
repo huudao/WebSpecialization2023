@@ -10,7 +10,7 @@ import {DetailShowProduct} from "./detailShowProduct";
 import {ProductContext} from "../context/productContext";
 
 function ManagerProduct() {
-    const {showDetail,listDetail,setShowDetail} =useContext(ProductContext)
+    const {showDetail,showRepair, listDetail, setShowDetail,setShowRepair} = useContext(ProductContext)
     const [arrVariant, setArrVariant] = useState([])
     const [image, setImage] = useState(null)
     const [isShow, setIsShow] = useState(false)
@@ -87,7 +87,7 @@ function ManagerProduct() {
     }
 
     useEffect(() => {
-        console.log(showDetail,"show")
+        console.log(showDetail, "show")
         getAllProduct().then(res => {
                 setListProduct(res)
             }
@@ -106,9 +106,7 @@ function ManagerProduct() {
         console.log(listProduct)
 
 
-    }, [listProduct,begin,end])
-
-
+    }, [listProduct, begin, end])
 
 
     function handlerAdd(e) {
@@ -152,7 +150,7 @@ function ManagerProduct() {
         console.log(imageList, discount, stock, price, size, variantDefault)
         setArrVariant(current => [...current, {imageList, size, price, discount, variantDefault}])
         alert("Success")
-        $(document).ready(()=>{
+        $(document).ready(() => {
             $("#discount").text("dfsdf")
             $("#stock").text("sdfsd")
             $("#price").text("sdfsd")
@@ -181,6 +179,11 @@ function ManagerProduct() {
 
     function handlerCloseTable() {
         setShowDetail(false)
+    }
+
+    function handlerCloseRepair() {
+        setShowRepair(false)
+        setShowDetail(true)
     }
 
     return (
@@ -214,11 +217,11 @@ function ManagerProduct() {
                                                 <th>#
                                                 </th>
                                                 <th>Id</th>
-                                                <th>Brand </th>
-                                                <th className="" style={{width:"50px"}}>Name</th>
-                                                <th style={{width:"40px"}}>Sex</th>
-                                                <th style={{width:"200px"}}>Desciption</th>
-                                                <th style={{width:"300px"}}>Shipping policy</th>
+                                                <th>Brand</th>
+                                                <th className="" style={{width: "50px"}}>Name</th>
+                                                <th style={{width: "40px"}}>Sex</th>
+                                                <th style={{width: "200px"}}>Desciption</th>
+                                                <th style={{width: "300px"}}>Shipping policy</th>
                                                 <th>Quantity Sold</th>
                                                 <th>Average Rating</th>
                                                 <th></th>
@@ -227,7 +230,8 @@ function ManagerProduct() {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {postList.map((data,index) => data !== undefined && <ProductShow data={data} count={index}/>)}
+                                            {postList.map((data, index) => data !== undefined &&
+                                                <ProductShow data={data} count={index}/>)}
                                             </tbody>
                                         </table>
                                         <Pagination begin={begin} end={end} totalRow={listProduct.length}
@@ -445,10 +449,10 @@ function ManagerProduct() {
                                                         <th>Size</th>
                                                         <th>Sell count</th>
                                                         <th>Discount</th>
-                                                        <th>Price </th>
+                                                        <th>Price</th>
                                                         <th>Price discount</th>
-                                                        <th>Stock </th>
-                                                        <th>Rating </th>
+                                                        <th>Stock</th>
+                                                        <th>Rating</th>
 
 
                                                         <th></th>
@@ -464,128 +468,124 @@ function ManagerProduct() {
                                     }
 
 
-                                    {/* Edit Modal HTML, Nút edit ở phía bên phải, cùng hàng với sản phẩn */}
-                                    <div id="editEmployeeModal" className="modal fade">
-                                        <div className="modal-dialog">
-                                            <div className="modal-content">
+                                    {/*repair*/}
+                                    {showRepair === true &&
+                                    <>
+                                        <div className="d-flex align-items-center justify-content-center">
+                                            <div className="repair w-75">
                                                 <form>
-                                                    <div className="modal-header">
-                                                        <h4 className="modal-title">Chỉnh sửa chuyến bay</h4>
-                                                        <button type="button" className="close" data-dismiss="modal"
-                                                                aria-hidden="true">×
+                                                    <div className="modal-header mb-4">
+                                                        <h4 className="modal-title">Repair product</h4>
+                                                        <button type="button" className="close btn btn-danger m-3"
+                                                                id="closeButton"
+                                                                data-dismiss="modal"
+                                                                aria-hidden="true" onClick={handlerCloseRepair}>×
                                                         </button>
                                                     </div>
-                                                    <div className="modal-body">
-                                                        <div className="form-group">
-                                                            <label>MÃ CHUYẾN BAY</label>
-                                                            <input type="text" id="FlightName"
-                                                                   className="form-control"
-                                                                   required/>
+                                                    <div
+                                                        className="modal-body ">{/*lúc test nhớ để hết sang cmt, chức năng thêm vẫn chưa ổn*/}
+                                                        {/*variant*/}
+                                                        <div
+                                                            className="w-100 d-flex justify-content-center align-content-center">
+                                                            <div className="w-75">
+                                                                <div
+                                                                    className="form-outline mb-4 position-relative">
+                                                                    <input type="file" id="image"
+                                                                           className="form-control"
+                                                                           onChange={handleChange}
+                                                                    />
+                                                                    <img src={file} className=""
+                                                                         style={{width: "100px", height: "100px"}}/>
+                                                                    <button className="btn btn-info ms-3"
+                                                                            onClick={handlerUpload}>Choose
+                                                                    </button>
+                                                                    <label className="form-label"
+                                                                           htmlFor="form2Example1">Image</label>
+                                                                    {/*<p className="errol" id="anounceusername">**/}
+                                                                    {/*    Enter*/}
+                                                                    {/*    data</p>*/}
+                                                                </div>
+                                                                <div
+                                                                    className="form-outline mb-4 position-relative">
+                                                                    <input type="text" id="size"
+                                                                           className="form-control"
+                                                                           onChange={(e) => {
+                                                                               handlerErrol(e.target.value, "errsize")
+                                                                           }}/>
+                                                                    <label className="form-label"
+                                                                           htmlFor="form2Example1">Size</label>
+                                                                    <p className="errol" id="errsize">*
+                                                                        Enter
+                                                                        data</p>
+                                                                </div>
+                                                                <div
+                                                                    className="form-outline mb-4 position-relative">
+                                                                    <input type="text" id="price"
+                                                                           className="form-control"
+                                                                           onChange={(e) => {
+                                                                               handlerErrol(e.target.value, "errprice")
+                                                                           }}/>
+                                                                    <label className="form-label"
+                                                                           htmlFor="form2Example1">Price</label>
+                                                                    <p className="errol" id="errprice">*
+                                                                        Enter
+                                                                        data</p>
+                                                                </div>
+                                                                <div
+                                                                    className="form-outline mb-4 position-relative">
+                                                                    <input type="text" id="stock"
+                                                                           className="form-control"
+                                                                           onChange={(e) => {
+                                                                               handlerErrol(e.target.value, "errstock")
+                                                                           }}/>
+                                                                    <label className="form-label"
+                                                                           htmlFor="form2Example1">Stock</label>
+                                                                    <p className="errol" id="errstock">*
+                                                                        Enter
+                                                                        data</p>
+                                                                </div>
+                                                                <div
+                                                                    className="form-outline mb-4 position-relative">
+                                                                    <input type="text" id="discount"
+                                                                           className="form-control"
+                                                                           onChange={(e) => {
+                                                                               handlerErrol(e.target.value, "errdiscount")
+                                                                           }}/>
+                                                                    <label className="form-label"
+                                                                           htmlFor="form2Example1">Discount</label>
+                                                                    <p className="errol" id="errdiscount">*
+                                                                        Enter
+                                                                        data</p>
+                                                                </div>
+                                                                {/*<div className="form-check" id="form__checked">*/}
+                                                                {/*    <input className="form-check-input"*/}
+                                                                {/*           type="checkbox" value="default"*/}
+                                                                {/*           id="checked" onChange={onchangeChecked}/>*/}
+                                                                {/*    <label htmlFor="checked">Check default*/}
+                                                                {/*        variant</label>*/}
+
+                                                                {/*</div>*/}
+                                                            </div>
+
                                                         </div>
-                                                        <div className="form-group">
-                                                            <label>MÃ THUẾ</label>
-                                                            <input type="text" id="TaxID" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>MÃ MB</label>
-                                                            <input type="text" id="FlightID"
-                                                                   className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>MÃ HÃNG VÉ</label>
-                                                            <input type="text" id="FlightID"
-                                                                   className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>ĐIỂM ĐI</label>
-                                                            <input type="text" id="DeparturePlace"
-                                                                   className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>SÂN BAY ĐI</label>
-                                                            <input type="text" id="ArrivalPlace"
-                                                                   className="form-control" required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>ĐIỂM ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>SÂN BAY ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>NGÀY ĐI</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>NGÀY ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>GIỜ ĐI</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>GIỜ ĐẾN</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>NGÀY NHẬP</label>
-                                                            <input type="text" id="Price" className="form-control"
-                                                                   required/>
-                                                        </div>
+
+
                                                     </div>
-                                                    <div className="modal-footer">
-                                                        <input type="button" className="btn btn-default"
-                                                               data-dismiss="modal"
-                                                        />
-                                                        <input type="submit" className="btn btn-info"
-                                                        />
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Delete Modal HTML */}
-                                    <div id="deleteEmployeeModal" className="modal fade">
-                                        <div className="modal-dialog">
-                                            <div className="modal-content">
-                                                <form>
-                                                    <div className="modal-header">
-                                                        <h4 className="modal-title">Xóa chuyến bay</h4>
-                                                        <button type="button" className="close" data-dismiss="modal"
-                                                                aria-hidden="true">×
+                                                    <div
+                                                        className="modal-footer justify-content-center align-content-center">
+                                                        <button id="addTicket"
+                                                                className="btn btn-success"
+                                                                onClick={handlerAddProduct}>Repair Product
                                                         </button>
                                                     </div>
-                                                    <div className="modal-body">
-                                                        <p>Bạn có muốn xóa chuyến bay này không?</p>
-                                                        <p className="text-warning"><small>Hành động này không thể
-                                                            hoàn
-                                                            tác</small>
-                                                        </p>
-                                                    </div>
-                                                    <div className="modal-footer">
-                                                        <input type="button" className="btn btn-default"
-                                                               data-dismiss="modal"
-                                                        />
-                                                        <input type="submit" className="btn btn-danger"
-                                                        />
-                                                    </div>
                                                 </form>
+
+
                                             </div>
                                         </div>
-                                    </div>
+                                    </>
+                                    }
+
 
                                 </div>
                             </div>

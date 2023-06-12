@@ -1,11 +1,19 @@
 import {deleteProductByVariant} from "../feature/admin";
+import {useContext} from "react";
+import {ProductContext} from "../context/productContext";
 
 export function DetailShowProduct(props) {
     const {productId,variantId, imageUrls, sellCount, size, price, priceAfterDiscount,discount ,stock,averageRating} = props.data
-
+    const {setShowRepair,setShowDetail}= useContext(ProductContext)
     function handlerDelete(e) {
         e.preventDefault()
         deleteProductByVariant(productId,variantId)
+
+    }
+
+    function handlerRepair() {
+        setShowRepair(true)
+        setShowDetail(false)
 
     }
 
@@ -26,7 +34,7 @@ export function DetailShowProduct(props) {
                 <td className="phone">{stock}</td>
                 <td className="phone">{averageRating}</td>
                 <td>
-                    <button className="btn btn-info">Repair</button>
+                    <button className="btn btn-info" onClick={handlerRepair}>Repair</button>
                     <button className="btn btn-danger" onClick={handlerDelete}>Delete</button>
                 </td>
 
