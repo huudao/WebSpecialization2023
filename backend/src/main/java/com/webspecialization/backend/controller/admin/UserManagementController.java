@@ -25,6 +25,11 @@ public class UserManagementController {
         return ResponseEntity.ok(userService.setActiveStatus(id));
     }
 
+//    @PutMapping("/user/set-role/{idUser}/{idRole}")
+//    public ResponseEntity<GetUserResponse> modifyActiveStatus(@PathVariable Long idUser, @PathVariable Long idRole) {
+//        return ResponseEntity.ok(userService.setRoleForUser(idUser, idRole));
+//    }
+
     @DeleteMapping("/user/{id}")
     public ResponseEntity<List<GetUserResponse>> deleteUser(@PathVariable Long id){
         return ResponseEntity.ok(userService.deleteUser(id));
