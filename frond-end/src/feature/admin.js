@@ -2,7 +2,7 @@ import {protectedRequest} from "../API/axios";
 
 export const getAllProduct =async () => {
     const res = await protectedRequest().get("/admin/product");
-    // console.log(res.data)
+    console.log(res.data)
     return res.data;
 }
 export const getAllProductById =async (id) => {

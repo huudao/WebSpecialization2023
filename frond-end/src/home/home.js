@@ -13,13 +13,13 @@ function Home() {
     const arrBrand= []
     useEffect(() => {
         brands().then(res => {
-            setListBrand(res)
+            // setListBrand(res)
             for( var i=0;i<6;i++){
                 arrBrand.push(res[i])
 
             }
             setBrand(arrBrand)
-            console.log(brand,"barmd")
+            console.log(brand)
         })
         latests().then(res=>{
             setLatest(res)

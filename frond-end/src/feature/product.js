@@ -35,3 +35,13 @@ export const latests =async (key) => {
     return res.data;
 }
 
+export const getProductForMenSort =async (type,sort) => {
+    const res = await publicRequest().get(`/products/for-men?sortDirection=${sort}&sortBy=${type}`);
+    console.log(res.data)
+    return res.data;
+}
+export const getProductForWomenSort =async (type,sort) => {
+    const res = await publicRequest().get(`/products/for-men?sortDirection=${sort}&sortBy=${type}`);
+    console.log(res.data)
+    return res.data;
+}

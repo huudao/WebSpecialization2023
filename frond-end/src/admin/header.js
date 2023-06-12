@@ -34,7 +34,7 @@ export  function Header(){
             console.log("logout success")
             setLogin("Login")
             // window.location.reload()
-        } 
+        }
         if (login === "Login") {
             setLogin("Logout")
             navigate("/login")

@@ -5,61 +5,98 @@ import CartProduct from "../component/cartProduct";
 import {useContext, memo, useState, useEffect} from "react";
 import {ProductContext, ProductProvider} from "../context/productContext";
 import Pagination from "../component/pagination";
-
-import product, {for_men, getProductByBrandId, search} from "../feature/product";
-import {getForMen,getForWomen} from "../service/productService";
+import {getProductByBrandId, getProductForMenSort, getProductForWomenSort, search} from "../feature/product";
+import {getForMen, getForWomen} from "../service/productService";
+import {useNavigate} from "react-router-dom";
+import $ from "jquery"
+import {getAllProduct} from "../feature/admin";
 
 function ShowProduct(props) {
-    const {key,idBrand}=useContext(ProductContext)
+    const navigate = useNavigate();
+    const {key, idBrand} = useContext(ProductContext)
     const [listProduct, setListProduct] = useState([]);
     const [postList, setPostList] = useState([]);
     const [begin, setBegin] = useState(0);
     const [end, setEnd] = useState(3)
     const [distance] = useState(end - begin);
     const url = window.location.href;
-    const [sex,setSex]=useState("")
+    const [sex, setSex] = useState("")
     const sexUrl = url.slice(34,)
     useEffect(() => {
+        console.log(sexUrl,"sexxx")
 
-        // console.log(sexUrl, "sex")
-        if (sexUrl === "men") {
-            getForMen()
-                .then(items => {
-                    // console.log(items, "bbbb");
+            const inputSelect = $("#inputSelect").val()
+            console.log(inputSelect)
+
+            // console.log(sexUrl, "sex")
+            if (sexUrl === "men") {
+
+
+                if (inputSelect === "asc") {
+                    getProductForMenSort("price", inputSelect).then(res => {
+                        setListProduct([...res])
+                        setSex("Men");
+                    })
+                } else if (inputSelect === "desc") {
+                    getProductForMenSort("price", inputSelect).then(res => {
+                        setListProduct([...res])
+                        setSex("Men");
+                    })
+                } else {
+                    getForMen()
+                        .then(items => {
+                            // console.log(items, "bbbb");
+                            setListProduct([...items])
+                            setSex("Men");
+
+                        })
+                }
+            } else if (sexUrl === "women") {
+                if (inputSelect === "asc") {
+                    getProductForWomenSort("price", inputSelect).then(res => {
+                        setListProduct([...res])
+                        setSex("Men");
+                    })
+                } else if (inputSelect === "desc") {
+                    getProductForWomenSort("price", inputSelect).then(res => {
+                        setListProduct([...res])
+                        setSex("Men");
+                    })
+                } else {
+                    getForWomen()
+                        .then(items => {
+                            setListProduct([...items])
+                            setSex("Women")
+
+                        })
+                }
+
+            } else if (idBrand != "") {
+                getProductByBrandId(idBrand).then(items => {
+                    console.log(items, "item")
                     setListProduct([...items])
-                    setSex("Men");
+                    setSex("")
+                })
+            } else if (key != "") {
+                search(key).then(items => {
+                    console.log(items, "item")
+                    setListProduct([...items])
+                    setSex("")
+
 
                 })
-        }
-       else  if(sexUrl==="women"){
-            getForWomen()
-                .then(items => {
+            } else if(sexUrl===" ") {
+                getAllProduct().then(items => {
                     setListProduct([...items])
-                    setSex("Women")
-
                 })
-        }else{
-           if(key!=""){
+            }
 
-               search(key).then(items => {
-                   console.log(items, "item")
-                   setListProduct([...items])
-                   setSex("")
-
-
-               })
-           }
-           if(idBrand!=""){
-               getProductByBrandId(idBrand).then(items=>{
-                   console.log(items, "item")
-                   setListProduct([...items])
-                   setSex("")
-               })
-           }
 
         }
 
-    }, [listProduct])
+        ,
+        [listProduct]
+    )
     useEffect(() => {
 
         let listPa = [];
@@ -115,12 +152,10 @@ function ShowProduct(props) {
                     <div className="product__search d-flex  justify-content-end">
                         <label htmlFor="inputState">Order by:</label>
                         <form>
-                            <select id="inputState" className="form-control">
-                                <option selected>Relevance</option>
-                                <option>Most popular</option>
+                            <select id="inputSelect" className="form-control">
                                 <option>A -Z</option>
-                                <option>Price: Low to High</option>
-                                <option>Price: High to Low</option>
+                                <option value="asc">Price: Low to High</option>
+                                <option value="desc">Price: High to Low</option>
                             </select>
                         </form>
                     </div>
