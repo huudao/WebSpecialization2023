@@ -41,7 +41,7 @@ export const getProductForMenSort =async (type,sort) => {
     return res.data;
 }
 export const getProductForWomenSort =async (type,sort) => {
-    const res = await publicRequest().get(`/products/for-men?sortDirection=${sort}&sortBy=${type}`);
+    const res = await publicRequest().get(`/products/for-women?sortDirection=${sort}&sortBy=${type}`);
     console.log(res.data)
     return res.data;
 }

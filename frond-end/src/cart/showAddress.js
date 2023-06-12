@@ -2,21 +2,34 @@ import {useContext, useEffect, useState} from "react";
 import {order} from "../feature/cart";
 import $ from 'jquery'
 import {AddressContext} from "../context/addressContext";
+import {Slide, toast, ToastContainer} from "react-toastify";
 
 export function ShowAddress(props) {
     const {setShowCheckout} = useContext(AddressContext);
-    const{id,username,specificAddress,phone,city,ward,district,isDefault} =props.data;
-    const [isDisable,setIsDisable]= useState(true)
-    useEffect(()=>{
-        if(isDefault===1) setIsDisable(true)
+    const {id, username, specificAddress, phone, city, ward, district, isDefault} = props.data;
+    const [isDisable, setIsDisable] = useState(true)
+    useEffect(() => {
+        if (isDefault === 1) setIsDisable(true)
         else setIsDisable(false)
     })
-    function  handlerChoose(){
+
+    function handlerChoose() {
         console.log(id)
-        order(id).then(res=>{
+        order(id).then(res => {
+            toast.success(`🦄 success!`, {
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             window.show.reload()
+
         })
-            setShowCheckout(false)
+        setShowCheckout(false)
     }
 
     return (
@@ -28,9 +41,12 @@ export function ShowAddress(props) {
                     <p>{specificAddress} phường {ward}, quận {district}, thành phố {city}</p>
                 </div>
                 <div className=" w-25 text-center m-auto">
-                    <button className="btn btn-warning choose__address" disabled={isDisable} onClick={handlerChoose}>Choose</button>
+                    <button className="btn btn-warning choose__address" disabled={isDisable}
+                            onClick={handlerChoose}>Choose
+                    </button>
                 </div>
             </div>
+
 
 
         </>

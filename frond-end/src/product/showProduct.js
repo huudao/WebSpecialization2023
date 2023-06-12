@@ -55,12 +55,12 @@ function ShowProduct(props) {
                 if (inputSelect === "asc") {
                     getProductForWomenSort("price", inputSelect).then(res => {
                         setListProduct([...res])
-                        setSex("Men");
+                        setSex("Women");
                     })
                 } else if (inputSelect === "desc") {
                     getProductForWomenSort("price", inputSelect).then(res => {
                         setListProduct([...res])
-                        setSex("Men");
+                        setSex("Women");
                     })
                 } else {
                     getForWomen()

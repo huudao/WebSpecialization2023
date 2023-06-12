@@ -134,16 +134,7 @@ export function Login() {
 
                         {/*-- Submit button --*/}
                         <button type="submit" className="btn btn-primary btn-block mb-4">Sign in</button>
-                        <ToastContainer position="top-right"
-                                        autoClose={2000}
-                                        hideProgressBar={false}
-                                        newestOnTop={false}
-                                        closeOnClick
-                                        rtl={false}
-                                        draggable
-                                        pauseOnHover
-                                        transition={Slide}
-                                        theme="light"/>
+
                         {/*<button type="submit" className="btn btn-primary btn-block mb-4"><NavLink to={path}>Sign in</NavLink></button>*/}
 
                         {/*-- Register buttons --*/}
@@ -156,6 +147,16 @@ export function Login() {
                 </div>
 
             </div>
+            <ToastContainer position="top-right"
+                            autoClose={2000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            draggable
+                            pauseOnHover
+                            transition={Slide}
+                            theme="light"/>
         </>
     )
 }
