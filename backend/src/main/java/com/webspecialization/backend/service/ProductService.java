@@ -139,7 +139,9 @@ public class ProductService {
         productVariant.setProduct(product);
         List<Image> imageList = new ArrayList<>();
         for(String image : addProductVariant.getImages()) {
-            imageList.add(new Image(image));
+            Image newImage = new Image(image);
+            newImage.setProductVariant(productVariant);
+            imageList.add(newImage);
         }
         productVariant.setImages(imageList);
         productVariant.setCreatedDate(new Date());
