@@ -17,7 +17,6 @@ export  function Header(){
     const token = getCookie("token");
     console.log(token)
     useEffect(() => {
-
         if (token !== "") {
             setLogin("Logout")
         } else {
@@ -29,13 +28,13 @@ export  function Header(){
         console.log(login, "login")
         const log = document.getElementById("log").value
         const token = getCookie("token");
-        if (login === "Logout") {
+        if (token!="") {
             document.cookie = `token=""; expires= Thu, 01 Jan 1970 00:00:00 UTC`
             console.log("logout success")
             setLogin("Login")
-            // window.location.reload()
+            window.location.reload()
         }
-        if (login === "Login") {
+        else   {
             setLogin("Logout")
             navigate("/login")
 

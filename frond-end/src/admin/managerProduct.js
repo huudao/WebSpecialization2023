@@ -210,7 +210,7 @@ function ManagerProduct() {
                                     </div>
                                     {isShow === false &&
                                     <>
-                                        <table className="table table-striped table-hover w-100 position-relative"
+                                        <table className="table table-striped table-hover  table-"
                                                id="tableShow">
                                             <thead>
                                             <tr>
@@ -229,7 +229,7 @@ function ManagerProduct() {
 
                                             </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody className="">
                                             {postList.map((data, index) => data !== undefined &&
                                                 <ProductShow data={data} count={index}/>)}
                                             </tbody>
