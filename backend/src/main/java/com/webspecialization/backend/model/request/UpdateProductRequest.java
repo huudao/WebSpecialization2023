@@ -6,8 +6,6 @@ import lombok.Data;
 
 @Data
 public class UpdateProductRequest {
-    @NotNull(message = "productId is mandatory")
-    long productId;
     @NotNull(message = "brandId is mandatory")
     long brandId;
     @NotNull(message = "name is mandatory")
