@@ -48,8 +48,8 @@ public class ProductManagementController {
     }
 
     @PutMapping("/product/{id}")
-    public ResponseEntity<List<ProductResponse>> updateProduct(@PathVariable Long productId, @RequestBody UpdateProductRequest updateProductRequest) {
-        List<ProductResponse> products = productService.updateProductById(productId, updateProductRequest);
+    public ResponseEntity<List<ProductResponse>> updateProduct(@PathVariable long id, @Valid @RequestBody UpdateProductRequest updateProductRequest) {
+        List<ProductResponse> products = productService.updateProductById(id, updateProductRequest);
         return ResponseEntity.ok(products);
     }
 

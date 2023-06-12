@@ -18,6 +18,6 @@ public class Brand extends BaseEntity{
     private String imageUrl;
     private String description;
 
-    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 }
