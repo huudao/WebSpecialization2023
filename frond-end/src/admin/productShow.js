@@ -22,7 +22,8 @@ export function ProductShow(props) {
 
     }
 
-    function handlerDetail() {
+    function handlerDetail(e) {
+        e.preventDefault()
         getAllProductById(id).then(res => {
             setListDetail(res)
             setShowDetail(true)
