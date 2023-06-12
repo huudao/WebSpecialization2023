@@ -15,8 +15,8 @@ export const addProduct =async (name,brand,genderType,description,shippingPolicy
     console.log(res.data,"data")
     return res.data;
 }
-export const deleteProductByVariant =async (id) => {
-    const res = await protectedRequest().delete(`/admin/product/variant/${id}`);
+export const deleteProductByVariant =async (idProduct,idVariant) => {
+    const res = await protectedRequest().delete(`/admin/product/${idProduct}/${idVariant}`);
     console.log(res,"delete")
     return res.data;
 }
@@ -60,5 +60,18 @@ export const getOrderByName =async (name) => {
 export const getDetailOrder =async (id) => {
     const res = await protectedRequest().get(`admin/order/${id}`);
     console.log(res.data,"sdfsdfsdfsdfsdfsdfsd")
+    return res.data;
+}
+
+
+// brand
+export  const getAllBrand= async ()=>{
+    const res = await  protectedRequest().get("/admin/brand")
+    console.log(res.data)
+    return res.data
+}
+export const deleteBrand =async (idBrand) => {
+    const res = await protectedRequest().delete(`/admin/brand/${idBrand}`);
+    console.log(res.data)
     return res.data;
 }

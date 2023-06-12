@@ -34,7 +34,7 @@ export  function Header(){
             console.log("logout success")
             setLogin("Login")
             // window.location.reload()
-        }
+        } 
         if (login === "Login") {
             setLogin("Logout")
             navigate("/login")
@@ -73,6 +73,9 @@ export  function Header(){
                             </li>
                             <li className="nav-item col-sm-2">
                                 <NavLink className="nav-link text-light" to="/management/order">Manager Order</NavLink>
+                            </li>
+                            <li className="nav-item col-sm-2">
+                                <NavLink className="nav-link text-light" to="/management/brand">Manager Brand</NavLink>
                             </li>
 
 

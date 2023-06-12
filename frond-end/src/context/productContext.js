@@ -11,6 +11,7 @@ export const ProductProvider = (props) => {
     const [idBrand,setIdBrand] = useState("")
     const [listDetail,setListDetail]= useState([]);
     const [showDetail,setShowDetail]= useState();
+    const [showRepair,setShowRepair]= useState();
 
     const setProductIdNew =async (value) => {
         setProductId(value)
@@ -24,7 +25,7 @@ export const ProductProvider = (props) => {
     const getDetail=()=>{
         return result;
     }
-    const valueContext = {setVariantIdNew,setProductIdNew, setProductId,setVariantId, setResult,getDetail,productId,variantId,setCount,count,key,setKey,listBrand,setListBrand,idBrand,setIdBrand,listDetail,setListDetail,showDetail,setShowDetail}
+    const valueContext = {setVariantIdNew,setProductIdNew, setProductId,setVariantId, setResult,getDetail,productId,variantId,setCount,count,key,setKey,listBrand,setListBrand,idBrand,setIdBrand,listDetail,setListDetail,showDetail,setShowDetail,showRepair,setShowRepair}
     return <ProductContext.Provider value={valueContext}>{props.children}</ProductContext.Provider>
 
 }
