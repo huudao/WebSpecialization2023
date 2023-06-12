@@ -21,10 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +34,8 @@ public class ProductService {
     private Converter converter;
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private ImageService imageService;
     ModelMapper modelMapper = new ModelMapper();
 
 
@@ -129,7 +128,10 @@ public class ProductService {
     }
 
     public List<ProductResponse> deleteProductById(Long id) {
-        productRepository.deleteById(id);
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Id Product not found"));
+
+        productRepository.delete(product);
+        product.setBrand(null);
         return getAllProductsForAdmin();
     }
 
@@ -160,14 +162,16 @@ public class ProductService {
         boolean foundProductVariant = false;
 
         // remove product variant from the product list
-        for(ProductVariant productVariant : productVariantList) {
+        Iterator<ProductVariant> iterator = productVariantList.iterator();
+        while (iterator.hasNext()) {
+            ProductVariant productVariant = iterator.next();
             if (productVariant.getId() == productVariantId) {
                 foundProductVariant = true;
                 deletedProductVariant = productVariant;
-                productVariantList.remove(productVariant);
-            };
-        };
-
+                iterator.remove();
+                break;
+            }
+        }
         // if product variant not found => return error
         if(!foundProductVariant) throw new NotFoundException("ProductVariant of Product that you give is not exists");
 
@@ -179,16 +183,26 @@ public class ProductService {
         }
     }
 
+
     public List<ProductVariantResponse> updateProductVariant(Long productId, Long productVariantId, ProductVariantDTO productVariantDTO) {
         ProductVariant productVariant = productVariantService.findById(productVariantId);
         productVariant.setUpdatedDate(new Date());
+        List<Image> existingImages = productVariant.getImages();
+        for (Image image : existingImages) {
+            // Delete each image from the database
+            image.setProductVariant(null);
+            imageService.delete(image);
+        }
+        existingImages.clear();
         List<String> imageStringList = productVariantDTO.getImageList();
         if(productVariantDTO.getImageList() != null || !productVariantDTO.getImageList().isEmpty()) {
-            List<Image> newImagesList = new ArrayList<>();
             for(String imageString : imageStringList) {
-                newImagesList.add(new Image(imageString));
+                Image newImage = new Image(imageString);
+                newImage.setProductVariant(productVariant);
+                newImage.setCreatedDate(new Date());
+                newImage.setUpdatedDate(new Date());
+                existingImages.add(newImage);
             }
-            productVariant.setImages(newImagesList);
         }
         productVariant.setSize(productVariantDTO.getSize());
         productVariant.setPrice(productVariantDTO.getPrice());
@@ -199,7 +213,7 @@ public class ProductService {
         return getProductVariantsByProductId(productId);
     }
 
-    public List<ProductResponse> updateProductById(Long productId, UpdateProductRequest updateProductRequest) {
+    public List<ProductResponse> updateProductById(long productId, UpdateProductRequest updateProductRequest) {
         Product p = getProductById(productId);
         Brand newBrand = brandService.findById(updateProductRequest.getBrandId());
         p.setBrand(newBrand);
