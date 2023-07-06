@@ -13,13 +13,13 @@ function Home() {
     const arrBrand= []
     useEffect(() => {
         brands().then(res => {
-            setListBrand(res)
+            // setListBrand(res)
             for( var i=0;i<6;i++){
                 arrBrand.push(res[i])
 
             }
             setBrand(arrBrand)
-            console.log(brand,"barmd")
+            console.log(brand)
         })
         latests().then(res=>{
             setLatest(res)
@@ -27,6 +27,16 @@ function Home() {
         })
 
     },[brand,latest])
+
+    function handlerLeft() {
+
+
+    }
+
+    function handlerRight() {
+
+    }
+
     return (
         <>
             <div className="container-fluid brands py-4">
@@ -53,8 +63,8 @@ function Home() {
 
 
                     <div className="button">
-                        <button className="button__left   "><i className="fas fa-chevron-left "></i></button>
-                        <button className="button__right  "><i className="fas fa-chevron-right"></i></button>
+                        <button className="button__left   " onClick={handlerLeft}><i className="fas fa-chevron-left "></i></button>
+                        <button className="button__right  " onClick={handlerRight}><i className="fas fa-chevron-right"></i></button>
 
 
                     </div>

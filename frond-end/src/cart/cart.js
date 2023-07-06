@@ -8,6 +8,7 @@ import {ListAddress} from "../cart/listAddress";
 import {getAddress} from "../feature/address";
 import $ from 'jquery'
 import {AddressContext} from "../context/addressContext";
+import {Slide, ToastContainer} from "react-toastify";
 
 function Cart() {
     const [data, setData] = useState({});
@@ -110,6 +111,16 @@ function Cart() {
 
 
             </div>
+            <ToastContainer position="top-right"
+                            autoClose={2000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            draggable
+                            pauseOnHover
+                            transition={Slide}
+                            theme="light"/>
         </>
     )
 }

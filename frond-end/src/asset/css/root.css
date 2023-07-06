@@ -38,9 +38,13 @@ html,body{
     height: 100px !important;
     overflow: hidden;
 }
-.line__tr th{
-    height: 400px !important;
-    overflow: hidden;
+.line__tr {
+    height: 100px!important;
+    overflow: hidden !important;
+}
+tbody .line__tr td{
+    height: 100px !important;
+    overflow: hidden !important;
 }
 .repair{
     position: fixed;

@@ -19,7 +19,7 @@ function  Pagination(props){
                 <ul className="pagination justify-content-center" >
                     <button className="page-item btn btn-outline-danger" disabled={begin==0} onClick={()=>handlePageChange("pre")}>Previous</button>
 
-                    <button className="page-item btn btn-outline-danger" disabled={end==totalRow} onClick={()=>handlePageChange("next")}>Next</button>
+                    <button className="page-item btn btn-outline-danger" disabled={end>=totalRow} onClick={()=>handlePageChange("next")}>Next</button>
                 </ul>
             </nav>
         </>

@@ -3,6 +3,7 @@ import '../asset/css/detail.css'
 import { useEffect, useState} from "react";
 import {Detail} from "../component/detail";
 import {detailProduct} from "../feature/product";
+import {Slide, ToastContainer} from "react-toastify";
 
 
 function DetailProduct(props) {
@@ -76,6 +77,16 @@ function DetailProduct(props) {
                 </div>
 
             </div>
+            <ToastContainer position="top-right"
+                            autoClose={2000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            draggable
+                            pauseOnHover
+                            transition={Slide}
+                            theme="light"/>
         </>
     )
 }

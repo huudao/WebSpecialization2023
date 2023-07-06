@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import {handlerErrol} from "../component/handlerErrol";
 
 
-
 export function Register() {
     const dispatch = useDispatch();
     let navigate = useNavigate();
@@ -27,7 +26,7 @@ export function Register() {
             .then(unwrapResult)
             .then(res => {
                 if (res.status === 200) {
-                    toast.success('🦄 Success!', {
+                    toast.success('🦄 Verify with email, please!', {
                         position: "top-right",
                         autoClose: 1000,
                         hideProgressBar: false,
@@ -40,7 +39,9 @@ export function Register() {
                 }
             })
             .then(() => {
-                setTimeout( ()=>{navigate("/login")},2000)
+                setTimeout(() => {
+                    navigate("/login")
+                }, 2000)
             })
             .catch(err => {
                 toast.error(`🦄 ${err.message}!`, {
@@ -144,16 +145,7 @@ export function Register() {
                         <div>
                             <button type="submit" className="btn btn-primary btn-block mb-4" onSubmit={notify}>Registry
                             </button>
-                            <ToastContainer position="top-right"
-                                            autoClose={2000}
-                                            hideProgressBar={false}
-                                            newestOnTop={false}
-                                            closeOnClick
-                                            rtl={false}
-                                            draggable
-                                            pauseOnHover
-                                            transition={Slide}
-                                            theme="light"/>
+
                         </div>
 
                         {/*-- Register buttons --*/}
@@ -167,6 +159,16 @@ export function Register() {
                 </div>
 
             </div>
+            <ToastContainer position="top-right"
+                            autoClose={2000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            draggable
+                            pauseOnHover
+                            transition={Slide}
+                            theme="light"/>
         </>
     )
 }
